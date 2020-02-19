@@ -13,6 +13,9 @@ const reservation = gql`
         
         # update a reservation
         updateReservation(id: String!, name: String!, booking_channel: String!, booking_no: String!, amount_paid: Int!, checkin_date: String, checkout_date: String): Reservation!
+   
+        #add a new guest to a reservation
+        addReservationGuest(id: String!, name: String!, gender: String!, type: String!): ReservationGuest
     }
     
     type Reservation{
@@ -42,7 +45,8 @@ const reservation = gql`
     type ReservationGuest{
         user_id: String
         name: String
-        guest_type: String
+        gender: String
+        type: String
     }
 `
 

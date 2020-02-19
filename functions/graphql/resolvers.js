@@ -42,6 +42,7 @@ const resolvers = {
         // reservation mutations
         createReservation: require('./resolvers/mutations/reservation/create_reservation'),
         updateReservation: require('./resolvers/mutations/reservation/update_reservation'),
+        addReservationGuest: require('./resolvers/mutations/reservation/add_reservation_guest')
     },
 
     /**

@@ -10,7 +10,7 @@ const firestore = admin.firestore()
     const reservation = {
         name, booking_channel, booking_no, amount_paid, property_id
     }
-    const result = await firestore.collection(collections.reservation).add(reservation)
+    const result = await firestore.collection(collections.reservation.main).add(reservation)
     reservation.id = result.id
     return reservation;
 }

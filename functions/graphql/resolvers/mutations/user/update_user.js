@@ -19,7 +19,7 @@ const updateUser = async (parent, {id, email, phone, first_name, last_name}) => 
             }
         }
         try {
-            const result = await firestore.collection(collections.user).doc(id).update(user)
+            const result = await firestore.collection(collections.user.main).doc(id).update(user)
             return user;
         } catch (error) {
             return error.message

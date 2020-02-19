@@ -10,7 +10,7 @@ const updateReservation = async (parent, {id, name, booking_channel, booking_no,
     const reservation = {
         id, name, booking_channel, booking_no, amount_paid
     }
-    const result = await firestore.collection(collections.reservation).doc(id).update(reservation);
+    const result = await firestore.collection(collections.reservation.main).doc(id).update(reservation);
     return reservation;
 }
 

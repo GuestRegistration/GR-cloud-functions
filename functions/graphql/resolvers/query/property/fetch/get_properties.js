@@ -8,7 +8,7 @@ const firestore = admin.firestore()
 
  const getProperties = async (parent) => {
     const properties = []
-    const QuerySnapshots = await firestore.collection(collections.property).get()
+    const QuerySnapshots = await firestore.collection(collections.property.main).get()
     
     QuerySnapshots.forEach((snapshot) => {
         properties.push(snapshot.data())

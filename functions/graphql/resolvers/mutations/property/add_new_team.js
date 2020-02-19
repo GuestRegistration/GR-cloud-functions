@@ -6,8 +6,8 @@ const admin = require('./../../../../admin')
 const firestore = admin.firestore()
 
  const addNewTeam = async (parent, {id, user_id, prospect_id, role}) => {
-    const propertyRef = firestore.collection(collections.property).doc(id)
-    const prospectRef = firestore.collection(collections.user).doc(prospect_id)
+    const propertyRef = firestore.collection(collections.property.main).doc(id)
+    const prospectRef = firestore.collection(collections.user.main).doc(prospect_id)
 
     const prospect = await prospectRef.get()
      if(prospect.exists){

@@ -13,7 +13,7 @@ const firestore = admin.firestore()
             street, city, state, country, postal_code
         }
     }
-    const result = await firestore.collection(collections.property).add(property)
+    const result = await firestore.collection(collections.property.main).add(property)
     property.id = result.id
     return property;
 }

@@ -10,7 +10,7 @@ const firestore = admin.firestore()
 
 const updateUserAddress = async (parent, {id, street, city, state, country, postal_code}) => {
     const address = {street, city, country, state, postal_code};
-    await firestore.collection(collections.user).doc(id).update({address})
+    await firestore.collection(collections.user.main).doc(id).update({address})
 
     return address;
 }

@@ -10,7 +10,7 @@ const collections = require('../../../../enums/collections')
 
 const deleteUser = async (parent, {id}) => {
     
-    const user = await firestore.collection(collections.user).doc(id).get()
+    const user = await firestore.collection(collections.user.main).doc(id).get()
     const update = user.ref.update({
 
         'timestamp.deleted_at': helper.nowTimestamp()

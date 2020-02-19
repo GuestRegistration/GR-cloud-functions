@@ -15,7 +15,7 @@ const collections = require('./enums/collections')
 exports.api = functions.https.onRequest(server);
 
 // when a new user is created
-exports.onUserCreated = functions.firestore.document(`/${collections.user}/{user_id}`)
+exports.onUserCreated = functions.firestore.document(`/${collections.user.main}/{user_id}`)
                         .onCreate((snapshot, context) => {
 
                         return snapshot.ref.update({
@@ -27,17 +27,17 @@ exports.onUserCreated = functions.firestore.document(`/${collections.user}/{user
                                 }
                             })
                             .then((update_result) => {
-                                return snapshot.ref.collection('payment').add({
+                                return snapshot.ref.collection(collections.user.subcollections.payment).add({
                                     user_id: snapshot.ref.id
                                 })
                             })
                             .then((payment_document_result) => {
-                                return snapshot.ref.collection('device').add({
+                                return snapshot.ref.collection(collections.user.subcollections.device).add({
                                     user_id: snapshot.ref.id
                                 })
                             })
                             .then((device_document_result) => {
-                                return snapshot.ref.collection('id_verification').add({
+                                return snapshot.ref.collection(collections.user.subcollections.id_verification).add({
                                     user_id: snapshot.ref.id
                                 }) 
                             })
@@ -46,7 +46,7 @@ exports.onUserCreated = functions.firestore.document(`/${collections.user}/{user
 
 
 // when user document is updated
-// exports.onUserUpdated = functions.firestore.document(`/${collections.user}/{user_id}`)
+// exports.onUserUpdated = functions.firestore.document(`/${collections.user.main}/{user_id}`)
 //                         .onUpdate((snapshot, context) => {
 //                             const before = snapshot.before.data()
 //                             const after = snapshot.after.data()
@@ -59,11 +59,11 @@ exports.onUserCreated = functions.firestore.document(`/${collections.user}/{user
 
 
 // when new property is added
-exports.onPropertyCreated = functions.firestore.document(`/${collections.property}/{property_id}`)
+exports.onPropertyCreated = functions.firestore.document(`/${collections.property.main}/{property_id}`)
 .onCreate((snapshot, context) => {
     // update the user document
     const property = snapshot.data()
-    return  firestore.collection(`${collections.user}`).doc(`${property.user_id}`).get()
+    return  firestore.collection(`${collections.user.main}`).doc(`${property.user_id}`).get()
     .then((user_snapshot) => {
         const user = user_snapshot.data()
             return Promise.all([
@@ -98,7 +98,7 @@ exports.onPropertyCreated = functions.firestore.document(`/${collections.propert
 })
 
 // when property document is updated
-exports.onPropertyUpdated = functions.firestore.document(`/${collections.property}/{property_id}`)
+exports.onPropertyUpdated = functions.firestore.document(`/${collections.property.main}/{property_id}`)
 .onUpdate((snapshot, context) => {
     let promises = [];
 
@@ -131,7 +131,7 @@ exports.onPropertyUpdated = functions.firestore.document(`/${collections.propert
 
     if(!_.isEqual(user_copy_before, user_copy_after)){
         //find all the users that has this property
-        firestore.collection(`${collections.user}`).where('properties', 'array-contains', user_copy_before).get()
+        firestore.collection(`${collections.user.main}`).where('properties', 'array-contains', user_copy_before).get()
         .then((querySnapshot) => {
             querySnapshot.forEach(user_snapshot => {
                 let user = user_snapshot.data()
@@ -175,7 +175,7 @@ exports.onPropertyUpdated = functions.firestore.document(`/${collections.propert
     if(!_.isEqual(reservation_copy_before, reservation_copy_after)){
 
         //find all the reservations that has this property
-        firestore.collection(`${collections.reservation}`).where('property_id', '==', reservation_copy_before.id).get()
+        firestore.collection(`${collections.reservation.main}`).where('property_id', '==', reservation_copy_before.id).get()
         .then(reservations_snapshot => {
             reservations_snapshot.forEach(reservation => {
                 promises.push(reservation.ref.update({
@@ -195,10 +195,10 @@ exports.onPropertyUpdated = functions.firestore.document(`/${collections.propert
 
                         
 // when new reservation is added
-exports.onReservationCreated = functions.firestore.document(`/${collections.reservation}/{reservation_id}`)
+exports.onReservationCreated = functions.firestore.document(`/${collections.reservation.main}/{reservation_id}`)
 .onCreate((snapshot, context) => {
     const reservation = snapshot.data()
-    const propertyRef = firestore.collection(`${collections.property}`).doc(`${reservation.property_id}`);
+    const propertyRef = firestore.collection(`${collections.property.main}`).doc(`${reservation.property_id}`);
     return propertyRef.get()
             .then((property_snapshot) => property_snapshot.data())
             .then((property) => {
@@ -235,7 +235,7 @@ exports.onReservationCreated = functions.firestore.document(`/${collections.rese
 
 
 // when property document is updated
-exports.onReservationUpdated = functions.firestore.document(`/${collections.reservation}/{reservation_id}`)
+exports.onReservationUpdated = functions.firestore.document(`/${collections.reservation.main}/{reservation_id}`)
 .onUpdate((snapshot, context) => {
     const promises = []
     const before = snapshot.before.data()
@@ -261,7 +261,7 @@ exports.onReservationUpdated = functions.firestore.document(`/${collections.rese
     })
     // if there is difference in the data and there is user corresponding with the reservation
     if(after.user_id  && !_.isEqual(user_copy_before, user_copy_after)){
-        firestore.collection(`${collections.user}`).doc(after.user_id).get()
+        firestore.collection(`${collections.user.main}`).doc(after.user_id).get()
         .then((user_snapshot) => {
             const user = user_snapshot.data()
             let reservations = []
@@ -296,7 +296,7 @@ exports.onReservationUpdated = functions.firestore.document(`/${collections.rese
 
         // if there is difference in the data
         if(!_.isEqual(property_copy_before, property_copy_after)){
-            firestore.collection(`${collections.property}`).doc(before.property_id).get()
+            firestore.collection(`${collections.property.main}`).doc(before.property_id).get()
             .then((property_snapshot) => {
                 const property = property_snapshot.data()
                 let reservations = []

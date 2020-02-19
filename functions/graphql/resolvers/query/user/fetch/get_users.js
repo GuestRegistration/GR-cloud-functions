@@ -7,7 +7,7 @@ const firestore = admin.firestore()
 
 const getUsers = async (parent) => {
     const users = []
-    const QuerySnapshots = await firestore.collection(collections.user).where('timestamp.deleted_at', '==', null).get()
+    const QuerySnapshots = await firestore.collection(collections.user.main).where('timestamp.deleted_at', '==', null).get()
     
     QuerySnapshots.forEach((snapshot) => {
         users.push(snapshot.data())

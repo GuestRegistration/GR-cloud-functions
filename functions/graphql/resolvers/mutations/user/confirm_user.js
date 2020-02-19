@@ -9,7 +9,7 @@ const firestore = admin.firestore()
 
 const confirmation = async (parent, {email}) => {
 
-   const result = await firestore.collection(collections.user).where('email', '==', email).get()
+   const result = await firestore.collection(collections.user.main).where('email', '==', email).get()
    if(result.size > 0){
        return true
    } 

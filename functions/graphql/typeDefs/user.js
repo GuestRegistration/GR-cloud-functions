@@ -34,7 +34,7 @@ const user = gql`
         verifyUserIdentity(id: String!): UserVerification
 
         # delete user
-        deleteUser(id: String!): User!
+        deleteUser(id: String!): User
 
     }
 

@@ -17,7 +17,7 @@ const createUser = async (parent, {email, phone, first_name, last_name}) => {
             }
         }
         try {
-            const result = await firestore.collection(collections.user).add(user)
+            const result = await firestore.collection(collections.user.main).add(user)
             user.id = result.id
             return user;
         } catch (error) {

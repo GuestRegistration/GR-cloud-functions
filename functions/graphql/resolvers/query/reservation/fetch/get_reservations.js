@@ -8,7 +8,7 @@ const firestore = admin.firestore()
 
 const getReservations = async (parent) => {
     const reservations = []
-    const QuerySnapshots = await firestore.collection(collections.reservation).get()
+    const QuerySnapshots = await firestore.collection(collections.reservation.main).get()
     
     QuerySnapshots.forEach((snapshot) => {
         reservations.push(snapshot.data())

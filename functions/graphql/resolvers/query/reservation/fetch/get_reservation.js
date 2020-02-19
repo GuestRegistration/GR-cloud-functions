@@ -8,7 +8,7 @@ const admin = require('./../../../../../admin')
 const firestore = admin.firestore()
 
 const getReservation = async (parent, {id}) => {
-    const document = await firestore.collection(`${collections.reservation}`).doc(id).get()
+    const document = await firestore.collection(`${collections.reservation.main}`).doc(id).get()
     if(document.exists){
       return document.data()
     }

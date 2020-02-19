@@ -8,7 +8,7 @@ const firestore = admin.firestore()
 
 const getPropertRules = async (parent, {id}) =>  {
     const rules = []
-    const QuerySnapshots = await firestore.collection(`${collections.property}`).doc(id).collection('rules').get()
+    const QuerySnapshots = await firestore.collection(`${collections.property.main}`).doc(id).collection('rules').get()
     QuerySnapshots.forEach((snapshot) => {
         rules.push(snapshot.data())
     })

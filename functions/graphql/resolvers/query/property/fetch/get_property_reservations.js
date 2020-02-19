@@ -8,7 +8,7 @@ const firestore = admin.firestore()
 
 const getPropertReservations = async (parent, {id}) =>  {
     const reservations = []
-    const QuerySnapshots = await firestore.collection(`${collections.reservation}`).where('property.id', '==', id).get()
+    const QuerySnapshots = await firestore.collection(`${collections.reservation.main}`).where('property.id', '==', id).get()
     QuerySnapshots.forEach((snapshot) => {
         reservations.push(snapshot.data())
     })

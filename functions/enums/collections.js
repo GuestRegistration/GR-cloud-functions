@@ -10,23 +10,23 @@
                                 subcollections: {
                                     device: 'device',
                                     payment: 'payment',
-                                    id_verification: 'id_verification',
+                                    verification: 'verification',
                                 },
-                                trash: 'graphQL_user_trash'
+                                trash: 'graphQL_users_trash'
                             },
                         property: {
                             main: 'graphQL_properties',
                             subcollections: {
 
                             },
-                            trash: 'graphQL_property_trash'
+                            trash: 'graphQL_properties_trash'
                         },
                         reservation: {
                             main: 'graphQL_reservations',
                             subcollections: {
                                 
                             },
-                            trash: 'graphQL_reservation_trash'
+                            trash: 'graphQL_reservations_trash'
                         }
                     }
 module.exports = collections

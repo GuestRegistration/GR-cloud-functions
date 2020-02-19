@@ -37,7 +37,7 @@ exports.onUserCreated = functions.firestore.document(`/${collections.user.main}/
                                 })
                             })
                             .then((device_document_result) => {
-                                return snapshot.ref.collection(collections.user.subcollections.id_verification).add({
+                                return snapshot.ref.collection(collections.user.subcollections.verification).add({
                                     user_id: snapshot.ref.id
                                 }) 
                             })

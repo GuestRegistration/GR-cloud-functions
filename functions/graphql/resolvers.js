@@ -2,7 +2,7 @@
 const resolvers = {
     // main query
    Query: {
-        root: () => "Hello, this is the root",
+        getAuth: (parent, args, context) => context.auth,
 
         //user read queries
         getUsers: require('./resolvers/query/user/fetch/get_users'),
@@ -24,6 +24,8 @@ const resolvers = {
 
     // mutations to carry out operations
     Mutation: {
+
+        createToken: require('./resolvers/mutations/auth/create_token'), 
         // user mutations
         confirmUser:  require('./resolvers/mutations/user/confirm_user'),
         createUser: require('./resolvers/mutations/user/create_user'),
@@ -44,6 +46,8 @@ const resolvers = {
         updateReservation: require('./resolvers/mutations/reservation/update_reservation'),
         addReservationGuest: require('./resolvers/mutations/reservation/add_reservation_guest')
     },
+
+    Auth: require('./resolvers/query/auth'),
 
     /**
      * models resolvers

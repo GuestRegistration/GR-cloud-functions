@@ -4,11 +4,26 @@ const {gql} = require("apollo-server-express");
 
 const root = gql`
     type Query {
-        root: String
+        # authentication token
+        getAuth: Auth
     }
 
     type Mutation{
-        root: String
+        # create authentication token for client
+        createToken(email: String!, password: String!): ClientToken
+    }
+
+    type Auth{
+        client_token: String
+        client_token_valid: Boolean
+        user_token: String
+        user_token_valid: Boolean
+        user_uid: String
+    }
+    
+    type ClientToken{
+        email: String
+        token: String
     }
 `
 module.exports = root;

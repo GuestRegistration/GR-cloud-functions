@@ -11,6 +11,7 @@ const reservation = {
     checkin_date: (parent) => parent.checkin_date,
     checkout_date: (parent) => parent.checkout_date,
     instruction_sent: (parent) => parent.instruction_sent,
+    checkin_url: (parent) => parent.checkin_url,
     property: (parent) => parent.property,
     guests: (parent) => parent.guests
 }

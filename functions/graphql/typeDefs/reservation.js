@@ -30,6 +30,7 @@ const reservation = gql`
         checkin_date: String
         checkout_date: String
         instruction_sent: Boolean
+        checkin_url: String
         property: ReservationProperty
         guests: [ReservationGuest]
     }

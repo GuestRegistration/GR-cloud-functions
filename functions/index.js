@@ -198,6 +198,7 @@ exports.onPropertyUpdated = functions.firestore.document(`/${collections.propert
 exports.onReservationCreated = functions.firestore.document(`/${collections.reservation.main}/{reservation_id}`)
 .onCreate((snapshot, context) => {
     const reservation = snapshot.data()
+    const checkin_base_url = "https://testapp.guestregistration.com"
     const propertyRef = firestore.collection(`${collections.property.main}`).doc(`${reservation.property_id}`);
     return propertyRef.get()
             .then((property_snapshot) => property_snapshot.data())
@@ -206,6 +207,7 @@ exports.onReservationCreated = functions.firestore.document(`/${collections.rese
                 return Promise.all([
                     snapshot.ref.update({
                         id: snapshot.ref.id,
+                        checkin_url: `${checkin_base_url}/${snapshot.ref.id}`,
                         property: {
                             id: property.id,
                             name: property.name,

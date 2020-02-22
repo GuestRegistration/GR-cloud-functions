@@ -198,7 +198,7 @@ exports.onPropertyUpdated = functions.firestore.document(`/${collections.propert
 exports.onReservationCreated = functions.firestore.document(`/${collections.reservation.main}/{reservation_id}`)
 .onCreate((snapshot, context) => {
     const reservation = snapshot.data()
-    const checkin_base_url = "https://testapp.guestregistration.com"
+    const checkin_base_url = "https://testapp.guestregistration.com/r"
     const propertyRef = firestore.collection(`${collections.property.main}`).doc(`${reservation.property_id}`);
     return propertyRef.get()
             .then((property_snapshot) => property_snapshot.data())

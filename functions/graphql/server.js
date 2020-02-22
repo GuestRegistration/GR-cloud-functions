@@ -79,7 +79,7 @@ function configureServer() {
     });
 
     // now we take our newly instantiated ApolloServer and apply the previously configured express application
-    server.applyMiddleware({app, path: '/guestregistration-4140a/us-central1/api', cors: true});
+    server.applyMiddleware({app, path: '/api', cors: true});
 
     //create a http server
     const httpServer = http.createServer(app);
@@ -87,8 +87,8 @@ function configureServer() {
     server.installSubscriptionHandlers(httpServer);
 
     httpServer.listen(PORT, () => {
-        console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`)
-        console.log(`🚀 Subscriptions ready at ws://localhost:${PORT}${server.subscriptionsPath}`)
+        // console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`)
+        // console.log(`🚀 Subscriptions ready at ws://localhost:${PORT}${server.subscriptionsPath}`)
     })
     // finally return the application
     return app;

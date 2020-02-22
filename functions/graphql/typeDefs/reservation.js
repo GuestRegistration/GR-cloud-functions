@@ -9,7 +9,7 @@ const reservation = gql`
 
     extend type Mutation {
         # create a new reservation
-        createReservation(user_id: String!, property_id: String!, name: String!, booking_channel: String!, booking_no: String!, amount_paid: Int!, checkin_date: String, checkout_date: String ): Reservation
+        createReservation(user_id: String!, property_id: String!, name: String!, email: String!, booking_channel: String!, booking_no: String!, amount_paid: Int!, checkin_date: String, checkout_date: String ): Reservation
         
         # update a reservation
         updateReservation(id: String!, name: String!, booking_channel: String!, booking_no: String!, amount_paid: Int!, checkin_date: String, checkout_date: String): Reservation!
@@ -26,6 +26,7 @@ const reservation = gql`
     type Reservation {
         id: String!
         name: String!
+        email: String!
         booking_channel: String!
         booking_no: String!
         no_of_guest: Int

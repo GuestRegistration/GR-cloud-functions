@@ -2,6 +2,7 @@
 const reservation = {
     id: (parent) => parent.id,
     name: (parent) => parent.name,
+    email: (parent) => parent.email,
     booking_channel: (parent) => parent.booking_channel,
     booking_no: (parent) => booking_no,
     no_of_guest: (parent) => parent.no_of_guest,

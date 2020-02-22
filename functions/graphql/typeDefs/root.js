@@ -8,12 +8,17 @@ const root = gql`
         getAuth: Auth
     }
 
-    type Mutation{
+    type Mutation {
         # create authentication token for client
         createToken(email: String!, password: String!): ClientToken
     }
 
-    type Auth{
+    type Subscription {
+
+        tokenChanged: ClientToken
+    }
+
+    type Auth {
         client_token: String
         client_token_valid: Boolean
         user_token: String
@@ -21,7 +26,7 @@ const root = gql`
         user_uid: String
     }
     
-    type ClientToken{
+    type ClientToken {
         email: String
         token: String
     }

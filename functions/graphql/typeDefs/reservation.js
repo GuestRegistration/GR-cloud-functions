@@ -7,7 +7,7 @@ const reservation = gql`
         getReservation(id: String!) : Reservation
     }
 
-    extend type Mutation{
+    extend type Mutation {
         # create a new reservation
         createReservation(user_id: String!, property_id: String!, name: String!, booking_channel: String!, booking_no: String!, amount_paid: Int!, checkin_date: String, checkout_date: String ): Reservation
         
@@ -17,8 +17,13 @@ const reservation = gql`
         #add a new guest to a reservation
         addReservationGuest(id: String!, name: String!, gender: String!, type: String!): ReservationGuest
     }
+
+    extend type Subscription {
+        ReservationCreated: Reservation
+        ReservationUpdated: Reservation
+    }
     
-    type Reservation{
+    type Reservation {
         id: String!
         name: String!
         booking_channel: String!
@@ -35,7 +40,7 @@ const reservation = gql`
         guests: [ReservationGuest]
     }
 
-    type ReservationProperty{
+    type ReservationProperty {
         id: String!
         name: String!
         city: String!
@@ -43,7 +48,7 @@ const reservation = gql`
         image: String
     }
 
-    type ReservationGuest{
+    type ReservationGuest {
         user_id: String
         name: String
         gender: String

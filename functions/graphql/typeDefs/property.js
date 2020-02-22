@@ -23,7 +23,12 @@ const property = gql`
         addNewTeam(id: String!, user_id: String!, prospect_id: String, role: String!): PropertyTeam
     }
 
-    type Property{
+    extend type Subscription {
+        PropertyCreated: Property
+        PropertyUpdated: Property
+    }
+
+    type Property {
         id: String!
         user_id: String!
         name: String!
@@ -37,7 +42,7 @@ const property = gql`
         reservations: [PropertyReservation]
     }
 
-    type PropertyAddress{
+    type PropertyAddress {
         street: String!
         city: String!
         state: String!
@@ -45,21 +50,21 @@ const property = gql`
         postal_code: String!
     }
 
-    type PropertyTeam{
+    type PropertyTeam {
         user_id: String
         name: String!
         email: String!
         role: String!
     }
 
-    type PropertyReservation{
+    type PropertyReservation {
         id: String!
         name: String!
         checkin_date: String
         checkout_date: String
     }
 
-    type PropertyRule{
+    type PropertyRule {
         rule: String
         added_by: String
         created_at: String

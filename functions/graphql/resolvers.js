@@ -47,6 +47,18 @@ const resolvers = {
         addReservationGuest: require('./resolvers/mutations/reservation/add_reservation_guest')
     },
 
+    Subscription: {
+        tokenChanged: require('./resolvers/subscriptions/reservation/reservation_created'),
+
+        ReservationCreated: require('./resolvers/subscriptions/reservation/reservation_created'),
+        ReservationUpdated: require('./resolvers/subscriptions/reservation/reservation_updated'),
+
+        PropertyCreated: require('./resolvers/subscriptions/property/property_created'),
+        PropertyUpdated: require('./resolvers/subscriptions/property/property_updated')
+
+    },
+
+
     Auth: require('./resolvers/query/auth'),
 
     /**

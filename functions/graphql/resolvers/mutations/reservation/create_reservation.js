@@ -3,6 +3,7 @@
  */
 const collections = require('../../../../enums/collections')
 const admin = require('./../../../../admin')
+const sub = require('./../../../pubsub');
 const firestore = admin.firestore()
 
 
@@ -12,6 +13,8 @@ const firestore = admin.firestore()
     }
     const result = await firestore.collection(collections.reservation.main).add(reservation)
     reservation.id = result.id
+    //publish the new reservation to it subscriptions
+    // sub.pubsub.publish(sub.subscriptions.reservation.create, {ReservationCreated:reservation})
     return reservation;
 }
 

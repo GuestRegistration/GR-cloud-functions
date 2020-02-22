@@ -79,7 +79,7 @@ function configureServer() {
     });
 
     // now we take our newly instantiated ApolloServer and apply the previously configured express application
-    server.applyMiddleware({app, path: '/api', cors: true});
+    server.applyMiddleware({app, path: '/', cors: true});
 
     //create a http server
     const httpServer = http.createServer(app);

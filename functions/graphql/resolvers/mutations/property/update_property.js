@@ -9,7 +9,7 @@ const firestore = admin.firestore()
 
 const updateProperty = async (parent, {id, user_id, name, phone, email, street, city, state, country, postal_code}) => {
     const property = {
-        user_id, name, phone, email,
+        id, user_id, name, phone, email,
         address: {
             street, city, state, country, postal_code
         }

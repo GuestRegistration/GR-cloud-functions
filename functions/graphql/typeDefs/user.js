@@ -7,8 +7,8 @@ const user = gql`
     extend type Query {
         getUsers: [User!]
         getUser(id: String!): User
-        getUserProperties(id: String!): [Property]
-        getUserReservations(id: String!): [Reservation]
+        # getUserProperties(id: String!): [Property]
+        # getUserReservations(id: String!): [Reservation]
         getUserVerification(id: String!): UserVerification
         getUserDevice(id: String!): UserDevice
         getUserPayment(id: String!): UserPayment
@@ -18,8 +18,8 @@ const user = gql`
         # Confirm if a user already exist by email
         confirmUser(email: String!): Boolean!
 
-        # Create new user 
-        createUser(email: String!, phone: String!, first_name: String!, last_name: String!): User!
+        # Create new user, id can be specified or not
+        createUser(id: String, email: String!, phone: String!, first_name: String!, last_name: String!): User!
 
         # update user basic information
         updateUser(id: String!, email: String!, phone: String!, first_name: String!, last_name: String!): User!
@@ -38,7 +38,7 @@ const user = gql`
 
     }
 
-    type User{
+    type User { 
         id: String!
         name: UserName
         email: String!
@@ -53,16 +53,16 @@ const user = gql`
         properties: [UserProperty]
     }
 
-    type UserName{
+    type UserName {
         first_name: String
         last_name: String
     }
     
-    type UserPayment{
+    type UserPayment {
         token: String
     }
     
-    type UserAddress{
+    type UserAddress {
         street: String 
 		city: String
         state: String
@@ -70,11 +70,11 @@ const user = gql`
         postal_code: String							
     }
 
-    type UserDevice{
+    type UserDevice {
         id: String
     }
 
-    type UserVerification{
+    type UserVerification {
         type: String
         name: String
         country: String
@@ -84,7 +84,7 @@ const user = gql`
         issue_date: String 
     }
 
-    type UserReservation{
+    type UserReservation {
         id: String!
         name: String!
         property_id: String!
@@ -96,7 +96,7 @@ const user = gql`
         role: String
     }
 
-    type UserProperty{
+    type UserProperty {
         id: String!
         name: String!
         city: String!

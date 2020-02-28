@@ -16,6 +16,9 @@ const reservation = gql`
    
         #add a new guest to a reservation
         addReservationGuest(id: String!, name: String!, gender: String!, type: String!): ReservationGuest
+
+        # checkin a reservation
+        checkinReservation(reservation_id: String!, user_id: String!, accepted_tnc: Boolean!): Reservation
     }
 
     extend type Subscription {
@@ -25,6 +28,7 @@ const reservation = gql`
     
     type Reservation {
         id: String!
+        user_id: String #id of the user the reservation belongs to
         name: String!
         email: String!
         booking_channel: String!
@@ -37,6 +41,8 @@ const reservation = gql`
         checkout_date: String
         instruction_sent: Boolean
         checkin_url: String
+        already_checkedin: Boolean!
+        checkedin_at: String # the timestamp of when the user checked in
         property: ReservationProperty
         guests: [ReservationGuest]
     }

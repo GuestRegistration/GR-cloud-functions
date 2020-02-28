@@ -15,7 +15,7 @@
                                 trash: 'graphQL_users_trash'
                             },
                         property: {
-                            main: 'graphQL_properties',
+                            main: 'graphQL_properties_demo',
                             subcollections: {
 
                             },
@@ -24,7 +24,7 @@
                         reservation: {
                             main: 'graphQL_reservations',
                             subcollections: {
-                                
+                                documents: 'documents'
                             },
                             trash: 'graphQL_reservations_trash'
                         }

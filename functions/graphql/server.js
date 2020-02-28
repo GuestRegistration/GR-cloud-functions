@@ -12,7 +12,7 @@ const resolvers = require('./resolvers')
 const cors = require("cors");
 
 function configureServer() {
-    const PORT = 5000;
+    const PORT = 5001;
     // invoke express to create our server
     const app = express();
     //use the cors middleware
@@ -84,12 +84,12 @@ function configureServer() {
     //create a http server
     const httpServer = http.createServer(app);
     // install the subscription handler on the http server
-    server.installSubscriptionHandlers(httpServer);
+    // server.installSubscriptionHandlers(httpServer);
 
-    httpServer.listen(PORT, () => {
-        // console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`)
-        // console.log(`🚀 Subscriptions ready at ws://localhost:${PORT}${server.subscriptionsPath}`)
-    })
+    // httpServer.listen(PORT, () => {
+    //     // console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`)
+    //     // console.log(`🚀 Subscriptions ready at ws://localhost:${PORT}${server.subscriptionsPath}`)
+    // })
     // finally return the application
     return app;
 }

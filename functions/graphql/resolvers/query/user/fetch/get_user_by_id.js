@@ -1,9 +1,9 @@
 // get a single user
-const collections = require('./../../../../../enums/collections')
-const admin = require('./../../../../../admin')
+const collections = require('../../../../../enums/collections')
+const admin = require('../../../../../admin')
 const firestore = admin.firestore()
 
-const getUser = async (parent, {id}) =>  {
+const getUserByID = async (parent, {id}) =>  {
     const document = await firestore.collection(`${collections.user.main}`).doc(id).get()
     if(document.exists){
       return document.data()
@@ -11,4 +11,4 @@ const getUser = async (parent, {id}) =>  {
     return null
 }
 
-module.exports = getUser
+module.exports = getUserByID

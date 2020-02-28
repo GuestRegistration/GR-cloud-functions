@@ -6,7 +6,9 @@ const resolvers = {
 
         //user read queries
         getUsers: require('./resolvers/query/user/fetch/get_users'),
-        getUser: require('./resolvers/query/user/fetch/get_user'),
+        getUserByID: require('./resolvers/query/user/fetch/get_user_by_id'),
+        getUserByEmail: require('./resolvers/query/user/fetch/get_user_by_email'),
+        getUserByPhone: require('./resolvers/query/user/fetch/get_user_by_phone'),
         // getUserReservations: require('./resolvers/query/user/fetch/get_user_reservations'),
         // getUserProperties: require('./resolvers/query/user/fetch/get_user_properties'),
         getUserVerification: require('./resolvers/query/user/fetch/get_user_verification'),

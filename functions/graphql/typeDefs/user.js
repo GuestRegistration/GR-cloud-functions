@@ -6,7 +6,9 @@ const user = gql`
 
     extend type Query {
         getUsers: [User!]
-        getUser(id: String!): User
+        getUserByID(id: String!): User
+        getUserByEmail(email: String!): [User]
+        getUserByPhone(phone: String!): [User]
         # getUserProperties(id: String!): [Property]
         # getUserReservations(id: String!): [Reservation]
         getUserVerification(id: String!): UserVerification

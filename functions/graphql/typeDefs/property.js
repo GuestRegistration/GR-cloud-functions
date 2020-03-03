@@ -6,6 +6,7 @@ const property = gql`
     extend type Query {
         getProperties: [Property!]
         getProperty(id: String!) : Property
+        getPropertyRules(id: String!): PropertyRules
         getPropertyReservations(id: String!): [Reservation]
     }
 
@@ -20,7 +21,13 @@ const property = gql`
         updatePropertyImage(id: String!, user_id: String!, image: String!): String
 
         # add a new user as a team member
-        addNewTeam(id: String!, user_id: String!, prospect_id: String, role: String!): PropertyTeam
+        addNewTeam (id: String!, user_id: String!, prospect_id: String, role: String!): PropertyTeam
+
+        # update property rule
+        updatePropertyRules(id: String!, rules: String!): PropertyRules
+
+        # update property terms
+        updatePropertyTerms (id: String!, terms_url: String!): Property
     }
 
     extend type Subscription {
@@ -38,7 +45,6 @@ const property = gql`
         image: String
         terms: String
         team: [PropertyTeam]
-        rules: [PropertyRule]
         reservations: [PropertyReservation]
     }
 
@@ -47,6 +53,7 @@ const property = gql`
         phone_number: String
         complete_phone: String
     }
+
     type PropertyAddress {
         street: String!
         city: String!
@@ -69,10 +76,9 @@ const property = gql`
         checkout_date: String
     }
 
-    type PropertyRule {
-        rule: String
-        added_by: String
-        created_at: String
+    type PropertyRules {
+        property_id: String
+        rules: String
         updated_at: String
     }
 `

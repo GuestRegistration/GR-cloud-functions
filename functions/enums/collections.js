@@ -22,7 +22,10 @@
                         property: {
                             main: 'graphQL_properties',
                             meta: {
-
+                                name: 'property_meta',
+                                documents: {
+                                    rules: 'rules'
+                                }
                             },
                             subcollections: {
 

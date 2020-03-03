@@ -18,6 +18,7 @@ const resolvers = {
         //property read queries
         getProperties: require('./resolvers/query/property/fetch/get_properties'),
         getProperty: require('./resolvers/query/property/fetch/get_property'),
+        getPropertyRules: require('./resolvers/query/property/fetch/get_property_rules'),
         getPropertyReservations: require('./resolvers/query/property/fetch/get_property_reservations'),
 
         //reservation read queries
@@ -43,6 +44,8 @@ const resolvers = {
         createProperty: require('./resolvers/mutations/property/create_property'),
         updateProperty: require('./resolvers/mutations/property/update_property'),
         updatePropertyImage: require('./resolvers/mutations/property/update_property_image'),
+        updatePropertyRules: require('./resolvers/mutations/property/update_property_rules'),
+        updatePropertyTerms: require('./resolvers/mutations/property/update_property_terms'),
         addNewTeam: require('./resolvers/mutations/property/add_new_team'),
 
         // reservation mutations
@@ -84,8 +87,8 @@ const resolvers = {
     PropertyPhone: require('./resolvers/query/property/phone'),
     PropertyAddress: require('./resolvers/query/property/address'),
     PropertyTeam: require('./resolvers/query/property/team'),
-    PropertyRule: require('./resolvers/query/property/rule'),
     PropertyReservation: require('./resolvers/query/property/reservation'),
+
     //reservation
     Reservation: require('./resolvers/query/reservation'),
     ReservationGuest: require('./resolvers/query/reservation/guest'),

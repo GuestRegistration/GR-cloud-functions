@@ -33,6 +33,7 @@ const resolvers = {
         confirmUser:  require('./resolvers/mutations/user/confirm_user'),
         createUser: require('./resolvers/mutations/user/create_user'),
         updateUser:  require('./resolvers/mutations/user/update_user'),
+        updateUserDevice:  require('./resolvers/mutations/user/update_user_device'),
         updateUserAddress:  require('./resolvers/mutations/user/update_user_address'),
         updateUserProfileImage:  require('./resolvers/mutations/user/update_user_profile_image'),
         verifyUserIdentity:  require('./resolvers/mutations/user/verify_user_identity'),
@@ -80,10 +81,11 @@ const resolvers = {
 
     //property
     Property: require('./resolvers/query/property'),
+    PropertyPhone: require('./resolvers/query/property/phone'),
+    PropertyAddress: require('./resolvers/query/property/address'),
     PropertyTeam: require('./resolvers/query/property/team'),
     PropertyRule: require('./resolvers/query/property/rule'),
     PropertyReservation: require('./resolvers/query/property/reservation'),
-
     //reservation
     Reservation: require('./resolvers/query/reservation'),
     ReservationGuest: require('./resolvers/query/reservation/guest'),

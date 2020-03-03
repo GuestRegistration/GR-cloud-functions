@@ -22,8 +22,8 @@ const firestore = admin.firestore()
             // create the checkin document
             await firestore.collection(collections.reservation.main)
                     .doc(reservation_id)
-                    .collection(collections.reservation.subcollections.documents)
-                    .doc('checkin')
+                    .collection(collections.reservation.meta.name)
+                    .doc(collections.reservation.meta.documents.checkin)
                     .set(checkin)
             // update the reservation document
             await reservationRef.update({

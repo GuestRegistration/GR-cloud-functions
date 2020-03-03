@@ -7,15 +7,23 @@
  const collections = {
                         user: {
                                 main: 'graphQL_users',
+                                meta: {
+                                    name: 'user_meta',
+                                    documents: {
+                                        device: 'device',
+                                        verification: 'verification',
+                                    }
+                                },
                                 subcollections: {
-                                    device: 'device',
-                                    payment: 'payment',
-                                    verification: 'verification',
+                                    payments: 'payments',
                                 },
                                 trash: 'graphQL_users_trash'
                             },
                         property: {
-                            main: 'graphQL_properties_demo',
+                            main: 'graphQL_properties',
+                            meta: {
+
+                            },
                             subcollections: {
 
                             },
@@ -23,8 +31,14 @@
                         },
                         reservation: {
                             main: 'graphQL_reservations',
+                            meta: {
+                                name: 'reservation_documents',
+                                documents: {
+                                    checkin: 'checkin'
+                                }
+                            },
                             subcollections: {
-                                documents: 'documents'
+                               
                             },
                             trash: 'graphQL_reservations_trash'
                         }

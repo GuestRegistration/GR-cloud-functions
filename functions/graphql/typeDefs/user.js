@@ -38,6 +38,9 @@ const user = gql`
         # delete user
         deleteUser(id: String!): User
 
+        # update the user
+        updateUserDevice(id: String!, device_id: String!, device_ip: String, device_name:String): UserDevice
+
     }
 
     type User { 
@@ -73,7 +76,11 @@ const user = gql`
     }
 
     type UserDevice {
-        id: String
+        user_id: String!
+        device_id: String!
+        device_name: String
+        device_ip: String
+        last_updated: String!
     }
 
     type UserVerification {

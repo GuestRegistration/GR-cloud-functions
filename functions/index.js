@@ -37,17 +37,29 @@ exports.onUserCreated = functions.firestore.document(`/${collections.user.main}/
                                 }
                             })
                             .then((update_result) => {
-                                return snapshot.ref.collection(collections.user.subcollections.payment).add({
-                                    user_id: snapshot.ref.id
-                                })
+                                // initialize the user verification document
+                                return snapshot.ref.collection(collections.user.meta.name)
+                                    .doc(collections.user.meta.documents.verification)
+                                    .set({
+                                        user_id: snapshot.ref.id,
+                                    })
                             })
                             .then((payment_document_result) => {
-                                return snapshot.ref.collection(collections.user.subcollections.device).add({
-                                    user_id: snapshot.ref.id
-                                })
+                                // initialize the user device document
+                                return snapshot.ref.collection(collections.user.meta.name)
+                                    .doc(collections.user.meta.documents.device)
+                                    .set({
+                                        user_id: snapshot.ref.id,
+                                        device_id: null,
+                                        device_name: null,
+                                        device_ip: null,
+                                        last_updated: null
+                                    })
                             })
                             .then((device_document_result) => {
-                                return snapshot.ref.collection(collections.user.subcollections.verification).add({
+                                // add an initial payment method document.
+                                return snapshot.ref.collection(collections.user.subcollections.payments)
+                                .add({
                                     user_id: snapshot.ref.id
                                 }) 
                             })
@@ -208,7 +220,6 @@ exports.onPropertyUpdated = functions.firestore.document(`/${collections.propert
 exports.onReservationCreated = functions.firestore.document(`/${collections.reservation.main}/{reservation_id}`)
 .onCreate((snapshot, context) => {
     const reservation = snapshot.data()
-    const checkin_base_url = "https://testapp.guestregistration.com/r"
     const propertyRef = firestore.collection(`${collections.property.main}`).doc(`${reservation.property_id}`);
     return propertyRef.get()
             .then((property_snapshot) => property_snapshot.data())
@@ -217,7 +228,6 @@ exports.onReservationCreated = functions.firestore.document(`/${collections.rese
                 return Promise.all([
                     snapshot.ref.update({
                         id: snapshot.ref.id,
-                        checkin_url: `${checkin_base_url}/${snapshot.ref.id}`,
                         property: {
                             id: property.id,
                             name: property.name,

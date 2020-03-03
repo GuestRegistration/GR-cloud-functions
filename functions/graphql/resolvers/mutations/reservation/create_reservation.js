@@ -13,6 +13,12 @@ const firestore = admin.firestore()
     }
     const result = await firestore.collection(collections.reservation.main).add(reservation)
     reservation.id = result.id
+    reservation.checkin_url = `https://testapp.guestregistration.com/r/${reservation.id}`
+
+    // update the reservation with the checkin url
+    await firestore.collection(collections.reservation.main).doc(reservation.id).update({
+        checkin_url:  reservation.checkin_url,
+    })
     //publish the new reservation to it subscriptions
     // sub.pubsub.publish(sub.subscriptions.reservation.create, {ReservationCreated:reservation})
     return reservation;

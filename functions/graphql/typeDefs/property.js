@@ -11,10 +11,10 @@ const property = gql`
 
     extend type Mutation {
         # create a new property
-        createProperty(user_id: String!, name: String!, phone: String!, email: String!, street: String!, city: String!, state: String!, country: String!, postal_code: Int!): Property!
+        createProperty(user_id: String!, name: String!, phone_country_code: String!, phone_number: String!, email: String!, street: String!, city: String!, state: String!, country: String!, postal_code: Int): Property
 
         # update property
-        updateProperty(id: String!, user_id: String!, name: String!, phone: String!, email: String!, street: String!, city: String!, state: String!, country: String!, postal_code: Int!): Property!
+        updateProperty(id: String!, user_id: String!, name: String!, phone_country_code: String!, phone_number: String!, email: String!, street: String!, city: String!, state: String!, country: String!, postal_code: Int): Property
     
         # update property display image
         updatePropertyImage(id: String!, user_id: String!, image: String!): String
@@ -32,7 +32,7 @@ const property = gql`
         id: String!
         user_id: String!
         name: String!
-        phone: String!
+        phone: PropertyPhone
         email: String!
         address: PropertyAddress!
         image: String
@@ -42,12 +42,17 @@ const property = gql`
         reservations: [PropertyReservation]
     }
 
+    type PropertyPhone {
+        country_code: String
+        phone_number: String
+        complete_phone: String
+    }
     type PropertyAddress {
         street: String!
         city: String!
         state: String!
         country: String!
-        postal_code: String!
+        postal_code: String
     }
 
     type PropertyTeam {

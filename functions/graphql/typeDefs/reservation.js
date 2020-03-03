@@ -18,7 +18,7 @@ const reservation = gql`
         addReservationGuest(id: String!, name: String!, gender: String!, type: String!): ReservationGuest
 
         # checkin a reservation
-        checkinReservation(reservation_id: String!, user_id: String!, accepted_tnc: Boolean!): Reservation
+        checkinReservation(reservation_id: String!, user_id: String!, accepted_tnc: Boolean!, identity_ref: String!): Reservation
     }
 
     extend type Subscription {
@@ -61,6 +61,7 @@ const reservation = gql`
         gender: String
         type: String
     }
+
 `
 
 module.exports = reservation

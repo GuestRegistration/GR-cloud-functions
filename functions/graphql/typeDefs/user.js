@@ -11,7 +11,7 @@ const user = gql`
         getUserByPhone(phone: String!): [User]
         # getUserProperties(id: String!): [Property]
         # getUserReservations(id: String!): [Reservation]
-        getUserVerification(id: String!): UserVerification
+        getUserIdentities(id: String!): [UserIdentity]
         getUserDevice(id: String!): UserDevice
         getUserPayment(id: String!): UserPayment
     }
@@ -32,8 +32,8 @@ const user = gql`
         # update user profile image
         updateUserProfileImage(id: String!, image: String): String
 
-        # verify user identity
-        verifyUserIdentity(id: String!): UserVerification
+        # create user Identity
+        createUserIdentity(id: String!, country: String!, document_type: String!, document_url: String!, title: String): UserIdentity
 
         # delete user
         deleteUser(id: String!): User
@@ -91,6 +91,18 @@ const user = gql`
         exp_date: String 
         date_of_birth: String 
         issue_date: String 
+    }
+
+    type UserIdentity {
+        id: String!
+        user_id: String!
+        country: String!
+        document_type: String!
+        document_url: String!
+        title: String
+        verified: Boolean!
+        verified_at: String
+        ref: String
     }
 
     type UserReservation {

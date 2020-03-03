@@ -7,6 +7,7 @@ const property = {
     address: (parent) => parent.address,
     image: (parent) => parent.image,
     terms: (parent) => parent.terms,
+    rules: (parent) => parent.rules,
     team: (parent) => parent.team,
     reservations: (parent) => parent.reservations
 }

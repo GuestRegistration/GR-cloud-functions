@@ -6,16 +6,42 @@ const property = gql`
     extend type Query {
         getProperties: [Property!]
         getProperty(id: String!) : Property
-        getPropertyRules(id: String!): PropertyRules
         getPropertyReservations(id: String!): [Reservation]
     }
 
     extend type Mutation {
         # create a new property
-        createProperty(user_id: String!, name: String!, phone_country_code: String!, phone_number: String!, email: String!, street: String!, city: String!, state: String!, country: String!, postal_code: Int): Property
+        createProperty(
+            user_id: String!,
+            name: String!, 
+            phone_country_code: String!, 
+            phone_number: String!, 
+            email: String!, 
+            street: String!, 
+            city: String!, 
+            state: String, 
+            country: String!, 
+            postal_code: Int,
+            rules: String,
+            terms: String
+            ): Property
 
         # update property
-        updateProperty(id: String!, user_id: String!, name: String!, phone_country_code: String!, phone_number: String!, email: String!, street: String!, city: String!, state: String!, country: String!, postal_code: Int): Property
+        updateProperty(
+            id: String!,
+            user_id: String!, 
+            name: String!, 
+            phone_country_code: String!, 
+            phone_number: String!, 
+            email: String!, 
+            street: String!, 
+            city: String!, 
+            state: String, 
+            country: String!, 
+            postal_code: Int,
+            rules: String,
+            terms: String
+        ): Property
     
         # update property display image
         updatePropertyImage(id: String!, user_id: String!, image: String!): String
@@ -24,10 +50,10 @@ const property = gql`
         addNewTeam (id: String!, user_id: String!, prospect_id: String, role: String!): PropertyTeam
 
         # update property rule
-        updatePropertyRules(id: String!, rules: String!): PropertyRules
+        # updatePropertyRules(id: String!, rules: String!): PropertyRules
 
         # update property terms
-        updatePropertyTerms (id: String!, terms_url: String!): Property
+        # updatePropertyTerms (id: String!, terms_url: String!): Property
     }
 
     extend type Subscription {
@@ -44,6 +70,7 @@ const property = gql`
         address: PropertyAddress!
         image: String
         terms: String
+        rules: String
         team: [PropertyTeam]
         reservations: [PropertyReservation]
     }
@@ -76,11 +103,11 @@ const property = gql`
         checkout_date: String
     }
 
-    type PropertyRules {
-        property_id: String
-        rules: String
-        updated_at: String
-    }
+    # type PropertyRule {
+    #     property_id: String
+    #     rules: String
+    #     updated_at: String
+    # }
 `
 
 module.exports = property;

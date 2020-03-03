@@ -11,14 +11,13 @@ const resolvers = {
         getUserByPhone: require('./resolvers/query/user/fetch/get_user_by_phone'),
         // getUserReservations: require('./resolvers/query/user/fetch/get_user_reservations'),
         // getUserProperties: require('./resolvers/query/user/fetch/get_user_properties'),
-        getUserVerification: require('./resolvers/query/user/fetch/get_user_verification'),
+        getUserIdentities: require('./resolvers/query/user/fetch/get_user_identities'),
         getUserDevice: require('./resolvers/query/user/fetch/get_user_device'),
         getUserPayment: require('./resolvers/query/user/fetch/get_user_payment'),
 
         //property read queries
         getProperties: require('./resolvers/query/property/fetch/get_properties'),
         getProperty: require('./resolvers/query/property/fetch/get_property'),
-        getPropertyRules: require('./resolvers/query/property/fetch/get_property_rules'),
         getPropertyReservations: require('./resolvers/query/property/fetch/get_property_reservations'),
 
         //reservation read queries
@@ -37,15 +36,13 @@ const resolvers = {
         updateUserDevice:  require('./resolvers/mutations/user/update_user_device'),
         updateUserAddress:  require('./resolvers/mutations/user/update_user_address'),
         updateUserProfileImage:  require('./resolvers/mutations/user/update_user_profile_image'),
-        verifyUserIdentity:  require('./resolvers/mutations/user/verify_user_identity'),
+        createUserIdentity:  require('./resolvers/mutations/user/create_user_identity'),
         deleteUser:  require('./resolvers/mutations/user/delete_user'),
 
         //property mutations
         createProperty: require('./resolvers/mutations/property/create_property'),
         updateProperty: require('./resolvers/mutations/property/update_property'),
         updatePropertyImage: require('./resolvers/mutations/property/update_property_image'),
-        updatePropertyRules: require('./resolvers/mutations/property/update_property_rules'),
-        updatePropertyTerms: require('./resolvers/mutations/property/update_property_terms'),
         addNewTeam: require('./resolvers/mutations/property/add_new_team'),
 
         // reservation mutations
@@ -80,7 +77,7 @@ const resolvers = {
     UserPayment:require('./resolvers/query/user/payment'),
     UserReservation: require('./resolvers/query/user/reservation'),
     UserProperty: require('./resolvers/query/user/property'),
-    UserVerification: require('./resolvers/query/user/verification'),
+    UserIdentity: require('./resolvers/query/user/identity'),
 
     //property
     Property: require('./resolvers/query/property'),

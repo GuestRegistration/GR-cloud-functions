@@ -11,11 +11,11 @@
                                     name: 'user_meta',
                                     documents: {
                                         device: 'device',
-                                        verification: 'verification',
                                     }
                                 },
                                 subcollections: {
                                     payments: 'payments',
+                                    identities: 'identities'
                                 },
                                 trash: 'graphQL_users_trash'
                             },

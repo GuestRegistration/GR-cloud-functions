@@ -5,9 +5,9 @@ const collections = require('../../../../enums/collections')
 const admin = require('./../../../../admin')
 const sub = require('./../../../pubsub');
 const firestore = admin.firestore()
+const helper = require('./../../../../helper')
 
-
- const createProperty = async (parent, {user_id, name, phone_country_code, phone_number, email, street, city, state, country, postal_code}) => {
+ const createProperty = async (parent, {user_id, name, phone_country_code, phone_number, email, street, city, state, country, postal_code, rules, terms}) => {
     const property = {
         user_id, name, email,
         phone: {
@@ -16,7 +16,9 @@ const firestore = admin.firestore()
         },
         address: {
             street, city, state, country, postal_code
-        }
+        },
+        terms,
+        rules
     }
     const result = await firestore.collection(collections.property.main).add(property)
     property.id = result.id

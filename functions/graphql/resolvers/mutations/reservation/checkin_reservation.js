@@ -7,7 +7,7 @@ const helper = require('../../../../helper')
 const firestore = admin.firestore()
 
 
- const checkinReservation = async (parent, {reservation_id, user_id, accepted_tnc}) => {
+ const checkinReservation = async (parent, {reservation_id, user_id, accepted_tnc, identity_ref}) => {
     const userRef = firestore.collection(collections.user.main).doc(user_id)
     const reservationRef = firestore.collection(collections.reservation.main).doc(reservation_id)
     if(accepted_tnc){
@@ -16,8 +16,9 @@ const firestore = admin.firestore()
         if(user.exists && reservation.exists){
             const checkin = {
                 accepted_tnc,
+                identity_ref,
                 name: user.data().name,
-                checkedin_at: helper.nowTimestamp(),
+                checkedin_at: helper.nowTimestamp()
             }
             // create the checkin document
             await firestore.collection(collections.reservation.main)

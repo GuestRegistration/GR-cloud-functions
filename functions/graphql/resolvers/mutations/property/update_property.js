@@ -15,7 +15,11 @@ const updateProperty = async (parent, {id, user_id, name, phone_country_code, ph
             phone_number: phone_number
         },
         address: {
-            street, city, state, country, postal_code
+            street: street || null,
+            city: city || null,
+            state: state || null,
+            country : country || null,
+            postal_code: postal_code || null
         },
         terms,
         rules

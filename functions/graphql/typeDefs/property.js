@@ -18,7 +18,7 @@ const property = gql`
             phone_number: String!, 
             email: String!, 
             street: String!, 
-            city: String!, 
+            city: String, 
             state: String, 
             country: String!, 
             postal_code: Int,
@@ -35,7 +35,7 @@ const property = gql`
             phone_number: String!, 
             email: String!, 
             street: String!, 
-            city: String!, 
+            city: String, 
             state: String, 
             country: String!, 
             postal_code: Int,
@@ -83,8 +83,8 @@ const property = gql`
 
     type PropertyAddress {
         street: String!
-        city: String!
-        state: String!
+        city: String
+        state: String
         country: String!
         postal_code: String
     }

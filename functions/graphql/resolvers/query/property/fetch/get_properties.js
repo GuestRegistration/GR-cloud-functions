@@ -11,7 +11,9 @@ const firestore = admin.firestore()
     const QuerySnapshots = await firestore.collection(collections.property.main).get()
     
     QuerySnapshots.forEach((snapshot) => {
-        properties.push(snapshot.data())
+        let property = snapshot.data()
+        property.id = snapshot.ref.id
+        properties.push(property)
     })
     
     return properties;

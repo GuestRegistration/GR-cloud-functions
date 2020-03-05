@@ -22,7 +22,8 @@ const resolvers = {
 
         //reservation read queries
         getReservations: require('./resolvers/query/reservation/fetch/get_reservations'),
-        getReservation: require('./resolvers/query/reservation/fetch/get_reservation')
+        getReservation: require('./resolvers/query/reservation/fetch/get_reservation'),
+        getBookingChannels: require('./resolvers/query/reservation/fetch/get_booking_channels')
     },
 
     // mutations to carry out operations

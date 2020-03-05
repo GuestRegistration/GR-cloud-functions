@@ -4,7 +4,8 @@ const {gql} = require("apollo-server-express");
 const reservation = gql`
     extend type Query {
         getReservations: [Reservation!]
-        getReservation(id: String!) : Reservation
+        getReservation(id: String!) : Reservation,
+        getBookingChannels: [BookingChannel]
     }
 
     extend type Mutation {
@@ -60,6 +61,11 @@ const reservation = gql`
         name: String
         gender: String
         type: String
+    }
+    
+    type BookingChannel {
+        channel_code: Int!
+        channel_name: String!
     }
 
 `

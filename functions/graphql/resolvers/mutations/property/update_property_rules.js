@@ -1,24 +1,32 @@
 /**
  * update a property rules
  */
-const collections = require('../../../../enums/collections')
+
+ //  middlewares
+ const client_middleware = require('./../../../middleware/client_authorized')
+ const user_middleware = require('./../../../middleware/user_authorized')
+ 
+ const collections = require('../../../../enums/collections')
 const admin = require('./../../../../admin')
 const helper = require('./../../../../helper')
 const firestore = admin.firestore()
 
-
- const updatePropertyImage = async (parent, {id, rules}) => {
-     const rulesRef = firestore.collection(collections.property.main).doc(id)
-                    .collection(collections.property.meta.name)
-                    .doc(collections.property.meta.documents.rules)
-   const updated = await rulesRef.set({
-                            property_id: id,
-                            rules: rules,
-                            updated_at: helper.nowTimestamp()
-                        })
-  
-   return (await rulesRef.get()).data();
+ const updatePropertyRules = async (parent, {id, rules}, context) => {
+    client_middleware(context)
+    const propertyRef = firestore.collection(collections.property.main).doc(id)
+    const property = await propertyRef.get()
+    if(property.exists){
+        user_middleware(context, property.data().user_id)
+                        
+        const updated = await propertyRef.update({
+                                    rules: rules
+                                })
+        return (await propertyRef.get()).data();
+    } else{
+        throw new Error('Property does not exist')
+    } 
+   
 }
 
- module.exports = updatePropertyImage
+ module.exports = updatePropertyRules
 

@@ -3,12 +3,16 @@
  * soft delete a user account
  * 
  * */ 
+ //  middlewares
+ const client_middleware = require('./../../../middleware/client_authorized')
+
 const admin = require('./../../../../admin')
 const firestore = admin.firestore()
 const helper = require('./../../../../helper')
 const collections = require('../../../../enums/collections')
 
-const deleteUser = async (parent, {id}) => {
+const deleteUser = async (parent, {id}, context) => {
+    client_middleware(context)
     
     const userRef = firestore.collection(collections.user.main).doc(id)
     const userDevicesRef = firestore.collection(collections.user.main).doc(id).collection(collections.user.subcollections.device);

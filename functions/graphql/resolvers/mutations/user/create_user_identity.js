@@ -1,11 +1,19 @@
 /**
  * create user identity
  */
+
+ //  middlewares
+ const client_middleware = require('./../../../middleware/client_authorized')
+ const user_middleware = require('./../../../middleware/user_authorized')
+ 
 const collections = require('../../../../enums/collections')
 const admin = require('../../../../admin')
 const firestore = admin.firestore()
 
-const createUserIdentity = async (parent, {id, title, country, document_type, document_url}) => {
+const createUserIdentity = async (parent, {id, title, country, document_type, document_url}, context) => {
+    client_middleware(context)
+    user_middleware(context, id)
+    
     const identity = {
         user_id:id, title, country, document_type, document_url
     }

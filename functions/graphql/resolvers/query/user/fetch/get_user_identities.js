@@ -1,9 +1,16 @@
-// get a single user
+/**
+ * Retrieve user identities
+ */
+
+const client_middleware = require('./../../../../middleware/client_authorized')
+
 const collections = require('../../../../../enums/collections')
 const admin = require('../../../../../admin')
 const firestore = admin.firestore()
 
-const getUserDeviceIdentities = async (parent, {id}) =>  {
+const getUserDeviceIdentities = async (parent, {id}, context) =>  {
+    client_middleware(context)
+
     const identites = []
     const query = await firestore.collection(collections.user.main)
                             .doc(id)

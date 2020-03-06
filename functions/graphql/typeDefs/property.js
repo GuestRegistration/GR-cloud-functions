@@ -12,7 +12,6 @@ const property = gql`
     extend type Mutation {
         # create a new property
         createProperty(
-            user_id: String!,
             name: String!, 
             phone_country_code: String!, 
             phone_number: String!, 
@@ -44,7 +43,7 @@ const property = gql`
         ): Property
     
         # update property display image
-        updatePropertyImage(id: String!, user_id: String!, image: String!): String
+        updatePropertyImage(id: String!, image: String!): String
 
         # add a new user as a team member
         addNewTeam (id: String!, user_id: String!, prospect_id: String, role: String!): PropertyTeam

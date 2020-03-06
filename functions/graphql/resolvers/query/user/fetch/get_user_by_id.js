@@ -1,10 +1,17 @@
-// get a single user
+/**
+ * Get single user by ID
+ */
+
+const client_middleware = require('./../../../../middleware/client_authorized')
+
 const collections = require('../../../../../enums/collections')
 const admin = require('../../../../../admin')
 const firestore = admin.firestore()
 
-const getUserByID = async (parent, {id}) =>  {
-    const document = await firestore.collection(`${collections.user.main}`).doc(id).get()
+const getUserByID = async (parent, {id}, context) =>  {
+    client_middleware(context)
+    
+    const document = await firestore.collection(collections.user.main).doc(id).get()
     if(document.exists){
       return document.data()
     }

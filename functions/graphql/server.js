@@ -27,10 +27,11 @@ function configureServer() {
         introspection: true,
         playground: true,
         context:  async ({ req, connection }) => {
+            
             if(connection){ //if it is over websocket i.e subscription
                 return connection.context
             }else{
-                 // retrive the user idToken from the header
+                 // initialize the context
                 const auth = {
                     client_token: null,
                     client_token_valid: false,
@@ -44,38 +45,43 @@ function configureServer() {
 
                 // first authenticate the client
                 if(client_authorization === null) return {auth}
-
-                const client_token = client_authorization.split('Bearer ')[1]
-                const signature = require('./../key/jwt-key')
-                const decoded = jwt.verify(client_token, signature);
-                auth.client_token = client_token
-
-                if(clients.find((c) => c.email === decoded.email && c.password === decoded.password)){
-                    auth.client_token_valid = true
-                }   
-
-                if(user_authorization === null) return {auth}
                 try{
-                const user_token = user_authorization.split('Bearer ')[1]
-                auth.user_token = user_token
-
-                    /**
-                     * verify the user idToken
-                     */
-                    
-                    // const decodedToken = await admin.auth().verifyIdToken(user_token)
-                    if(decodedToken.uid){
-                        // auth.user_token_valid  = true
-                        // auth.user_uid  = decodedToken.uid
-                    }
-                    return {auth}
+                    const client_token = client_authorization.split('Bearer ')[1]
+                    const signature = require('./../key/jwt-key')
+                    const decoded = jwt.verify(client_token, signature);
+                    auth.client_token = client_token
+                    if(clients.find((c) => c.email === decoded.email && c.password === decoded.password)){
+                        auth.client_token_valid = true
+                    }   
                 }
+                // catch the error incase the token is malformed
                 catch(e){
-                    return {auth}
+                    auth.client_token_valid = false
                 }
+                // check for user header
+                if(user_authorization === null) return {auth}
+                    try{
+                        const user_token = user_authorization.split('Bearer ')[1]
+                        auth.user_token = user_token
+                        /**
+                         * verify the user idToken
+                         */
+                        
+                        // const decodedToken = await admin.auth().verifyIdToken(user_token)
+                        const decodedToken = {
+                            uid : "TpeAjy50MEbVGlFCTbr6nEKh6ac2"
+                        }
+                        if(decodedToken.uid){
+                            auth.user_token_valid  = true
+                            auth.user_uid  = decodedToken.uid
+                        }
+                        return {auth}
+                    }
+                    catch(e){
+                        return {auth}
+                    }
+                }   
             }
-           
-          }
     });
 
     // now we take our newly instantiated ApolloServer and apply the previously configured express application

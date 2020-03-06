@@ -1,5 +1,13 @@
 
-const getBookingChannels = (parent) => {
+/**
+ * Get list of available booking channels
+ */
+
+const client_middleware = require('./../../../../middleware/client_authorized')
+
+const getBookingChannels = (parent, args, context) => {
+    client_middleware(context)
+    
     return [
         {
             channel_code: 1,

@@ -1,9 +1,15 @@
-// get a single user
+/**
+ * Get a single user device
+ */
+const client_middleware = require('./../../../../middleware/client_authorized')
+
 const collections = require('../../../../../enums/collections')
 const admin = require('../../../../../admin')
 const firestore = admin.firestore()
 
-const getUserDevice = async (parent, {id}) =>  {
+const getUserDevice = async (parent, {id}, context) =>  {
+    client_middleware(context)
+    
     const document = await firestore.collection(collections.user.main)
                             .doc(id)
                             .collection(collections.user.meta.name)

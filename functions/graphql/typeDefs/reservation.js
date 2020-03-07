@@ -20,6 +20,9 @@ const reservation = gql`
 
         # checkin a reservation
         checkinReservation(reservation_id: String!, accepted_tnc: Boolean!, identity_ref: String!): Reservation
+
+        # approve a checked in reservation
+        approveReservationCheckin(id: String!): Reservation
     }
 
     extend type Subscription {
@@ -42,8 +45,13 @@ const reservation = gql`
         checkout_date: String
         instruction: String
         checkin_url: String
+        
         already_checkedin: Boolean!
         checkedin_at: String # the timestamp of when the user checked in
+
+        approved: Boolean!
+        approved_at: String # the timestamp of when the user checked in
+
         property: ReservationProperty
         guests: [ReservationGuest]
     }
@@ -51,7 +59,7 @@ const reservation = gql`
     type ReservationProperty {
         id: String!
         name: String!
-        city: String!
+        city: String
         country: String!
         image: String
     }

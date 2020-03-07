@@ -12,8 +12,13 @@ const reservation = {
     contract_signature: (parent) => parent.contract_signature,
     checkin_date: (parent) => parent.checkin_date,
     checkout_date: (parent) => parent.checkout_date,
+
     already_checkedin: (parent) => parent.checkedin_at === null || typeof parent.checkedin_at === "undefined" ? false : true,
     checkedin_at: (parent) => parent.checkedin_at, 
+    
+    approved: (parent) => parent.approved_at === null || typeof parent.approved_at === "undefined" ? false : true,
+    approved_at: (parent) => parent.approved_at,
+    
     instruction: (parent) => parent.instruction,
     checkin_url: (parent) => `https://testapp.guestregistration.com/r/${parent.id}`,
     property: (parent) => parent.property,

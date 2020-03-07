@@ -9,8 +9,8 @@ const user = gql`
         getUserByID(id: String!): User
         getUserByEmail(email: String!): [User]
         getUserByPhone(phone: String!): [User]
-        # getUserProperties(id: String!): [Property]
-        # getUserReservations(id: String!): [Reservation]
+        getUserProperties(id: String): [Property]
+        getUserReservations(id: String): [Reservation]
         getUserIdentities(id: String!): [UserIdentity]
         getUserDevice(id: String!): UserDevice
         getUserPayment(id: String!): UserPayment

@@ -3,7 +3,6 @@
  */
 
 const client_middleware = require('./../../../../middleware/client_authorized')
-const auth_middleware = require('./../../../../middleware/user_authenticated')
 const user_middleware = require('./../../../../middleware/user_authorized')
 
 const collections = require('./../../../../../enums/collections')

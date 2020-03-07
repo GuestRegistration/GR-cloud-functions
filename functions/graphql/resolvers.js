@@ -9,8 +9,8 @@ const resolvers = {
         getUserByID: require('./resolvers/query/user/fetch/get_user_by_id'),
         getUserByEmail: require('./resolvers/query/user/fetch/get_user_by_email'),
         getUserByPhone: require('./resolvers/query/user/fetch/get_user_by_phone'),
-        // getUserReservations: require('./resolvers/query/user/fetch/get_user_reservations'),
-        // getUserProperties: require('./resolvers/query/user/fetch/get_user_properties'),
+        getUserReservations: require('./resolvers/query/user/fetch/get_user_reservations'),
+        getUserProperties: require('./resolvers/query/user/fetch/get_user_properties'),
         getUserIdentities: require('./resolvers/query/user/fetch/get_user_identities'),
         getUserDevice: require('./resolvers/query/user/fetch/get_user_device'),
         getUserPayment: require('./resolvers/query/user/fetch/get_user_payment'),
@@ -51,6 +51,7 @@ const resolvers = {
         updateReservation: require('./resolvers/mutations/reservation/update_reservation'),
         addReservationGuest: require('./resolvers/mutations/reservation/add_reservation_guest'),
         checkinReservation: require('./resolvers/mutations/reservation/checkin_reservation'),
+        approveReservationCheckin: require('./resolvers/mutations/reservation/approve_reservation_checkin'),
     },
 
     Subscription: {

@@ -37,7 +37,7 @@ const firestore = admin.firestore()
                         .set(checkin)
                 // update the reservation document
                 await reservationRef.update({
-                    user_id: user_id,
+                    user_id: user.ref.id,
                     checkedin_at: checkin.checkedin_at
                 })
                 return (await reservationRef.get()).data() //refetch the reservation data

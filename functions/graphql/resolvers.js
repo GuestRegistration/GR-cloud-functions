@@ -11,6 +11,8 @@ const resolvers = {
         getUserByPhone: require('./resolvers/query/user/fetch/get_user_by_phone'),
         getUserReservations: require('./resolvers/query/user/fetch/get_user_reservations'),
         getUserProperties: require('./resolvers/query/user/fetch/get_user_properties'),
+        getUserIdentityById: require('./resolvers/query/user/fetch/get_user_identity_by_id'),
+        getUserIdentityByRef: require('./resolvers/query/user/fetch/get_user_identity_by_ref'),
         getUserIdentities: require('./resolvers/query/user/fetch/get_user_identities'),
         getUserDevice: require('./resolvers/query/user/fetch/get_user_device'),
         getUserPayment: require('./resolvers/query/user/fetch/get_user_payment'),
@@ -80,6 +82,7 @@ const resolvers = {
     UserReservation: require('./resolvers/query/user/reservation'),
     UserProperty: require('./resolvers/query/user/property'),
     UserIdentity: require('./resolvers/query/user/identity'),
+    UserIdentityLite: require('./resolvers/query/user/identity_lite'),
 
     //property
     Property: require('./resolvers/query/property'),

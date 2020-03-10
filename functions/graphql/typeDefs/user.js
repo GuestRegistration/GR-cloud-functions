@@ -11,7 +11,9 @@ const user = gql`
         getUserByPhone(phone: String!): [User]
         getUserProperties(id: String): [Property]
         getUserReservations(id: String): [Reservation]
-        getUserIdentities(id: String!): [UserIdentity]
+        getUserIdentityByRef(ref: String!): UserIdentity
+        getUserIdentityById(user_id: String!, identity_id: String!): UserIdentity
+        getUserIdentities(id: String!): [UserIdentityLite]
         getUserDevice(id: String!): UserDevice
         getUserPayment(id: String!): UserPayment
     }
@@ -93,6 +95,18 @@ const user = gql`
         issue_date: String 
     }
 
+    # incomplete identity data
+    type UserIdentityLite {
+        id: String!
+        user_id: String!
+        country: String!
+        title: String
+        verified: Boolean!
+        document_type: String!
+        ref: String
+    }
+
+    # Complete identity data
     type UserIdentity {
         id: String!
         user_id: String!
@@ -104,6 +118,7 @@ const user = gql`
         verified_at: String
         ref: String
     }
+
 
     type UserReservation {
         id: String!

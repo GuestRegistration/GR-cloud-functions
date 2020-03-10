@@ -8,7 +8,7 @@ const collections = require('../../../../../enums/collections')
 const admin = require('../../../../../admin')
 const firestore = admin.firestore()
 
-const getUserDeviceIdentities = async (parent, {id}, context) =>  {
+const getUserIdentities = async (parent, {id}, context) =>  {
     client_middleware(context)
 
     const identites = []
@@ -28,4 +28,4 @@ const getUserDeviceIdentities = async (parent, {id}, context) =>  {
     return null
 }
 
-module.exports = getUserDeviceIdentities
+module.exports = getUserIdentities

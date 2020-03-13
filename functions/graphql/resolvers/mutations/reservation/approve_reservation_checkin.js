@@ -28,7 +28,7 @@ const updateReservation = async (parent, {id}, context) => {
                                     .doc(collections.reservation.meta.documents.checkin)
             const checkinDoc = await checkinDocRef.get()
 
-            if(reservation.checkedin_at !== null && checkinDoc.exists){
+            if(reservation.checkedin_at && checkinDoc.exists){
                 // update the checkin document
                 await checkinDocRef.update({
                     approved_at: helper.nowTimestamp()

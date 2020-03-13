@@ -21,11 +21,12 @@ const resolvers = {
         getProperties: require('./resolvers/query/property/fetch/get_properties'),
         getProperty: require('./resolvers/query/property/fetch/get_property'),
         getPropertyReservations: require('./resolvers/query/property/fetch/get_property_reservations'),
-
         //reservation read queries
         getReservations: require('./resolvers/query/reservation/fetch/get_reservations'),
         getReservation: require('./resolvers/query/reservation/fetch/get_reservation'),
-        getBookingChannels: require('./resolvers/query/reservation/fetch/get_booking_channels')
+        getBookingChannels: require('./resolvers/query/reservation/fetch/get_booking_channels'),
+        getReservationCheckin: require('./resolvers/query/reservation/fetch/get_reservation_checkin'),
+
     },
 
     // mutations to carry out operations

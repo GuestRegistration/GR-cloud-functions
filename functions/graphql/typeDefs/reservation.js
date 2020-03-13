@@ -4,8 +4,9 @@ const {gql} = require("apollo-server-express");
 const reservation = gql`
     extend type Query {
         getReservations: [Reservation!]
-        getReservation(id: String!) : Reservation,
+        getReservation(id: String!) : Reservation
         getBookingChannels: [BookingChannel]
+        getReservationCheckin (id: String!): ReservationCheckin
     }
 
     extend type Mutation {
@@ -22,7 +23,8 @@ const reservation = gql`
         checkinReservation(reservation_id: String!, accepted_tnc: Boolean!, identity_ref: String!): Reservation
 
         # approve a checked in reservation
-        approveReservationCheckin(id: String!): Reservation
+        approveReservationCheckin(id: String!): ReservationCheckin
+
     }
 
     extend type Subscription {
@@ -62,6 +64,22 @@ const reservation = gql`
         city: String
         country: String!
         image: String
+    }
+
+    type ReservationCheckin {
+        user: User
+        reservation: Reservation
+        checkin: Checkin
+        identity: UserIdentity
+    }
+    """
+    hello world
+    """
+    type Checkin {
+        accepted_tnc: Boolean
+        checkedin_at: String
+        name: UserName
+        identity_ref: String
     }
 
     type ReservationGuest {

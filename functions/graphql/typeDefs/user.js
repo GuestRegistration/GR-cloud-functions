@@ -13,6 +13,7 @@ const user = gql`
         getUserReservations(id: String): [Reservation]
         getUserIdentityByRef(ref: String!): UserIdentity
         getUserIdentityById(user_id: String!, identity_id: String!): UserIdentity
+        getMyIdentities: [UserIdentity]
         getUserIdentities(id: String!): [UserIdentityLite]
         getUserDevice(id: String!): UserDevice
         getUserPayment(id: String!): UserPayment

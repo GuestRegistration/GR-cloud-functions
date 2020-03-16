@@ -14,7 +14,7 @@ const firestore = admin.firestore()
 
 const updateUser = async (parent, {id, email, phone, first_name, last_name}, context) => {
     client_middleware(context)
-    user_middleware(context, id)
+    user_middleware(context, [id])
 
         let user = {
             id,

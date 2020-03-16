@@ -15,7 +15,8 @@ const firestore = admin.firestore()
    client_middleware(context)
    const property = await firestore.collection(collections.property.main).doc(id).get()
    if(property.exists){
-      user_middleware(context, property.data().user_id)
+      user_middleware(context, [property.data().user_id])
+
       await firestore.collection(collections.property.main).doc(id).update({
          image: image
       });

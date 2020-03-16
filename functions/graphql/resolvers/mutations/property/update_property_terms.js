@@ -17,7 +17,7 @@ const firestore = admin.firestore()
    const propertyRef = firestore.collection(collections.property.main).doc(id)
    const property = await propertyRef.get()
    if(property.exists){
-       user_middleware(context, property.data().user_id)
+       user_middleware(context,[property.data().user_id])
                        
        const updated = await propertyRef.update({
                                    terms: terms_url

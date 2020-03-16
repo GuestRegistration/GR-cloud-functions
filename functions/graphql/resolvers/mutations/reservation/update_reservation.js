@@ -20,7 +20,7 @@ const updateReservation = async (parent, {id, name, booking_channel, booking_no,
     if(reservation.property.id){
         const property = await firestore.collection(collections.property.main).doc(id).get()
         if(property.exists){
-            user_middleware(context, property.data().user_id)
+            user_middleware(context, [property.data().user_id])
             const updated_reservation = {
                 id, name, booking_channel, booking_no
             }

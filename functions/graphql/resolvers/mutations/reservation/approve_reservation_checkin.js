@@ -22,7 +22,7 @@ const updateReservation = async (parent, {id}, context) => {
         const property_id = reservation.data().property.id
         const property = await firestore.collection(collections.property.main).doc(property_id).get()
         if(property.exists){
-            user_middleware(context, property.data().user_id)
+            user_middleware(context, [property.data().user_id])
             
             const checkinDocRef = reservationRef.collection(collections.reservation.meta.name)
                                     .doc(collections.reservation.meta.documents.checkin)

@@ -14,7 +14,7 @@ const firestore = admin.firestore()
 
 const updateUserAddress = async (parent, {id, street, city, state, country, postal_code}, context) => {
     client_middleware(context)
-    user_middleware(context, id)
+    user_middleware(context, [id])
 
     const address = {street, city, country, state, postal_code};
     await firestore.collection(collections.user.main).doc(id).update({address})

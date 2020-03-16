@@ -15,7 +15,7 @@ const getPropertReservations = async (parent, {id}, context) =>  {
        const property = await firestore.collection(collections.property.main).doc(id).get()
        if(property.exists){
             const reservations = []
-           user_middleware(context, property.data().user_id)
+           user_middleware(context, [property.data().user_id])
 
            const QuerySnapshots = await firestore.collection(collections.reservation.main).where('property.id', '==', id).get()
            QuerySnapshots.forEach((snapshot) => {

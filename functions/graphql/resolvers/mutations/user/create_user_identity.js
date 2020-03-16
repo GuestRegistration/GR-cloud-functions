@@ -12,7 +12,7 @@ const firestore = admin.firestore()
 
 const createUserIdentity = async (parent, {id, title, country, document_type, document_url}, context) => {
     client_middleware(context)
-    user_middleware(context, id)
+    user_middleware(context, [id])
     
     const identity = {
         user_id:id, title, country, document_type, document_url

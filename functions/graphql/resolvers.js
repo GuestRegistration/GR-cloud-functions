@@ -13,6 +13,7 @@ const resolvers = {
         getUserProperties: require('./resolvers/query/user/fetch/get_user_properties'),
         getUserIdentityById: require('./resolvers/query/user/fetch/get_user_identity_by_id'),
         getUserIdentityByRef: require('./resolvers/query/user/fetch/get_user_identity_by_ref'),
+        getMyIdentities: require('./resolvers/query/user/fetch/get_my_identities'),
         getUserIdentities: require('./resolvers/query/user/fetch/get_user_identities'),
         getUserDevice: require('./resolvers/query/user/fetch/get_user_device'),
         getUserPayment: require('./resolvers/query/user/fetch/get_user_payment'),

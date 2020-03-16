@@ -16,7 +16,7 @@ const updateProperty = async (parent, {id, user_id, name, phone_country_code, ph
     const propertyRef = firestore.collection(collections.property.main).doc(id)
     const property = await propertyRef.get()
     if(property.exists){
-        user_middleware(context, property.data().user_id)
+        user_middleware(context, [property.data().user_id])
         const updated_property = {
             id, user_id, name, email,
             phone: {

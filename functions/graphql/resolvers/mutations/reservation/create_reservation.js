@@ -17,7 +17,7 @@ const firestore = admin.firestore()
     const property = await firestore.collection(collections.property.main).doc(property_id).get()
 
     if(property.exists){
-        user_middleware(context, property.data().user_id)
+        user_middleware(context, [property.data().user_id])
         
         const reservation = {
             property_id,

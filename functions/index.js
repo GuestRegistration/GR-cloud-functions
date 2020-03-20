@@ -14,7 +14,9 @@ const collections = require('./enums/collections')
 // create and export the api
 exports.api = functions.https.onRequest(server);
 
-// create user document when first authenticated
+/**
+ * create user document when first authenticated
+ */
 // exports.createUser = functions.auth.user().onCreate((user) => {
 //     //create a user document when authenticated newly
 //     return firestore.collection(`${collections.user.main}`).doc(user.uid).set({
@@ -23,6 +25,24 @@ exports.api = functions.https.onRequest(server);
 //         phone: user.phoneNumber || null
 //     })
 //   });
+
+/**
+ * Move user document to trash when auth record is deleted
+ */
+exports.moveUserToTrash = functions.auth.user().onDelete((user) => {
+    const docRef = firestore.collection(collections.user.main).doc(user.uid)
+   return docRef.get()
+        .then(snapshot => {
+            if(snapshot.exists){
+                return firestore.collection(collections.user.trash).doc(snapshot.ref.id).set(snapshot.data())
+            }else{
+                return new Promise((r, e)=> {
+                    r(false)
+                })
+            }
+        })
+        .then(() => docRef.delete())
+  });
 
 // when a new user is created
 exports.onUserCreated = functions.firestore.document(`/${collections.user.main}/{user_id}`)

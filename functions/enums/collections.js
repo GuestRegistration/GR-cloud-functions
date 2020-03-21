@@ -5,6 +5,7 @@
  */
 
  const collections = {
+
                         user: {
                                 main: 'graphQL_users',
                                 meta: {
@@ -44,6 +45,16 @@
                                
                             },
                             trash: 'graphQL_reservations_trash'
-                        }
+                        },
+                        organization: {
+                            main: 'graphQL_organization',
+                            meta: {
+                                name: 'organization_meta',
+                            },
+                            subcollections: {
+                               permissions: "organization_permissions"
+                            },
+                            trash: 'graphQL_organization_trash'
+                        },
                     }
 module.exports = collections

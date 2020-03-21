@@ -22,11 +22,16 @@ const resolvers = {
         getProperties: require('./resolvers/query/property/fetch/get_properties'),
         getProperty: require('./resolvers/query/property/fetch/get_property'),
         getPropertyReservations: require('./resolvers/query/property/fetch/get_property_reservations'),
+
         //reservation read queries
         getReservations: require('./resolvers/query/reservation/fetch/get_reservations'),
         getReservation: require('./resolvers/query/reservation/fetch/get_reservation'),
         getBookingChannels: require('./resolvers/query/reservation/fetch/get_booking_channels'),
         getReservationCheckin: require('./resolvers/query/reservation/fetch/get_reservation_checkin'),
+
+        // organization read queries
+        getOrganization: require('./resolvers/query/organization/fetch/get_organization'),
+        getOrganizations: require('./resolvers/query/organization/fetch/get_organizations'),
 
     },
 
@@ -56,6 +61,9 @@ const resolvers = {
         addReservationGuest: require('./resolvers/mutations/reservation/add_reservation_guest'),
         checkinReservation: require('./resolvers/mutations/reservation/checkin_reservation'),
         approveReservationCheckin: require('./resolvers/mutations/reservation/approve_reservation_checkin'),
+        
+        // organization mutaions
+        createOrganization: require('./resolvers/mutations/organization/create_organization'),
     },
 
     Subscription: {
@@ -96,7 +104,11 @@ const resolvers = {
     //reservation
     Reservation: require('./resolvers/query/reservation'),
     ReservationGuest: require('./resolvers/query/reservation/guest'),
-    ReservationProperty: require('./resolvers/query/reservation/property')
+    ReservationProperty: require('./resolvers/query/reservation/property'),
+
+    // organization
+    Organization: require('./resolvers/query/organization'),
+    OrganizationMember: require('./resolvers/query/organization/member'),
 };
 
 module.exports = resolvers;

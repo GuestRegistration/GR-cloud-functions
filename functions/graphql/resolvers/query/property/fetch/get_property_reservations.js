@@ -9,7 +9,7 @@ const collections = require('./../../../../../enums/collections')
 const admin = require('./../../../../../admin')
 const firestore = admin.firestore()
 
-const getPropertReservations = async (parent, {id}, context) =>  {
+const getPropertyReservations = async (parent, {id}, context) =>  {
     client_middleware(context)
         //first get the property
        const property = await firestore.collection(collections.property.main).doc(id).get()
@@ -28,4 +28,4 @@ const getPropertReservations = async (parent, {id}, context) =>  {
            throw new Error('The property doess not exist')
        }
 }
-module.exports = getPropertReservations
+module.exports = getPropertyReservations

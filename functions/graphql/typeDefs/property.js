@@ -28,7 +28,6 @@ const property = gql`
         # update property
         updateProperty(
             id: String!,
-            user_id: String!, 
             name: String!, 
             phone_country_code: String!, 
             phone_number: String!, 
@@ -64,7 +63,7 @@ const property = gql`
         id: String!
         user_id: String!
         name: String!
-        phone: PropertyPhone
+        phone: Phone
         email: String!
         address: PropertyAddress!
         image: String
@@ -72,12 +71,6 @@ const property = gql`
         rules: String
         team: [PropertyTeam]
         reservations: [PropertyReservation]
-    }
-
-    type PropertyPhone {
-        country_code: String
-        phone_number: String
-        complete_phone: String
     }
 
     type PropertyAddress {

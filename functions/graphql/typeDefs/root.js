@@ -18,6 +18,12 @@ const root = gql`
         tokenChanged: ClientToken
     }
 
+    type Phone {
+        country_code: String
+        phone_number: String
+        complete_phone: String
+    }
+    
     type Auth {
         client_token: String
         client_token_valid: Boolean

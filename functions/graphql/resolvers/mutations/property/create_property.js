@@ -35,6 +35,19 @@ const helper = require('./../../../../helper')
             terms,
             rules
         }
+
+        
+        // first confirm email
+        const check_email = await firestore.collection(collections.property.main).where('email', '==', property.email).get()
+        if(check_email.size > 0){
+            throw new Error('The email already being used by another property')
+        }
+        // then check the phone
+        const check_phone = await firestore.collection(collections.property.main).where('phone', '==', property.phone).get()
+        if(check_phone.size > 0){
+            throw new Error('The phone number already being used by another property')
+        }
+
         const result = await firestore.collection(collections.property.main).add(property)
         property.id = result.id
         //publish the new reservation to it subscriptions

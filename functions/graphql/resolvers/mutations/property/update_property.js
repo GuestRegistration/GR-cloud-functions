@@ -11,14 +11,18 @@ const admin = require('./../../../../admin')
 const sub = require('./../../../pubsub');
 const firestore = admin.firestore()
 
-const updateProperty = async (parent, {id, user_id, name, phone_country_code, phone_number, email, street, city, state, country, postal_code, rules, terms}, context) => {
+const updateProperty = async (parent, {id, name, phone_country_code, phone_number, email, street, city, state, country, postal_code, rules, terms}, context) => {
     client_middleware(context)
+
     const propertyRef = firestore.collection(collections.property.main).doc(id)
     const property = await propertyRef.get()
+
     if(property.exists){
         user_middleware(context, [property.data().user_id])
+
         const updated_property = {
-            id, user_id, name, email,
+            name, 
+            email,
             phone: {
                 country_code: phone_country_code,
                 phone_number: phone_number
@@ -33,12 +37,41 @@ const updateProperty = async (parent, {id, user_id, name, phone_country_code, ph
             terms,
             rules
         }
-        const result = await propertyRef.update(updated_property)
 
-        //publish the new reservation to it subscriptions
-        // sub.pubsub.publish(sub.subscriptions.reservation.create, {PropertyUpdated:property})
-    
-        return (await propertyRef.get()).data();
+
+        // first confirm email
+        const check_email = await firestore.collection(collections.property.main).where('email', '==', updated_property.email).get()
+        if(check_email.size > 0){
+            check_email.forEach(property => {
+                if(property.ref.id !== id){
+                    throw new Error('The email already being used by another property')
+                }
+            })
+        }
+        // then check the phone
+        const check_phone = await firestore.collection(collections.property.main).where('phone', '==', updated_property.phone).get()
+        if(check_phone.size > 0){
+            check_phone.forEach(property => {
+                if(property.ref.id !== id){
+                    throw new Error('The phone number already being used by another property')
+                }
+            })
+        }
+        
+        try {
+            const result = await propertyRef.update(updated_property)
+            //publish the new reservation to it subscriptions
+            // sub.pubsub.publish(sub.subscriptions.reservation.create, {PropertyUpdated:property})
+            const  update = await propertyRef.get()
+
+            const newly_updated_property = update.data()
+            newly_updated_property.id = update.ref.id
+            return newly_updated_property
+
+        } catch (error) {
+            throw new Error('Something went wrong '+error.message)
+        }
+        
     }else{
         throw new Error('Property does not exist')
     }

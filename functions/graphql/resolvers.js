@@ -79,6 +79,7 @@ const resolvers = {
 
 
     Auth: require('./resolvers/query/auth'),
+    Phone: require('./resolvers/query/phone'),
 
     /**
      * models resolvers
@@ -96,7 +97,6 @@ const resolvers = {
 
     //property
     Property: require('./resolvers/query/property'),
-    PropertyPhone: require('./resolvers/query/property/phone'),
     PropertyAddress: require('./resolvers/query/property/address'),
     PropertyTeam: require('./resolvers/query/property/team'),
     PropertyReservation: require('./resolvers/query/property/reservation'),

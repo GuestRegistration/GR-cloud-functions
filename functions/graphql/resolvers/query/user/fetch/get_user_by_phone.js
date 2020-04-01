@@ -14,7 +14,9 @@ const getUserByPhone = async (parent, {phone}, context) =>  {
     const users = []
     if(!query.empty){
         query.forEach(user => {
-            users.push(user.data())
+            let data = user.data();
+            data.id = user.ref.id
+            users.push(data)
         })
       return users
     }

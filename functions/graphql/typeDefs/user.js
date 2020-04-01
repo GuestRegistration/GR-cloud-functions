@@ -13,7 +13,7 @@ const user = gql`
         getUserReservations(id: String): [Reservation]
         getUserIdentityByRef(ref: String!): UserIdentity
         getUserIdentityById(user_id: String!, identity_id: String!): UserIdentity
-        getMyIdentities: [UserIdentity]
+        getMyIdentities : [UserIdentity]
         getUserIdentities(id: String!): [UserIdentityLite]
         getUserDevice(id: String!): UserDevice
         getUserPayment(id: String!): UserPayment
@@ -24,25 +24,59 @@ const user = gql`
         confirmUser(email: String!): Boolean!
 
         # Create new user, id can be specified or not
-        createUser(id: String, email: String!, phone: String!, first_name: String!, last_name: String!): User!
+        createUser(
+            id: String,
+            email: String!,
+            phone_country_code: String!, 
+            phone_number: String!, 
+            first_name: String!, 
+            last_name: String!
+        ): User!
 
         # update user basic information
-        updateUser(id: String!, email: String!, phone: String!, first_name: String!, last_name: String!): User!
+        updateUser(
+            id: String!, 
+            email: String!, 
+            phone_country_code: String!, 
+            phone_number: String!, 
+            first_name: 
+            String!, 
+            last_name: String!
+        ): User!
 
         # update user address information
-        updateUserAddress(id: String!, street: String!, city: String!, state: String!, country: String!, postal_code: String!): UserAddress
+        updateUserAddress(
+            id: String!, 
+            street: String, 
+            city: String, 
+            state: String, 
+            country: String, 
+            postal_code: String
+        ): UserAddress
 
         # update user profile image
-        updateUserProfileImage(id: String!, image: String): String
+        updateUserProfileImage(
+            id: String!, 
+            image: String
+        ): String
 
         # create user Identity
-        createUserIdentity(id: String!, country: String!, document_type: String!, document_url: String!, title: String): UserIdentity
+        createUserIdentity(
+            id: String!, 
+            country: String!, 
+            document_type: String!, 
+            document_url: String!, title: String): UserIdentity
 
         # delete user
         deleteUser(id: String!): User
 
         # update the user
-        updateUserDevice(id: String!, device_id: String!, device_ip: String, device_name:String): UserDevice
+        updateUserDevice(
+            id: String!, 
+            device_id: String!, 
+            device_ip: String, 
+            device_name:String
+        ): UserDevice
 
     }
 
@@ -50,7 +84,7 @@ const user = gql`
         id: String!
         name: UserName
         email: String!
-        phone: String!
+        phone: Phone
         phone_verified: Boolean!
         phone_verified_at: Int
         country_of_residence: String

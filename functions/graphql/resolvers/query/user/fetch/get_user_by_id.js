@@ -13,7 +13,9 @@ const getUserByID = async (parent, {id}, context) =>  {
     
     const document = await firestore.collection(collections.user.main).doc(id).get()
     if(document.exists){
-      return document.data()
+      const user = document.data()
+      user.id = document.ref.id 
+      return user
     }
     return null
 }

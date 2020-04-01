@@ -31,11 +31,12 @@ const getReservationCheckin = async (parent, {id}, context) => {
 
             const checkinRef = reservationRef.collection(collections.reservation.meta.name).doc(collections.reservation.meta.documents.checkin)
             const checkinDoc = await checkinRef.get()
-            const checkin = checkinDoc.data()
-            checkin.id = checkinDoc.ref.id
 
             // check if the reservation is already checked in
             if(reservation.checkedin_at && checkinDoc.exists){
+                const checkin = checkinDoc.data()
+                checkin.id = checkinDoc.ref.id 
+                 
                 // get the user data
                 const userRef = firestore.collection(collections.user.main).doc(reservation.user_id)
                 const userDoc = await userRef.get()

@@ -66,7 +66,7 @@ function configureServer() {
                         /**
                          * verify the user idToken
                          */
-                        const decodedToken = await admin.auth().verifyIdToken(user_token)
+                        const decodedToken = await admin.auth().verifyIdToken(user_token, true)
                         
                         if(decodedToken.uid){
                             auth.user_token_valid  = true

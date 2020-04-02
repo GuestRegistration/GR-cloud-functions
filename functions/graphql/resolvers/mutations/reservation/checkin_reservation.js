@@ -21,27 +21,34 @@ const firestore = admin.firestore()
         const reservationRef = firestore.collection(collections.reservation.main).doc(reservation_id)
         if(accepted_tnc){
             const user = await userRef.get()
-            let reservation = await reservationRef.get()
-            if(user.exists && reservation.exists){
-                const checkin = {
-                    accepted_tnc,
-                    identity_ref,
-                    name: user.data().name,
-                    checkedin_at: helper.nowTimestamp()
+            if(user.exists){
+                let reservation = await reservationRef.get()
+                if(reservation.exists){
+                    const checkin = {
+                        accepted_tnc,
+                        identity_ref,
+                        name: user.data().name,
+                        checkedin_at: helper.nowTimestamp()
+                    }
+                    // create the checkin document
+                    await firestore.collection(collections.reservation.main)
+                            .doc(reservation_id)
+                            .collection(collections.reservation.meta.name)
+                            .doc(collections.reservation.meta.documents.checkin)
+                            .set(checkin)
+                    // update the reservation document
+                    await reservationRef.update({
+                        user_id: user.ref.id,
+                        checkedin_at: checkin.checkedin_at
+                    })
+                    return (await reservationRef.get()).data() //refetch the reservation data
+                }else{
+                    throw new Error('Reservation not found')
                 }
-                // create the checkin document
-                await firestore.collection(collections.reservation.main)
-                        .doc(reservation_id)
-                        .collection(collections.reservation.meta.name)
-                        .doc(collections.reservation.meta.documents.checkin)
-                        .set(checkin)
-                // update the reservation document
-                await reservationRef.update({
-                    user_id: user.ref.id,
-                    checkedin_at: checkin.checkedin_at
-                })
-                return (await reservationRef.get()).data() //refetch the reservation data
+            }else{
+                throw new Error('User not found')
             }
+           
         }else{
             throw new Error('Terms and condition not accepted')
         }

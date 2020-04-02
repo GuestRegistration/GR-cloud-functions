@@ -38,9 +38,8 @@ const updateReservation = async (parent, {id}, context) => {
                     approved_at: helper.nowTimestamp()
                 });
             }else{
-                throw new Error('Can\'t approve reservation. The reservation is not checked in yet')
+                throw new Error('The reservation is not checked in yet')
             }
-
             return (await reservationRef.get()).data();
         }else{
             throw new Error('Property does not exist')

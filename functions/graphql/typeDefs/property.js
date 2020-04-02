@@ -45,7 +45,7 @@ const property = gql`
         updatePropertyImage(id: String!, image: String!): String
 
         # add a new user as a team member
-        addNewTeam (id: String!, user_id: String!, prospect_id: String, role: String!): PropertyTeam
+        addNewTeam (id: String!, prospect_id: String, role: String!): PropertyTeam
 
         # update property rule
         # updatePropertyRules(id: String!, rules: String!): PropertyRules

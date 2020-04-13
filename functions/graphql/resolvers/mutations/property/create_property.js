@@ -47,6 +47,11 @@ const helper = require('./../../../../helper')
         if(check_phone.size > 0){
             throw new Error('The phone number already being used by another property')
         }
+        // check if the phone number is valid
+        if(!(await helper.validatePhoneNumber(`${property.phone.country_code}${property.phone.phone_number}`)).valid){
+            throw new Error('Invalid phone number ')
+        }
+        
 
         const result = await firestore.collection(collections.property.main).add(property)
         property.id = result.id

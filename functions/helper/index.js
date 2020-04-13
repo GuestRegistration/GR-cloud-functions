@@ -16,6 +16,30 @@
             sorted[key] = obj[key];
         })
         return sorted
+     },
+     /**
+      * check if a phone number is valid
+      */
+     validatePhoneNumber: async (number, country) => {
+        const twilio_key = require('./../key/twilio')
+        try{
+            const client = require('twilio')(twilio_key.accountSid, twilio_key.authToken);
+            const phone = await client.lookups.phoneNumbers(number).fetch({})
+            return {
+                valid: true,
+                data: phone
+            }
+        } 
+        catch(e){
+            if(e.status === 404){
+                return {
+                    valid: false,
+                    data: null
+                }
+            }else{
+                throw new Error(e.message)
+            }             
+        }
      }
  }
 

@@ -4,6 +4,10 @@ const resolvers = {
    Query: {
         getAuth: (parent, args, context) => context.auth,
 
+        //Ultilities
+        validatePhone: require('./resolvers/query/utility/validate_phone'),
+
+
         //user read queries
         getUsers: require('./resolvers/query/user/fetch/get_users'),
         getUserByID: require('./resolvers/query/user/fetch/get_user_by_id'),

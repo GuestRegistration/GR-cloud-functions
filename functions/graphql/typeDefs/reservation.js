@@ -23,7 +23,7 @@ const reservation = gql`
         checkinReservation(reservation_id: String!, accepted_tnc: Boolean!, identity_ref: String!): Reservation
 
         # approve a checked in reservation
-        approveReservationCheckin(id: String!): ReservationCheckin
+        approveReservationCheckin(id: String!): Reservation
 
     }
 

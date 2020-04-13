@@ -11,7 +11,7 @@ const admin = require('./../../../../admin')
 const sub = require('./../../../pubsub');
 const firestore = admin.firestore()
 
-const updateReservation = async (parent, {id}, context) => {
+const approveReservation = async (parent, {id}, context) => {
     client_middleware(context)
 
     const reservationRef =  firestore.collection(collections.reservation.main).doc(id)
@@ -28,7 +28,7 @@ const updateReservation = async (parent, {id}, context) => {
                                     .doc(collections.reservation.meta.documents.checkin)
             const checkinDoc = await checkinDocRef.get()
 
-            if(reservation.checkedin_at && checkinDoc.exists){
+            if(reservation.data().checkedin_at && checkinDoc.exists){
                 // update the checkin document
                 await checkinDocRef.update({
                     approved_at: helper.nowTimestamp()
@@ -50,4 +50,4 @@ const updateReservation = async (parent, {id}, context) => {
     
 }
 
-module.exports = updateReservation
+module.exports = approveReservation

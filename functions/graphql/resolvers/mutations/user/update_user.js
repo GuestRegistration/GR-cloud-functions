@@ -9,6 +9,8 @@ const user_middleware = require('./../../../middleware/user_authorized')
  
 const collections = require('../../../../enums/collections')
 const admin = require('./../../../../admin')
+const helper = require('./../../../../helper')
+
 const firestore = admin.firestore()
 
 
@@ -37,6 +39,7 @@ const updateUser = async (parent, {id, email, phone_country_code, phone_number, 
                 }
             })
         }
+
         // then check the phone
         const user_check_phone = await firestore.collection(collections.user.main).where('phone', '==', user.phone).get()
         if(user_check_phone.size > 0){
@@ -46,6 +49,12 @@ const updateUser = async (parent, {id, email, phone_country_code, phone_number, 
                 }
             })
         }
+
+        // check if the phone number is valid
+        if(!(await helper.validatePhoneNumber(`${user.phone.country_code}${user.phone.phone_number}`)).valid){
+            throw new Error('Invalid phone number ')
+        }
+        
 
         try {
             const result = await firestore.collection(collections.user.main).doc(id).update(user)

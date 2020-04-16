@@ -9,6 +9,7 @@ const user_middleware = require('./../../../middleware/user_authorized')
 const collections = require('../../../../enums/collections')
 const admin = require('./../../../../admin')
 const sub = require('./../../../pubsub');
+const helper = require('./../../../../helper')
 const firestore = admin.firestore()
 
 const updateProperty = async (parent, {id, name, phone_country_code, phone_number, email, street, city, state, country, postal_code, rules, terms}, context) => {
@@ -19,6 +20,8 @@ const updateProperty = async (parent, {id, name, phone_country_code, phone_numbe
 
     if(property.exists){
         user_middleware(context, [property.data().user_id])
+        const timestamp = property.timestamp
+        timestamp.updated_at = helper.nowTimestamp()
 
         const updated_property = {
             name, 
@@ -35,7 +38,8 @@ const updateProperty = async (parent, {id, name, phone_country_code, phone_numbe
                 postal_code: postal_code || null
             },
             terms,
-            rules
+            rules,
+            timestamp
         }
 
 
@@ -56,6 +60,11 @@ const updateProperty = async (parent, {id, name, phone_country_code, phone_numbe
                     throw new Error('The phone number already being used by another property')
                 }
             })
+        }
+
+        // check if the phone number is valid
+        if(!(await helper.validatePhoneNumber(`${updated_property.phone.country_code}${updated_property.phone.phone_number}`)).valid){
+            throw new Error('Invalid phone number ')
         }
         
         try {

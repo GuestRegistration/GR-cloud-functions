@@ -4,6 +4,10 @@ const utility = gql `
     extend type Query {
         validatePhone (phone: String!): Validation
     }
+    extend type Mutation {
+        normalizeUserPhones: String
+        normalizePropertyPhones: String
+    }
 
     # extend type Mutation {
 

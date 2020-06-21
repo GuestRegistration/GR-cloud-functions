@@ -14,16 +14,16 @@ const sub = require('./../../../pubsub');
 const firestore = admin.firestore()
 const helper = require('./../../../../helper')
 
- const createProperty = async (parent, {name, phone_country_code, phone_number, email, street, city, state, country, postal_code, rules, terms}, context) => {
+ const createProperty = async (parent, {name, email, phone, phone_country_code, phone_number,  street, city, state, country, postal_code, rules, terms}, context) => {
     client_middleware(context)
     const auth = auth_middleware(context)
     if(auth){
         const property = {
             user_id: auth, 
-            name, email,
-            phone: {
+            name, email, phone,
+            phone_meta: {
                 country_code: phone_country_code,
-                phone_number: phone_number
+                phone_number: phone_number,
             },
             address: {
                 street: street || null,
@@ -48,7 +48,7 @@ const helper = require('./../../../../helper')
             throw new Error('The phone number already being used by another property')
         }
         // check if the phone number is valid
-        if(!(await helper.validatePhoneNumber(`${property.phone.country_code}${property.phone.phone_number}`)).valid){
+        if(!(await helper.validatePhoneNumber(property.phone)).valid){
             throw new Error('Invalid phone number ')
         }
         

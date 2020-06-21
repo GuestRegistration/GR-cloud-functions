@@ -11,14 +11,15 @@ const firestore = admin.firestore()
 const helper = require('./../../../../helper')
 
 
-const createUser = async (parent, {id, email, phone_country_code, phone_number,first_name, last_name}, context) => {
+const createUser = async (parent, {id, email, phone, phone_country_code, phone_number, first_name, last_name}, context) => {
     client_middleware(context)
 
         let user = {
             email,
-            phone: {
+            phone,
+            phone_meta: {
                 country_code: phone_country_code,
-                phone_number: phone_number
+                phone_number: phone_number,
             },
             name:{
                 first_name,
@@ -34,7 +35,7 @@ const createUser = async (parent, {id, email, phone_country_code, phone_number,f
             throw new Error('The phone already exist')
         }
         // check if the phone number is valid
-        if(!(await helper.validatePhoneNumber(`${user.phone.country_code}${user.phone.phone_number}`)).valid){
+        if(!(await helper.validatePhoneNumber(user.phone)).valid){
             throw new Error('Invalid phone number ')
         }
 

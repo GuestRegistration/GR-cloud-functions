@@ -13,9 +13,10 @@ const property = gql`
         # create a new property
         createProperty(
             name: String!, 
-            phone_country_code: String!, 
-            phone_number: String!, 
             email: String!, 
+            phone: String!,
+            phone_country_code: String, 
+            phone_number: String, 
             street: String!, 
             city: String, 
             state: String, 
@@ -29,8 +30,9 @@ const property = gql`
         updateProperty(
             id: String!,
             name: String!, 
-            phone_country_code: String!, 
-            phone_number: String!, 
+            phone: String!,
+            phone_country_code: String, 
+            phone_number: String, 
             email: String!, 
             street: String!, 
             city: String, 
@@ -63,8 +65,9 @@ const property = gql`
         id: String!
         user_id: String!
         name: String!
-        phone: Phone
         email: String!
+        phone: String!
+        phone_meta: Phone,
         address: PropertyAddress!
         image: String
         terms: String

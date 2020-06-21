@@ -14,20 +14,24 @@ const helper = require('./../../../../helper')
 const firestore = admin.firestore()
 
 
-const updateUser = async (parent, {id, email, phone_country_code, phone_number, first_name, last_name}, context) => {
+const updateUser = async (parent, {id, email, phone, phone_country_code, phone_number, first_name, last_name}, context) => {
     client_middleware(context)
-    user_middleware(context, [id])
+    // user_middleware(context, [id])
 
         let user = {
             id,
             email,
-            phone: {
-                country_code: phone_country_code,
-                phone_number: phone_number
-            },
+            phone,
             name:{
                 first_name,
                 last_name
+            }
+        }
+
+        if(phone_country_code || phone_number){
+            user.phone_meta = {
+                country_code: phone_country_code || null,
+                phone_number: phone_number || null
             }
         }
         // first confirm email
@@ -51,10 +55,9 @@ const updateUser = async (parent, {id, email, phone_country_code, phone_number, 
         }
 
         // check if the phone number is valid
-        if(!(await helper.validatePhoneNumber(`${user.phone.country_code}${user.phone.phone_number}`)).valid){
+        if(!(await helper.validatePhoneNumber(user.phone)).valid){
             throw new Error('Invalid phone number ')
         }
-        
 
         try {
             const result = await firestore.collection(collections.user.main).doc(id).update(user)

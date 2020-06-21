@@ -27,8 +27,9 @@ const user = gql`
         createUser(
             id: String,
             email: String!,
-            phone_country_code: String!, 
-            phone_number: String!, 
+            phone: String!,
+            phone_country_code: String, 
+            phone_number: String, 
             first_name: String!, 
             last_name: String!
         ): User!
@@ -37,10 +38,10 @@ const user = gql`
         updateUser(
             id: String!, 
             email: String!, 
-            phone_country_code: String!, 
-            phone_number: String!, 
-            first_name: 
-            String!, 
+            phone: String!,
+            phone_country_code: String, 
+            phone_number: String, 
+            first_name:String!, 
             last_name: String!
         ): User!
 
@@ -84,7 +85,8 @@ const user = gql`
         id: String!
         name: UserName
         email: String!
-        phone: Phone
+        phone: String!
+        phone_meta: Phone
         phone_verified: Boolean!
         phone_verified_at: Int
         country_of_residence: String

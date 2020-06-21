@@ -12,7 +12,7 @@ const sub = require('./../../../pubsub');
 const helper = require('./../../../../helper')
 const firestore = admin.firestore()
 
-const updateProperty = async (parent, {id, name, phone_country_code, phone_number, email, street, city, state, country, postal_code, rules, terms}, context) => {
+const updateProperty = async (parent, {id, name, email, phone, phone_country_code, phone_number,  street, city, state, country, postal_code, rules, terms}, context) => {
     client_middleware(context)
 
     const propertyRef = firestore.collection(collections.property.main).doc(id)
@@ -26,10 +26,7 @@ const updateProperty = async (parent, {id, name, phone_country_code, phone_numbe
         const updated_property = {
             name, 
             email,
-            phone: {
-                country_code: phone_country_code,
-                phone_number: phone_number
-            },
+            phone,
             address: {
                 street: street || null,
                 city: city || null,
@@ -42,6 +39,12 @@ const updateProperty = async (parent, {id, name, phone_country_code, phone_numbe
             timestamp
         }
 
+        if(phone_country_code || phone_number){
+            updated_property.phone_meta = {
+                country_code: phone_country_code || null,
+                phone_number: phone_number || null
+            }
+        }
 
         // first confirm email
         const check_email = await firestore.collection(collections.property.main).where('email', '==', updated_property.email).get()
@@ -63,9 +66,10 @@ const updateProperty = async (parent, {id, name, phone_country_code, phone_numbe
         }
 
         // check if the phone number is valid
-        if(!(await helper.validatePhoneNumber(`${updated_property.phone.country_code}${updated_property.phone.phone_number}`)).valid){
+        if(!(await helper.validatePhoneNumber(updated_property.phone)).valid){
             throw new Error('Invalid phone number ')
         }
+
         
         try {
             const result = await propertyRef.update(updated_property)

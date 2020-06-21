@@ -3,6 +3,7 @@ const property = {
     user_id: (parent) => parent.user_id,
     name: (parent) => parent.name,
     phone: (parent) => parent.phone,
+    phone_meta: (parent) => parent.phone_meta,
     email: (parent) => parent.email,
     address: (parent) => parent.address,
     image: (parent) => parent.image,

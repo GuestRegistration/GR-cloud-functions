@@ -26,6 +26,12 @@ exports.api = functions.https.onRequest(server);
 //     })
 //   });
 
+
+exports.createUserDocument = functions.auth.user().onCreate((user) => {
+    firestore.collection(collections.user.main).doc(user.uid).add({
+        email
+    })
+});
 /**
  * Move user document to trash when auth record is deleted
  */

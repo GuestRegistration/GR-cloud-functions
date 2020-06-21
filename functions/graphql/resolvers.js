@@ -41,6 +41,8 @@ const resolvers = {
 
     // mutations to carry out operations
     Mutation: {
+        normalizeUserPhones: require('./resolvers/mutations/utility/normalize_user_phones'),
+        normalizePropertyPhones: require('./resolvers/mutations/utility/normalize_property_phones'),
 
         createToken: require('./resolvers/mutations/auth/create_token'), 
         // user mutations

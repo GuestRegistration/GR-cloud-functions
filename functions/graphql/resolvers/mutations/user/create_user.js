@@ -26,6 +26,13 @@ const createUser = async (parent, {id, email, phone, phone_country_code, phone_n
                 last_name
             }
         }
+        
+        if(phone_country_code || phone_number){
+            user.phone_meta = {
+                country_code: phone_country_code || null,
+                phone_number: phone_number || null
+            }
+        }
         // first confirm email
         if((await firestore.collection(collections.user.main).where('email', '==', email).get()).size > 0){
             throw new Error('The email already exist')

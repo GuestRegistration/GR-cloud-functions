@@ -6,7 +6,7 @@
   },
   "emulators": {
     "functions": {
-      "port": "505"
+      "port": "500"
     }
   }
 }

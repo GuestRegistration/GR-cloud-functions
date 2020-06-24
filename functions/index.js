@@ -11,6 +11,8 @@ exports.onUserCreated = require('./functions/userCreated')
 // when a user document is updated
 exports.onUserUpdated = require('./functions/userUpdated')
 
+// when a new ID access history is created
+exports.onUserIDAccessed = require('./functions/userIDAccessed')
 
 // when new property property is created
 exports.onPropertyCreated = require('./functions/propertyCreated')

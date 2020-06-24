@@ -16,7 +16,8 @@
                                 },
                                 subcollections: {
                                     payments: 'payments',
-                                    identities: 'identities'
+                                    identities: 'identities',
+                                    notifications: 'user_notifications',
                                 },
                                 trash: 'graphQL_users_trash'
                             },
@@ -29,7 +30,7 @@
                                 }
                             },
                             subcollections: {
-
+                                notifications: 'property_notifications',
                             },
                             trash: 'graphQL_properties_trash'
                         },

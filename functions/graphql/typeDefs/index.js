@@ -5,7 +5,8 @@ const user = require('./user')
 const property = require('./property')
 const reservation = require('./reservation')
 const organization = require('./organization')
+const notification = require('./notification')
 
-const schemas = [root, test, user, property, reservation, organization, utility]
+const schemas = [root, test, user, property, reservation, organization, utility, notification]
 
 module.exports = schemas;

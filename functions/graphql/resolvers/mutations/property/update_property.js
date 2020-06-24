@@ -20,7 +20,8 @@ const updateProperty = async (parent, {id, name, email, phone, phone_country_cod
 
     if(property.exists){
         user_middleware(context, [property.data().user_id])
-        const timestamp = property.timestamp
+        const propertyData = property.data()
+        const timestamp = propertyData.timestamp
         timestamp.updated_at = helper.nowTimestamp()
 
         const updated_property = {

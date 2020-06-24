@@ -21,6 +21,7 @@ const resolvers = {
         getUserIdentities: require('./resolvers/query/user/fetch/get_user_identities'),
         getUserDevice: require('./resolvers/query/user/fetch/get_user_device'),
         getUserPayment: require('./resolvers/query/user/fetch/get_user_payment'),
+        getUserNotifications: require('./resolvers/query/user/fetch/get_user_notifications'),
 
         //property read queries
         getProperties: require('./resolvers/query/property/fetch/get_properties'),
@@ -100,6 +101,7 @@ const resolvers = {
     UserProperty: require('./resolvers/query/user/property'),
     UserIdentity: require('./resolvers/query/user/identity'),
     UserIdentityLite: require('./resolvers/query/user/identity_lite'),
+    UserNotification: require('./resolvers/query/user/notification'),
 
     //property
     Property: require('./resolvers/query/property'),

@@ -27,6 +27,7 @@ const resolvers = {
         getProperties: require('./resolvers/query/property/fetch/get_properties'),
         getProperty: require('./resolvers/query/property/fetch/get_property'),
         getPropertyReservations: require('./resolvers/query/property/fetch/get_property_reservations'),
+        getPropertyNotifications: require('./resolvers/query/property/fetch/get_property_notifications'),
 
         //reservation read queries
         getReservations: require('./resolvers/query/reservation/fetch/get_reservations'),
@@ -108,6 +109,7 @@ const resolvers = {
     PropertyAddress: require('./resolvers/query/property/address'),
     PropertyTeam: require('./resolvers/query/property/team'),
     PropertyReservation: require('./resolvers/query/property/reservation'),
+    PropertyNotification: require('./resolvers/query/property/notification'),
 
     //reservation
     Reservation: require('./resolvers/query/reservation'),

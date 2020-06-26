@@ -4,6 +4,7 @@ const admin = require('../admin')
 const firestore = admin.firestore()
 const helper = require('../helper')
 const collections = require('../enums/collections')
+const notification = require('../helper/notification')
 
 module.exports = functions.firestore.document(`/${collections.reservation.main}/{reservation_id}`)
 .onUpdate((snapshot, context) => {
@@ -77,30 +78,37 @@ module.exports = functions.firestore.document(`/${collections.reservation.main}/
         checkout_date: after.checkout_date || null,
     })
 
-        // if there is difference in the data
-        if(!_.isEqual(property_copy_before, property_copy_after)){
-            firestore.collection(`${collections.property.main}`).doc(before.property_id).get()
-            .then((property_snapshot) => {
-                // confirm if the property exist
-                if(property_snapshot.exists){ 
-                    const property = property_snapshot.data()
-                    let reservations = []
-                    //loop through each of the property reservations to reset the reservations with updated data
-                    property.reservations.forEach(reservation => {
-                        if(reservation.id === property_copy_before.id){ 
-                            reservations.push(property_copy_after)
-                        }else{
-                            reservations.push(reservation)
-                        }
-                    });
-                    promises.push(property_snapshot.ref.update({reservations:reservations})) 
-                }
-               
-            })
-            .catch(e => {
-                console.log(e.message)
-            })
-        }
+    // if there is difference in the data
+    if(!_.isEqual(property_copy_before, property_copy_after)){
+        firestore.collection(`${collections.property.main}`).doc(before.property_id).get()
+        .then((property_snapshot) => {
+            // confirm if the property exist
+            if(property_snapshot.exists){ 
+                const property = property_snapshot.data()
+                let reservations = []
+                //loop through each of the property reservations to reset the reservations with updated data
+                property.reservations.forEach(reservation => {
+                    if(reservation.id === property_copy_before.id){ 
+                        reservations.push(property_copy_after)
+                    }else{
+                        reservations.push(reservation)
+                    }
+                });
+                promises.push(property_snapshot.ref.update({reservations:reservations})) 
+            }
+            
+        })
+        .catch(e => {
+            console.log(e.message)
+        })
+    }
+
+    // if just approved
+    if(!before.approved_at && after.approved_at){
+      promises.push(notification.user(after.user_id, {
+        text: `Your reservation checkin to ${after.property.name} has been approved`
+        })) 
+    }
 
     // resolve all promises
     if(promises.length > 0){

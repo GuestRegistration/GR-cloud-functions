@@ -25,3 +25,6 @@ exports.onReservationCreated = require('./functions/reservationCreated')
 
 // when a reservation document is updated
 exports.onReservationUpdated = require('./functions/reservationUpdated')
+
+// when a reservation document is created
+exports.onReservationDocumentCreated = require('./functions/reservationDocumentCreated')

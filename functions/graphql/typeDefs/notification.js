@@ -5,7 +5,7 @@ const {gql} = require("apollo-server-express");
 const notification = gql`
     extend type Query {
         getUserNotifications: [UserNotification]
-        getPropertyNotifications(property_id: String!): [PropertyNotification]
+        getPropertyNotifications: [PropertyNotification]
     }
 
     type UserNotification {
@@ -20,6 +20,7 @@ const notification = gql`
         timestamp: String
         time: String
         read: Boolean
+        property: Property
     }
 `
 

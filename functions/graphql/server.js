@@ -38,6 +38,7 @@ function configureServer() {
                     user_token: null,
                     user_token_valid: false,
                     user_uid: null,
+                    test_user: req.headers['gr-test-user'] || null,
                 }
                 // retrieve the client and user token from the header
                 const client_authorization = req.headers['gr-client-token'] || null

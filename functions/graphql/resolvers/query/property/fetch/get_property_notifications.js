@@ -27,10 +27,9 @@ const firestore = admin.firestore()
         (await Promise.all(notificationPromises))
         .forEach(response => {
             response.snapshot.forEach( notification => {
-                notifications.push({
-                    ...notification.data(),
-                    property: response.property
-                })
+                let data = notification.data();
+                data.property = response.property;
+                notifications.push(data);
             })
         });
     }
@@ -44,6 +43,9 @@ const firestore = admin.firestore()
         .collection(collections.property.subcollections.notifications).get()
         .then(snapshot => {
             resolve({snapshot, property});
+        })
+        .catch(e => {
+            reject(e);
         })
     });
  }

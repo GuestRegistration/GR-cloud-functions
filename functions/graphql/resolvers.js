@@ -88,6 +88,8 @@ const resolvers = {
 
     Auth: require('./resolvers/query/auth'),
     Phone: require('./resolvers/query/phone'),
+    NotificationPayload: require('./resolvers/query/notification_payload'),
+
 
     /**
      * models resolvers
@@ -119,6 +121,7 @@ const resolvers = {
     // organization
     Organization: require('./resolvers/query/organization'),
     OrganizationMember: require('./resolvers/query/organization/member'),
+
 };
 
 module.exports = resolvers;

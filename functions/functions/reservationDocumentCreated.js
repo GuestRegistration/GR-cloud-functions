@@ -2,6 +2,7 @@ const _ = require('lodash')
 const functions = require('firebase-functions')
 const admin = require('../admin')
 const collections = require('../enums/collections')
+const notificationTypes = require('../enums/notifications')
 const notification = require('../helper/notification')
 
 const firestore = admin.firestore()
@@ -19,10 +20,20 @@ module.exports = functions.firestore.document(`/${collections.reservation.main}/
                
                 return Promise.all([
                     notification.property(reservation.property_id, {
-                        text: `${checkin.name.first_name} ${checkin.name.last_name} has just checked in.`,
+                        text: `${checkin.name.first_name} ${checkin.name.last_name} checked in.`,
+                        type: notificationTypes.reservationCheckin,
+                        payload: {
+                            property_id: reservation.property_id,
+                            reservation_id: reservationSnapshot.ref.id
+                        }
                     }),
                     notification.user(reservation.user_id, {
                         text: `You checked in to ${reservation.property.name}`,
+                        type: notificationTypes.reservationCheckin,
+                        payload: {
+                            property_id: reservation.property_id,
+                            reservation_id: reservationSnapshot.ref.id,
+                        }
                     }),
                 ]) 
             })

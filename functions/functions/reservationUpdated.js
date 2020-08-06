@@ -4,6 +4,7 @@ const admin = require('../admin')
 const firestore = admin.firestore()
 const helper = require('../helper')
 const collections = require('../enums/collections')
+const notificationTypes = require('../enums/notifications')
 const notification = require('../helper/notification')
 
 module.exports = functions.firestore.document(`/${collections.reservation.main}/{reservation_id}`)
@@ -106,7 +107,11 @@ module.exports = functions.firestore.document(`/${collections.reservation.main}/
     // if just approved
     if(!before.approved_at && after.approved_at){
       promises.push(notification.user(after.user_id, {
-        text: `Your reservation checkin to ${after.property.name} has been approved`
+        text: `Your reservation checkin to ${after.property.name} has been approved`,
+        type: notificationTypes.reservationCheckinApproval,
+        payload: {
+            reservation_id: snapshot.after.ref.id
+            }
         })) 
     }
 

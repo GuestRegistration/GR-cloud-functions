@@ -5,6 +5,7 @@
  */
 
 const notifications = {
+    reservationCreate: 'reservation.create',
     reservationCheckin: 'reservation.checkin',
     reservationCheckinApproval: 'reservation.checkin.approval',
     identityAccess: 'identity.access',

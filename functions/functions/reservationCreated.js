@@ -4,6 +4,9 @@ const admin = require('../admin')
 const firestore = admin.firestore()
 const helper = require('../helper')
 const collections = require('../enums/collections')
+const notificationTypes = require('../enums/notifications')
+const notification = require('../helper/notification')
+
 
 module.exports = functions.firestore.document(`/${collections.reservation.main}/{reservation_id}`)
 .onCreate((snapshot, context) => {
@@ -37,7 +40,15 @@ module.exports = functions.firestore.document(`/${collections.reservation.main}/
                              checkin_date: reservation.checkin_date || null,
                              checkout_date: reservation.checkout_date || null,
                          })
-                     })
+                     }),
+                     notification.property(reservation.property_id, {
+                        text: `New reservation created for ${reservation.name}`,
+                        type: notificationTypes.reservationCreate,
+                        payload: {
+                            property_id: reservation.property_id,
+                            reservation_id: snapshot.ref.id
+                        }
+                    })
                  ])
             
             })

@@ -31,6 +31,7 @@ module.exports = functions.firestore.document(`/${collections.reservation.main}/
                         text: `You checked in to ${reservation.property.name}`,
                         type: notificationTypes.reservationCheckin,
                         payload: {
+                            user_id: reservation.user_id,
                             property_id: reservation.property_id,
                             reservation_id: reservationSnapshot.ref.id,
                         }

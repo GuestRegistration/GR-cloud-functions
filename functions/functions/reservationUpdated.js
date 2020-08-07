@@ -110,7 +110,8 @@ module.exports = functions.firestore.document(`/${collections.reservation.main}/
         text: `Your reservation checkin to ${after.property.name} has been approved`,
         type: notificationTypes.reservationCheckinApproval,
         payload: {
-            reservation_id: snapshot.after.ref.id
+            reservation_id: snapshot.after.ref.id,
+            property_id: reservation.property_id,
             }
         })) 
     }

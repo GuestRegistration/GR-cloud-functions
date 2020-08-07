@@ -1,6 +1,7 @@
 
 // GraphQL api
-exports.api = require('./functions/api');
+exports.api = require('./functions/api')
+exports.public = require('./functions/public')
 
 // when user authentication is deleted
 exports.onUserAuthDeleted = require('./functions/userAuthDeleted')

@@ -73,10 +73,11 @@ const user = gql`
 
         # update the user
         updateUserDevice(
-            id: String!, 
-            device_id: String!, 
+            user_id: String, 
+            device_id: String, 
             device_ip: String, 
-            device_name:String
+            device_name:String,
+            notification_token: String
         ): UserDevice
 
     }
@@ -116,10 +117,11 @@ const user = gql`
 
     type UserDevice {
         user_id: String!
-        device_id: String!
+        device_id: String
         device_name: String
         device_ip: String
-        last_updated: String!
+        notification_token: String
+        last_updated: String
     }
 
     type UserVerification {

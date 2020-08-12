@@ -12,35 +12,31 @@ const helper = require('./../../../../helper')
 const firestore = admin.firestore()
 
 
-const updateUserDevice = async (parent, {id, device_id, device_name, device_ip}, context) => {
-        client_middleware(context)
-        
+const updateUserDevice = async (parent, {user_id, device_id, device_ip, device_name, notification_token}, context) => {
+        client_middleware(context);
+        //if an id was specified, perhaps for admin purpose
+        if(!user_id){
+            user_id = auth_middleware(context)
+        }
+
         const device = {
-            user_id: id,
-            device_id,
-            device_ip,
-            device_name,
+            user_id,
+            device_id: device_id || null,
+            device_ip:  device_ip || null,
+            device_name:  device_name || null,
+            notification_token:  notification_token || null,
             last_updated: helper.nowTimestamp()
         }
+
         const deviceRef = firestore.collection(collections.user.main)
-                        .doc(id)
+                        .doc(user_id)
                         .collection(collections.user.meta.name)
                         .doc(collections.user.meta.documents.device)
         try {
-            /**
-             * First check if the device document already exist for the user. I'll remove this check in the future
-             * since the document will created automatically in cloud function when the user document is created.
-             */
-            if((await deviceRef.get()).exists){
-                await deviceRef.update(device)
-                return device;
-            }else{
-                // this create the document and set dara
-                await deviceRef.set(device)
-                return device;
-            }
-            
+            await deviceRef.set(device)
+            return device;
         } catch (error) {
+            console.log(error.message);
             return null
         }
 

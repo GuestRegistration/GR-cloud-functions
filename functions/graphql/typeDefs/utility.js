@@ -7,6 +7,7 @@ const utility = gql `
     extend type Mutation {
         normalizeUserPhones: String
         normalizePropertyPhones: String
+        sendPushNotification(user_id: String, token: String, title: String!, body: String!): String
     }
 
     # extend type Mutation {

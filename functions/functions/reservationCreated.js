@@ -46,7 +46,7 @@ module.exports = functions.firestore.document(`/${collections.reservation.main}/
                         type: notificationTypes.reservationCreate,
                         payload: {
                             property_id: reservation.property_id,
-                            reservation_id: snapshot.ref.id
+                            reservation_id: snapshot.ref.id,
                         }
                     })
                  ])

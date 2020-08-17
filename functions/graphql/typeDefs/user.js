@@ -32,6 +32,11 @@ const user = gql`
             phone_number: String, 
             first_name: String!, 
             last_name: String!
+            # These device information are optional and can be set later with updateUserDevice mutation
+            device_id: String, 
+            device_ip: String,
+            device_name: String,
+            notification_token: String
         ): User!
 
         # update user basic information

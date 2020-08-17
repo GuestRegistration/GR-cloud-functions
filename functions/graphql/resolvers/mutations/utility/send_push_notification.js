@@ -14,11 +14,9 @@ const pushNotification = async (parent, {user_id, token, title, body}, context) 
         }
     }
 
-    const pushNotification = await notification.push({
+    return await notification.push({
         user_id, token, payload
     });
-
-    return pushNotification.message;
  }
  
  module.exports = pushNotification;

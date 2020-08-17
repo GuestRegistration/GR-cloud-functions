@@ -10,14 +10,12 @@
                                 main: 'graphQL_users',
                                 meta: {
                                     name: 'user_meta',
-                                    documents: {
-                                        device: 'device',
-                                    }
                                 },
                                 subcollections: {
                                     payments: 'payments',
                                     identities: 'identities',
                                     notifications: 'user_notifications',
+                                    devices: 'user_devices'
                                 },
                                 trash: 'graphQL_users_trash'
                             },

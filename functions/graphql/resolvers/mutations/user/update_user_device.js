@@ -27,13 +27,21 @@ const updateUserDevice = async (parent, {user_id, device_id, device_ip, device_n
             notification_token:  notification_token || null,
             last_updated: helper.nowTimestamp()
         }
-
-        const deviceRef = firestore.collection(collections.user.main)
-                        .doc(user_id)
-                        .collection(collections.user.meta.name)
-                        .doc(collections.user.meta.documents.device)
         try {
-            await deviceRef.set(device)
+            const deviceSnapshot = await firestore.collection(collections.user.main).doc(user_id)
+                                .collection(collections.user.subcollections.devices)
+                                .where('device_id', '==', device_id)
+                                .get();
+            if(deviceSnapshot.size){
+                deviceSnapshot.forEach(async snapshot => {
+                    await snapshot.ref.update(device);
+                });
+            }else{
+                await firestore.collection(collections.user.main).doc(user_id)
+                    .collection(collections.user.subcollections.devices)
+                    .add(device);
+            }
+                
             return device;
         } catch (error) {
             console.log(error.message);

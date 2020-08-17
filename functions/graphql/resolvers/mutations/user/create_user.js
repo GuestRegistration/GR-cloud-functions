@@ -11,7 +11,7 @@ const firestore = admin.firestore()
 const helper = require('./../../../../helper')
 
 
-const createUser = async (parent, {id, email, phone, phone_country_code, phone_number, first_name, last_name}, context) => {
+const createUser = async (parent, {id, email, phone, phone_country_code, phone_number, first_name, last_name, device_id, device_ip, device_name, notification_token}, context) => {
     client_middleware(context)
 
         let user = {
@@ -51,13 +51,27 @@ const createUser = async (parent, {id, email, phone, phone_country_code, phone_n
             if(id){
                 await firestore.collection(collections.user.main).doc(id).set(user)
                 user.id = id
-                return user;
             }else{
                 const result = await firestore.collection(collections.user.main).add(user)
                 user.id = result.id
-                return user; 
             }
-            
+
+            // Create user device
+            const device = {
+                user_id: user.id,
+                device_id: device_id || null,
+                device_ip:  device_ip || null,
+                device_name:  device_name || null,
+                notification_token:  notification_token || null,
+                last_updated: helper.nowTimestamp()
+            }
+
+            await firestore.collection(collections.user.main).doc(userId)
+                .collection(collections.user.subcollections.devices)
+                .add(device);
+
+            return user;
+
         } catch (error) {
             throw new Error('Some thing went wrong '+error.message)
         }

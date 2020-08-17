@@ -27,7 +27,7 @@
   },
   "private": true,
   "graphdoc": {
-    "endpoint": "http://localhost:500/guestregistration-4140a/us-central1/api",
+    "endpoint": "http://localhost:5000/guestregistration-4140a/us-central1/api",
     "output": "./public/htdocs/doc/schema"
   }
 }

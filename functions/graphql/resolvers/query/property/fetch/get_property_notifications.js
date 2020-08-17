@@ -34,7 +34,7 @@ const firestore = admin.firestore()
         });
     }
 
-    return notifications;           
+    return notifications.sort((a,b) => b.timestamp - a.timestamp);           
  }
 
  const getNotifications = (property) => {

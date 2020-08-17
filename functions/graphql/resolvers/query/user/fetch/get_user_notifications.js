@@ -20,7 +20,7 @@ const firestore = admin.firestore()
         notifications.push(notification)
     })        
 
-    return notifications;
+    return notifications.sort((a,b) => b.timestamp - a.timestamp);
  }
 
  module.exports = getUserNotifications;

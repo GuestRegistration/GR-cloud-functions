@@ -48,6 +48,7 @@ const resolvers = {
         sendPushNotification: require('./resolvers/mutations/utility/send_push_notification'),
 
         createToken: require('./resolvers/mutations/auth/create_token'), 
+
         // user mutations
         confirmUser:  require('./resolvers/mutations/user/confirm_user'),
         createUser: require('./resolvers/mutations/user/create_user'),
@@ -57,12 +58,14 @@ const resolvers = {
         updateUserProfileImage:  require('./resolvers/mutations/user/update_user_profile_image'),
         createUserIdentity:  require('./resolvers/mutations/user/create_user_identity'),
         deleteUser:  require('./resolvers/mutations/user/delete_user'),
+        deleteUserNotification: require('./resolvers/mutations/user/delete_user_notification'),
 
         //property mutations
         createProperty: require('./resolvers/mutations/property/create_property'),
         updateProperty: require('./resolvers/mutations/property/update_property'),
         updatePropertyImage: require('./resolvers/mutations/property/update_property_image'),
         addNewTeam: require('./resolvers/mutations/property/add_new_team'),
+        deletePropertyNotification: require('./resolvers/mutations/property/delete_property_notification'),
 
         // reservation mutations
         createReservation: require('./resolvers/mutations/reservation/create_reservation'),

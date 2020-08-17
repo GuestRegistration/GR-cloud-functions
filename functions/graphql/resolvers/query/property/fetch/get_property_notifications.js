@@ -28,6 +28,7 @@ const firestore = admin.firestore()
         .forEach(response => {
             response.snapshot.forEach( notification => {
                 let data = notification.data();
+                data.id = notification.ref.id;
                 data.property = response.property;
                 notifications.push(data);
             })

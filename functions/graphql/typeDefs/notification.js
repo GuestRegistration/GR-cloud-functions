@@ -8,7 +8,13 @@ const notification = gql`
         getPropertyNotifications: [PropertyNotification]
     }
 
+    extend type Mutation {
+        deleteUserNotification(id: String!) : Boolean
+        deletePropertyNotification(property_id: String, id: String) : Boolean
+    }
+
     type UserNotification {
+        id: String
         text: String
         type: String
         timestamp: String
@@ -18,6 +24,7 @@ const notification = gql`
     }
 
     type PropertyNotification {
+        id: String
         text: String
         type: String
         timestamp: String
@@ -28,6 +35,7 @@ const notification = gql`
     }
 
     type NotificationPayload {
+        id: String
         user_id: String
         identity_id: String
         property_id: String

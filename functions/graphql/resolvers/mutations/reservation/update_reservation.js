@@ -10,7 +10,7 @@ const admin = require('./../../../../admin')
 const sub = require('./../../../pubsub');
 const firestore = admin.firestore()
 
-const updateReservation = async (parent, {id, name, booking_channel, booking_no, checkin_date, checkout_date}, context) => {
+const updateReservation = async (parent, {id, name, booking_channel, booking_no, checkin_date, checkout_date, instruction}, context) => {
     client_middleware(context)
 
     const reservationRef =  firestore.collection(collections.reservation.main).doc(id)
@@ -22,7 +22,7 @@ const updateReservation = async (parent, {id, name, booking_channel, booking_no,
         if(property.exists){
             user_middleware(context, [property.data().user_id])
             const updated_reservation = {
-                id, name, booking_channel, booking_no
+                id, name, booking_channel, booking_no, instruction
             }
             if(checkin_date){
                 updated_reservation.checkin_date = checkin_date

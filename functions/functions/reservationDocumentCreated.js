@@ -15,30 +15,29 @@ module.exports = functions.firestore.document(`/${collections.reservation.main}/
     if(document === collections.reservation.meta.documents.checkin){
         const checkin = snapshot.data()
         return firestore.collection(collections.reservation.main).doc(reservertionId).get()
-            .then(reservationSnapshot => {
-                const reservation = reservationSnapshot.data();
-               
-                return Promise.all([
-                    notification.property(reservation.property_id, {
-                        text: `${checkin.name.first_name} ${checkin.name.last_name} checked in.`,
-                        type: notificationTypes.reservationCheckin,
-                        payload: {
-                            property_id: reservation.property_id,
-                            reservation_id: reservationSnapshot.ref.id
-                        }
-                    }),
-                    notification.user(reservation.user_id, {
-                        text: `You checked in to ${reservation.property.name}`,
-                        type: notificationTypes.reservationCheckin,
-                        payload: {
-                            user_id: reservation.user_id,
-                            property_id: reservation.property_id,
-                            reservation_id: reservationSnapshot.ref.id,
-                        }
-                    }),
-                ]) 
-            })
+        .then(reservationSnapshot => {
+            const reservation = reservationSnapshot.data();
             
+            return Promise.all([
+                notification.property(reservation.property_id, {
+                    text: `${checkin.name.first_name} ${checkin.name.last_name} checked in to ${reservation.property.name}.`,
+                    ttype: notificationTypes.reservationCheckin,
+                    payload: {
+                        property_id: reservation.property_id,
+                        reservation_id: reservationSnapshot.ref.id
+                    }
+                }),
+                notification.user(reservation.user_id, {
+                    text: `You checked in to ${reservation.property.name}`,
+                    type: notificationTypes.reservationCheckin,
+                    payload: {
+                        user_id: reservation.user_id,
+                        property_id: reservation.property_id,
+                        reservation_id: reservationSnapshot.ref.id,
+                    }
+                }),
+            ]) 
+        })
     }
 
     return null;

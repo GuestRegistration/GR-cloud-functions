@@ -5,6 +5,7 @@
 
 //  middlewares
 const client_middleware = require('./../../../middleware/client_authorized')
+const auth_middleware = require('./../../../middleware/user_authenticated')
  
 const collections = require('../../../../enums/collections')
 const admin = require('./../../../../admin')

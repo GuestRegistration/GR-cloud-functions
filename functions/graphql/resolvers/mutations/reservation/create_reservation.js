@@ -12,7 +12,7 @@ const sub = require('./../../../pubsub');
 const firestore = admin.firestore()
 
 
- const createReservation = async (parent, {property_id, name, booking_channel, checkin_date, checkout_date}, context) => {
+ const createReservation = async (parent, {property_id, name, booking_channel, checkin_date, checkout_date, instruction}, context) => {
     client_middleware(context)
     const property = await firestore.collection(collections.property.main).doc(property_id).get()
 
@@ -24,7 +24,8 @@ const firestore = admin.firestore()
             name, 
             booking_channel, 
             checkin_date, 
-            checkout_date 
+            checkout_date,
+            instruction 
         }
         const result = await firestore.collection(collections.reservation.main).add(reservation)
         reservation.id = result.id

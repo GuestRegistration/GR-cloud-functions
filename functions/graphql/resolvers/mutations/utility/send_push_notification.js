@@ -3,8 +3,7 @@
  * Send sample push notification
  */
 
-const admin = require('../../../../admin');
-const notification = require('../../../../helper/notification');
+const push = require('../../../../helper/push_notification');
 
 const pushNotification = async (parent, {user_id, token, title, body}, context) => {
 
@@ -14,9 +13,10 @@ const pushNotification = async (parent, {user_id, token, title, body}, context) 
         }
     }
 
-    return await notification.push({
+    return await push({
         user_id, token, payload
     });
+
  }
  
  module.exports = pushNotification;

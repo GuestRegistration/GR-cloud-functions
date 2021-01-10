@@ -1,7 +1,3 @@
-# security key and admin configuration
-admin.js
-key/
-
 
 # Logs
 logs
@@ -68,3 +64,9 @@ node_modules/
 
 # dotenv environment variables file
 .env
+
+# jshint
+.jshintrc
+
+# IDE
+.idea/

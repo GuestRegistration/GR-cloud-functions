@@ -9,6 +9,6 @@ const notifications = {
     reservationCheckin: 'reservation.checkin',
     reservationCheckinApproval: 'reservation.checkin.approval',
     identityAccess: 'identity.access',
-}
+};
 
-module.exports = notifications
+module.exports = notifications;

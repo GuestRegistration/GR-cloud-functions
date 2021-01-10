@@ -1,19 +1,20 @@
-const _ = require('lodash')
-const functions = require('firebase-functions')
-const admin = require('../admin')
-const collections = require('../enums/collections')
-const notificationTypes = require('../enums/notifications')
-const notification = require('../helper/notification')
-
-const firestore = admin.firestore()
+const _ = require('lodash');
+const functions = require('firebase-functions');
+const admin = require('../admin');
+const collections = require('../enums/collections');
+const notificationTypes = require('../enums/notifications');
+const notification = require('../helpers/notification');
 
 module.exports = functions.firestore.document(`/${collections.reservation.main}/{reservation}/${collections.reservation.meta.name}/{document}`)
 .onCreate((snapshot, context) => {
     const document = context.params.document;
     const reservertionId = context.params.reservation;
+
+    const firestore = admin.firestore();
+
     // If it is a checkin document
     if(document === collections.reservation.meta.documents.checkin){
-        const checkin = snapshot.data()
+        const checkin = snapshot.data();
         return firestore.collection(collections.reservation.main).doc(reservertionId).get()
         .then(reservationSnapshot => {
             const reservation = reservationSnapshot.data();
@@ -36,9 +37,9 @@ module.exports = functions.firestore.document(`/${collections.reservation.main}/
                         reservation_id: reservationSnapshot.ref.id,
                     }
                 }),
-            ]) 
-        })
+            ]);
+        });
     }
 
     return null;
-})
+});

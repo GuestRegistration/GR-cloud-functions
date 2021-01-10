@@ -1,16 +1,17 @@
-const _ = require('lodash')
-const functions = require('firebase-functions')
-const admin = require('../admin')
-const firestore = admin.firestore()
-const helper = require('../helper')
-const collections = require('../enums/collections')
-const notificationTypes = require('../enums/notifications')
-const notification = require('../helper/notification')
-
+const _ = require('lodash');
+const functions = require('firebase-functions');
+const admin = require('../admin');
+const helper = require('../helpers');
+const collections = require('../enums/collections');
+const notificationTypes = require('../enums/notifications');
+const notification = require('../helpers/notification');
 
 module.exports = functions.firestore.document(`/${collections.reservation.main}/{reservation_id}`)
 .onCreate((snapshot, context) => {
-    const reservation = snapshot.data()
+    const reservation = snapshot.data();
+    
+    const firestore = admin.firestore();
+
     const propertyRef = firestore.collection(`${collections.property.main}`).doc(`${reservation.property_id}`);
     return propertyRef.get()
             .then((property_snapshot) => property_snapshot.data())
@@ -34,7 +35,7 @@ module.exports = functions.firestore.document(`/${collections.reservation.main}/
                         }
                      }),
                      propertyRef.update({
-                         reservations:  admin.firestore.FieldValue.arrayUnion({
+                         reservations:  firebase.firestore.FieldValue.arrayUnion({
                              id: snapshot.ref.id,
                              name: reservation.name,
                              checkin_date: reservation.checkin_date || null,
@@ -49,7 +50,7 @@ module.exports = functions.firestore.document(`/${collections.reservation.main}/
                             reservation_id: snapshot.ref.id,
                         }
                     })
-                 ])
+                 ]);
             
-            })
-})
+            });
+});

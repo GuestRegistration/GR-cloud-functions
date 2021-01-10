@@ -4,56 +4,10 @@
  * 
  */
 
- const collections = {
+const collections = {
+    user: require('../graphql/Domain/User/Enums/collections'),
+    property: require('../graphql/Domain/Property/Enums/collections'),
+    reservation: require('../graphql/Domain/Reservation/Enums/collections'),
+};
 
-                        user: {
-                                main: 'graphQL_users',
-                                meta: {
-                                    name: 'user_meta',
-                                },
-                                subcollections: {
-                                    payments: 'payments',
-                                    identities: 'identities',
-                                    notifications: 'user_notifications',
-                                    devices: 'user_devices'
-                                },
-                                trash: 'graphQL_users_trash'
-                            },
-                        property: {
-                            main: 'graphQL_properties',
-                            meta: {
-                                name: 'property_meta',
-                                documents: {
-                                    rules: 'rules'
-                                }
-                            },
-                            subcollections: {
-                                notifications: 'property_notifications',
-                            },
-                            trash: 'graphQL_properties_trash'
-                        },
-                        reservation: {
-                            main: 'graphQL_reservations',
-                            meta: {
-                                name: 'reservation_documents',
-                                documents: {
-                                    checkin: 'checkin'
-                                }
-                            },
-                            subcollections: {
-                               
-                            },
-                            trash: 'graphQL_reservations_trash'
-                        },
-                        organization: {
-                            main: 'graphQL_organization',
-                            meta: {
-                                name: 'organization_meta',
-                            },
-                            subcollections: {
-                               permissions: "organization_permissions"
-                            },
-                            trash: 'graphQL_organization_trash'
-                        },
-                    }
-module.exports = collections
+module.exports = collections;

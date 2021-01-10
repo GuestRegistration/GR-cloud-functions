@@ -1,11 +1,12 @@
-const _ = require('lodash')
-const functions = require('firebase-functions')
-const admin = require('../admin')
-const firestore = admin.firestore()
-const helper = require('../helper')
-const collections = require('../enums/collections')
+const _ = require('lodash');
+const functions = require('firebase-functions');
+const admin = require('../admin');
+const helper = require('../helpers');
+const collections = require('../enums/collections');
 
-module.exports = functions.firestore.document(`/${collections.user.main}/{user_id}`)
+const firestore = admin.firestore();
+
+module.exports = functions.firestore.document(`/${collections.main}/{user_id}`)
 .onUpdate((snapshot, context) => {
 
     // const before = snapshot.before.data();
@@ -17,4 +18,4 @@ module.exports = functions.firestore.document(`/${collections.user.main}/{user_i
     //      });
 
     return null;
-})
+});

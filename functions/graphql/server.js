@@ -1,18 +1,22 @@
-// require all dependencies to set up server
-const http = require('http')
-const express = require("express")
-const { ApolloServer } = require("apollo-server-express")
-const admin = require('./../admin')
-const jwt = require('jsonwebtoken')
-const clients = require('./data/clients')
+/**
+ * GraphQL server
+ */
 
-const typeDefs = require('./typeDefs')
-const resolvers = require('./resolvers')
-// cors allows our server to accept requests from different origins
+const http = require('http');
 const cors = require("cors");
+const express = require("express");
+const jwt = require('jsonwebtoken');
+const { ApolloServer } = require("apollo-server-express");
 
-function configureServer() {
-    const PORT = 5001;
+const config = require('../config');
+const firebaseAdmin = require('./../admin');
+const typeDefs = require('./App/Providers/schemas');
+const resolvers = require('./App/Providers/resolvers');
+const clients = require('./Domain/Auth/Enums/clients');
+const PORT = 5000;
+
+const graphQLServer = () => {
+
     // invoke express to create our server
     const app = express();
     //use the cors middleware
@@ -22,14 +26,25 @@ function configureServer() {
         typeDefs: typeDefs,
         resolvers: resolvers,
         subscriptions: {
-            onConnect: () => console.log('Connected to websocket'),
+            onConnect: (connectionParams, webSocket, context) => {
+                console.log("connected to websocket");
+              },
+            onOperation: (message, params, webSocket) => {
+                console.log("on operation");
+              },
+              onOperationComplete: webSocket => {
+                console.log("on operation complete");
+              },
+              onDisconnect: (webSocket, context) => {
+                console.log("disconnected from websocket");
+              },
           },
         introspection: true,
         playground: true,
         context:  async ({ req, connection }) => {
             
             if(connection){ //if it is over websocket i.e subscription
-                return connection.context
+                return connection.context;
             }else{
                  // initialize the context
                 const auth = {
@@ -39,44 +54,45 @@ function configureServer() {
                     user_token_valid: false,
                     user_uid: null,
                     test_user: req.headers['gr-test-user'] || null,
-                }
+                };
                 // retrieve the client and user token from the header
-                const client_authorization = req.headers['gr-client-token'] || null
-                const user_authorization = req.headers['gr-user-token'] || null
+                const clientAuthorization = req.headers['gr-client-token'] || null;
+                const userAuthorization = req.headers['gr-user-token'] || null;
 
-                // first authenticate the client
-                if(client_authorization === null) return {auth}
+                // first verify the client
+                if(clientAuthorization === null) return {auth};
+
                 try{
-                    const client_token = client_authorization.split('Bearer ')[1]
-                    const signature = require('./../key/jwt-key')
-                    const decoded = jwt.verify(client_token, signature);
-                    auth.client_token = client_token
+                    auth.client_token = clientAuthorization.split('Bearer ')[1];
+                    const decoded = jwt.verify(auth.client_token, config.jwt.signature);
+                    
                     if(clients.find((c) => c.email === decoded.email && c.password === decoded.password)){
-                        auth.client_token_valid = true
+                        auth.client_token_valid = true;
                     }   
                 }
                 // catch the error incase the token is malformed
                 catch(e){
-                    auth.client_token_valid = false
+                    auth.client_token_valid = false;
                 }
+
                 // check for user header
-                if(user_authorization === null) return {auth}
+                if(userAuthorization === null) return {auth};
+
                     try{
-                        const user_token = user_authorization.split('Bearer ')[1]
-                        auth.user_token = user_token
+                        auth.user_token = userAuthorization.split('Bearer ')[1];
                         /**
                          * verify the user idToken
                          */
-                        const decodedToken = await admin.auth().verifyIdToken(user_token, true)
+                        const decodedToken = await firebaseAdmin.auth().verifyIdToken(auth.user_token, true);
                         
                         if(decodedToken.uid){
-                            auth.user_token_valid  = true
-                            auth.user_uid  = decodedToken.uid
+                            auth.user_token_valid  = true;
+                            auth.user_uid  = decodedToken.uid;
                         }
-                        return {auth}
+                        return {auth};
                     }
                     catch(e){
-                        return {auth}
+                        return {auth};
                     }
                 }   
             }
@@ -86,15 +102,17 @@ function configureServer() {
     server.applyMiddleware({app, path: '/', cors: true});
 
     //create a http server
-    const httpServer = http.createServer(app);
+    const subscriptionServer = http.createServer(app);
     // install the subscription handler on the http server
-    // server.installSubscriptionHandlers(httpServer);
+    server.installSubscriptionHandlers(subscriptionServer);
 
-    // httpServer.listen(PORT, () => {
-    //     // console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`)
-    //     // console.log(`🚀 Subscriptions ready at ws://localhost:${PORT}${server.subscriptionsPath}`)
-    // })
+    // subscriptionServer.listen(PORT, () => {
+    //     console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`);
+    //     console.log(`🚀 Subscriptions ready at  ws://localhost:${PORT}${server.subscriptionsPath}`);
+    // });
+
     // finally return the application
     return app;
-}
-module.exports = configureServer;
+};
+
+module.exports = graphQLServer;

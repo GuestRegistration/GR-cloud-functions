@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const firebase = require('firebase-admin');
 const functions = require('firebase-functions');
 const admin = require('../admin');
 const helper = require('../helpers');

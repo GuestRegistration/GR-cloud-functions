@@ -1,6 +1,6 @@
 const admin = require('../admin');
-const helper = require('./');
-const pushNotification = require('./PushNotification');
+const helper = require('.');
+const pushNotification = require('./pushNotification');
 const userCollections = require('../graphql/Domain/User/Enums/collections');
 const propertyCollections = require('../graphql/Domain/Property/Enums/collections');
 

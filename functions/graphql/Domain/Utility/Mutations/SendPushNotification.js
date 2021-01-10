@@ -3,7 +3,7 @@
  * Send push notification
  */
 const config = require('../../../../config');
-const pushNotification = require('../../../../helpers/PushNotification');
+const pushNotification = require('../../../../helpers/pushNotification');
 
 const sendPushNotification = async (parent, {user_id, token, title, body, icon}, context) => {
 

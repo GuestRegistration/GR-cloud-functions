@@ -12,14 +12,14 @@ const helper = require('../../../../helpers');
 const sub = require('../../../App/Providers/pubsub');
 
 
- const createProperty = async (parent, {name, email, phone, phone_country_code, phone_number, street, city, state, country, postal_code, rules, terms}, context) => {
+ const createProperty = async (parent, {name, email, phone, phone_country_code, phone_number, full_address, street, city, state, country, postal_code, rules, terms}, context) => {
     clientAuthorizedMiddleware(context);
     const auth = userAuthenticatedMiddleware(context);
 
     if(auth){
         const property = {
             user_id: auth, 
-            name, email, phone,
+            name, email, phone, full_address,
             phone_meta: {
                 country_code: phone_country_code,
                 phone_number: phone_number,

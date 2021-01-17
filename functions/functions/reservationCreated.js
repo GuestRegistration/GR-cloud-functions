@@ -26,8 +26,7 @@ module.exports = functions.firestore.document(`/${collections.reservation.main}/
                                 id: property.id,
                                 name: property.name,
                                 image: property.image || null,
-                                city: property.address.city,
-                                country: property.address.country
+                                address: property.full_address,
                             },
                             guests: [],
                             timestamp: {

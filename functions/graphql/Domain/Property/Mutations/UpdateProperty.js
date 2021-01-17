@@ -11,7 +11,7 @@ const firebaseAdmin = require('../../../../admin');
 const helper = require('../../../../helpers');
 const sub = require('../../../App/Providers/pubsub');
 
-const updateProperty = async (parent, {id, name, email, phone, phone_country_code, phone_number,  street, city, state, country, postal_code, rules, terms}, context) => {
+const updateProperty = async (parent, {id, name, email, phone, phone_country_code, phone_number, full_address, street, city, state, country, postal_code, rules, terms}, context) => {
     clientAuthorizedMiddleware(context);
 
     const firestore = firebaseAdmin.firestore();
@@ -29,6 +29,7 @@ const updateProperty = async (parent, {id, name, email, phone, phone_country_cod
             name, 
             email,
             phone,
+            full_address,
             address: {
                 street: street || null,
                 city: city || null,

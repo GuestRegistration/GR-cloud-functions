@@ -10,6 +10,7 @@ const schema = gql`
     extend type Mutation {
         # Your mutation goes here
         sendPushNotification(user_id: String, token: String, title: String!, body: String!, icon: String ): String
+        Normalization: Boolean
     }
 
     # extend type Subscription {

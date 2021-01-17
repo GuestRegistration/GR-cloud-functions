@@ -68,8 +68,7 @@ const reservation = gql`
     type ReservationProperty {
         id: String!
         name: String!
-        city: String
-        country: String!
+        address: String
         image: String
     }
 

@@ -10,7 +10,7 @@
  const collections = require('../Enums/collections');
  const firebaseAdmin = require('../../../../admin');
 
-const updateUserAddress = async (parent, {id, street, city, state, country, postal_code}, context) => {
+const updateUserAddress = async (parent, {id, full_address, street, city, state, country, postal_code}, context) => {
     clientAuthorizedMiddleware(context);
     userAuthorizedMiddleware(context, [id]);
 
@@ -18,7 +18,7 @@ const updateUserAddress = async (parent, {id, street, city, state, country, post
 
     const firestore = firebaseAdmin.firestore();
 
-    await firestore.collection(collections.main).doc(id).update({address});
+    await firestore.collection(collections.main).doc(id).update({full_address, address});
 
     return address;
 };

@@ -38,8 +38,7 @@ module.exports = functions.firestore.document(`/${collections.property.main}/{pr
                 properties: firebase.firestore.FieldValue.arrayUnion({
                     id: snapshot.id,
                     name: property.name,
-                    city: property.address.city,
-                    country: property.address.country,
+                    address: property.full_address,
                     role: 'owner' //set the creator as owner by default
                 })
             }));

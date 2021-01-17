@@ -45,6 +45,7 @@ const user = gql`
         # update user address information
         updateUserAddress(
             id: String!, 
+            full_address: String,
             street: String, 
             city: String, 
             state: String, 
@@ -103,6 +104,7 @@ const user = gql`
         profile_image: String
         id_verified: Boolean
         address: Address
+        full_address: String
         reservations: [UserReservation]
         properties: [UserProperty]
     }
@@ -151,8 +153,7 @@ const user = gql`
         name: String
         property_id: String!
         property_name: String
-        property_city: String
-        property_country: String
+        property_address: String
         property_image: String
         checkin_date: String
         checkout_date: String
@@ -162,8 +163,7 @@ const user = gql`
     type UserProperty {
         id: String!
         name: String!
-        city: String
-        country: String
+        address: String
         role: String
         image: String
     }

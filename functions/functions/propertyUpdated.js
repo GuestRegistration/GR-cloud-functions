@@ -7,17 +7,18 @@ const collections = require('../enums/collections');
 module.exports = functions.firestore.document(`/${collections.property.main}/{property_id}`)
 .onUpdate((snapshot, context) => {
     let promises = [];
-
-    /**
-        * Update the property in the users documents
-        */
     const before = snapshot.before.data();
     const after = snapshot.after.data();
+    const firestore = admin.firestore();
+
+
+    /**
+    * Update the property in the users documents
+    */
 
     const user_copy_before = helper.sortObject(
         {
-            city: before.address.city,
-            country: before.address.country,
+            address: before.full_address,
             id: before.id,
             image: before.image || null,
             name: before.name
@@ -26,17 +27,16 @@ module.exports = functions.firestore.document(`/${collections.property.main}/{pr
 
     const user_copy_after = helper.sortObject(
         {
-            city: after.address.city,
-            country: after.address.country,
+            address: after.full_address,
             id: after.id,
             image: before.image || null,
             name: after.name
-        }
+        }        
     );
     
-    const firestore = admin.firestore();
 
     if(!_.isEqual(user_copy_before, user_copy_after)){
+
         //find all the users that has this property
         firestore.collection(`${collections.user.main}`).where('properties', 'array-contains', user_copy_before).get()
         .then((querySnapshot) => {
@@ -52,7 +52,7 @@ module.exports = functions.firestore.document(`/${collections.property.main}/{pr
                         properties.push(property);
                     }
                 });
-                promises.push(user_snapshot.ref.update({properties:properties})); 
+                promises.push(user_snapshot.ref.update({properties})); 
             });
         })
         .catch(e => {
@@ -64,20 +64,19 @@ module.exports = functions.firestore.document(`/${collections.property.main}/{pr
 /**Update the property in reservations documents */
 
     const reservation_copy_before = helper.sortObject({
-        city: before.address.city,
-        country: before.address.country,
+        address: before.full_address,
         id: before.id,
         image: before.image || null,
         name: before.name
     });
 
     const reservation_copy_after = helper.sortObject({
-        city: after.address.city,
-        country: after.address.country,
+        address: after.full_address,
         id: after.id,
         image: after.image || null,
         name: after.name
     });
+
 
     if(!_.isEqual(reservation_copy_before, reservation_copy_after)){
 
@@ -93,6 +92,8 @@ module.exports = functions.firestore.document(`/${collections.property.main}/{pr
         .catch(e => {
             console.log(e.message);
         });
+
+
     }
     if(promises.length > 0){
         return Promise.all(promises);

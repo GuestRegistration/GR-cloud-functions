@@ -18,6 +18,7 @@ const property = gql`
             phone: String!,
             phone_country_code: String, 
             phone_number: String, 
+            full_address: String! 
             street: String, 
             city: String, 
             state: String, 
@@ -31,10 +32,11 @@ const property = gql`
         updateProperty(
             id: String!,
             name: String!, 
+            email: String,
             phone: String!,
             phone_country_code: String, 
             phone_number: String, 
-            email: String, 
+            full_address: String! 
             street: String, 
             city: String, 
             state: String, 
@@ -70,6 +72,7 @@ const property = gql`
         email: String!
         phone: String!
         phone_meta: Phone,
+        full_address: String
         address: Address
         image: String
         terms: String

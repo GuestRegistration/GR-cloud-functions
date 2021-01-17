@@ -18,8 +18,7 @@ module.exports = functions.firestore.document(`/${collections.reservation.main}/
         name: before.name,
         property_id: before.property.id,
         property_name: before.property.name,
-        property_city: before.property.city,
-        property_country: before.property.country,
+        property_address: before.property.address,
         checkin_date: before.checkin_date || null,
         checkout_date: before.checkout_date || null,
     });
@@ -28,24 +27,17 @@ module.exports = functions.firestore.document(`/${collections.reservation.main}/
         name: after.name,
         property_id: after.property.id,
         property_name: after.property.name,
-        property_city: after.property.city,
-        property_country: after.property.country,
+        property_address: after.property.address,
         checkin_date: after.checkin_date || null,
         checkout_date: after.checkout_date || null,
     });
     
     const firestore = admin.firestore();
 
+    if(after.user_id){
 
-    //if the user id has been filled for the reservation for the first time. i.e at checking in
-    if(!before.user_id  && after.user_id){ 
-        user_copy_after.role = 'primary';
-        const update = firestore.collection(collections.user.main).doc(after.user_id).update({
-            reservations: firebase.firestore.FieldValue.arrayUnion(user_copy_after)
-        });
-       promises.push(update);
-    }else{
-    // if there is difference in the data and there is user corresponding with the reservation
+        // if there is difference in the data and there is user corresponding with the reservation
+
         if(!_.isEqual(user_copy_before, user_copy_after)){
             firestore.collection(`${collections.user.main}`).doc(after.user_id).get()
             .then((user_snapshot) => {
@@ -68,8 +60,15 @@ module.exports = functions.firestore.document(`/${collections.reservation.main}/
                 console.log(e.message);
             });
         }
-    }      
-
+    }
+    //if the user id has been filled for the reservation for the first time. i.e at checking in
+    else if(!before.user_id  && after.user_id){ 
+        user_copy_after.role = 'primary';
+        const update = firestore.collection(collections.user.main).doc(after.user_id).update({
+            reservations: firebase.firestore.FieldValue.arrayUnion(user_copy_after)
+        });
+       promises.push(update);
+    }     
 
     const property_copy_before = helper.sortObject({
         id: before.id,

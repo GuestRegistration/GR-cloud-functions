@@ -7,6 +7,7 @@ const resolvers = {
         mutations: {
                 // Your mutations resolvers here
                 sendPushNotification: require('./Mutations/SendPushNotification'),
+                Normalization: require('./Mutations/Normalization'),
         },
         subscriptions: {
                 // Your subscriptions resolvers here

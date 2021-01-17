@@ -6,6 +6,7 @@ const user = {
     phone_meta: (parent) => parent.phone_meta,
     phone_verified: (parent) => typeof parent.phone_verified_at === "undefined" ? false : true,
     phone_verified_at: (parent) => parent.phone_verified_at,
+    full_address: (parent) => parent.full_address,
     address: (parent) => parent.address,
     country_of_residence: (parent) => parent.country_of_residence,
     profile_image: (parent) => parent.profile_image,

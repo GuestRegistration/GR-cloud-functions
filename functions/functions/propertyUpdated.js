@@ -11,14 +11,13 @@ module.exports = functions.firestore.document(`/${collections.property.main}/{pr
     const after = snapshot.after.data();
     const firestore = admin.firestore();
 
-
     /**
     * Update the property in the users documents
     */
 
     const user_copy_before = helper.sortObject(
         {
-            address: before.full_address,
+            address: before.full_address || null,
             id: before.id,
             image: before.image || null,
             name: before.name
@@ -27,7 +26,7 @@ module.exports = functions.firestore.document(`/${collections.property.main}/{pr
 
     const user_copy_after = helper.sortObject(
         {
-            address: after.full_address,
+            address: after.full_address  || null,
             id: after.id,
             image: before.image || null,
             name: after.name
@@ -64,14 +63,14 @@ module.exports = functions.firestore.document(`/${collections.property.main}/{pr
 /**Update the property in reservations documents */
 
     const reservation_copy_before = helper.sortObject({
-        address: before.full_address,
+        address: before.full_address  || null,
         id: before.id,
         image: before.image || null,
         name: before.name
     });
 
     const reservation_copy_after = helper.sortObject({
-        address: after.full_address,
+        address: after.full_address  || null,
         id: after.id,
         image: after.image || null,
         name: after.name

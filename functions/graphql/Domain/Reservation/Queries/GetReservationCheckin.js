@@ -61,11 +61,11 @@ const getReservationCheckin = async (parent, {id}, context) => {
                         } ;
 
                         // update the view history
-                        // await idRef.collection('access_history').add({
-                        //     user_id: auth,
-                        //     client: context.auth.client_token,
-                        //     accessed_at: helper.nowTimestamp()
-                        // });
+                        await idRef.collection('access_history').add({
+                            user_id: auth,
+                            client: context.auth.client_token,
+                            accessed_at: helper.nowTimestamp()
+                        });
                     }
                 }
                 return {

@@ -17,7 +17,7 @@ const notification =  {
             user_id: userId,
             payload: {
                 notification: {
-                    title: notification.type.replace('.', ' ').toUpperCase(),
+                    title: notification.type.replace(/\./g, ' ').toUpperCase(),
                     body: notification.text,
                 }
             }
@@ -39,7 +39,7 @@ const notification =  {
             user_id: propertySnapshot.data().user_id,
             payload: {
                 notification: {
-                    title: notification.type.replace('.', ' ').toUpperCase(),
+                    title: notification.type.replace(/\./g, ' ').toUpperCase(),
                     body: notification.text,
                 }
             }

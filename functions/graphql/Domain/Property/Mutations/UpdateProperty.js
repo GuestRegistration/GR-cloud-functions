@@ -22,8 +22,6 @@ const updateProperty = async (parent, {id, name, email, phone, phone_country_cod
     if(property.exists){
         userAuthenticatedMiddleware(context, [property.data().user_id]);
         const propertyData = property.data();
-        const timestamp = propertyData.timestamp;
-        timestamp.updated_at = helper.nowTimestamp();
 
         const updated_property = {
             name, 
@@ -39,7 +37,7 @@ const updateProperty = async (parent, {id, name, email, phone, phone_country_cod
             },
             terms,
             rules,
-            timestamp
+            'timestamp.updated_at': helper.nowTimestamp()
         };
 
         if(phone_country_code || phone_number){
@@ -81,9 +79,12 @@ const updateProperty = async (parent, {id, name, email, phone, phone_country_cod
         try {
             const result = await propertyRef.update(updated_property);
             //publish the new reservation to it subscriptions
-            sub.publish(subscriptions.update, {PropertyUpdated:property});
-
-            return (await propertyRef.get()).data();
+            sub.publish(subscriptions.update, {PropertyUpdated: property});
+            
+            return {
+                id: property.ref.id,
+                ...(await propertyRef.get()).data()
+            };
 
         } catch (error) {
             throw new Error('Something went wrong '+error.message);

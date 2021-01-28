@@ -15,7 +15,7 @@ module.exports = functions.firestore.document(`/${collections.main}/{user_id}`)
                 deleted_at: null
             }
         })
-        .then((update_result) => {
+        .then(() => {
             // initialize the user verification document
             return snapshot.ref.collection(collections.meta.name)
                 .doc(collections.meta.documents.verification)
@@ -23,19 +23,7 @@ module.exports = functions.firestore.document(`/${collections.main}/{user_id}`)
                     user_id: snapshot.ref.id,
                 });
         })
-        .then((payment_document_result) => {
-            // initialize the user device document
-            return snapshot.ref.collection(collections.meta.name)
-                .doc(collections.meta.documents.device)
-                .set({
-                    user_id: snapshot.ref.id,
-                    device_id: null,
-                    device_name: null,
-                    device_ip: null,
-                    last_updated: null
-                });
-        })
-        .then((device_document_result) => {
+        .then(() => {
             // add an initial payment method document.
             return snapshot.ref.collection(collections.subcollections.payments)
             .add({

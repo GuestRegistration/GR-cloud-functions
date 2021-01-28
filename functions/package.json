@@ -10,7 +10,7 @@
     "logs": "firebase functions:log"
   },
   "engines": {
-    "node": "8"
+    "node": "12"
   },
   "dependencies": {
     "apollo-server-express": "^2.9.16",

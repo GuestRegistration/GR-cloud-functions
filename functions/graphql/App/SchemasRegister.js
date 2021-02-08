@@ -8,6 +8,7 @@ const schemas = [
     require('../Domain/User/schema'),
     require('../Domain/Property/schema'),
     require('../Domain/Reservation/schema'),
+    require('../Domain/Services/Identity/schema'),
     
 ];
 

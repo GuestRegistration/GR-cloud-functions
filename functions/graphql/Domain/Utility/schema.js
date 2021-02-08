@@ -45,7 +45,6 @@ const schema = gql`
         phoneNumber: String
         url: String
     }
-   `
-;
+`;
 
 module.exports = schema;

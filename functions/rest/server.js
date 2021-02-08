@@ -1,9 +1,9 @@
 /**
  * REST API server
  */
-
 const express = require('express');
 const cors = require('cors');
+const { stripeWebhook } = require('./controllers');
 
 module.exports = () => {
   const app = express();
@@ -14,6 +14,8 @@ module.exports = () => {
       message: "Hello world"
     });
   });
+
+  app.post('/webhook/stripe', stripeWebhook);
 
   return app;
 };

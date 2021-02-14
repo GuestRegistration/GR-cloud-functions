@@ -27,15 +27,14 @@ module.exports = functions.firestore.document(`/${collections.system.stripe_even
         .then(() => {
             // Write to verification session document
             if(events.identity.verification_session.includes(event.type)){
-                return userRef.collection(collections.user.meta.name).doc(collections.user.meta.documents.verification_session).set(event.data.object);
+
+                return event.type !== 'identity.verification_session.canceled' 
+                    ? userRef.collection(collections.user.meta.name).doc(collections.user.meta.documents.verification_session).set(event.data.object)
+                    : userRef.collection(collections.user.meta.name).doc(collections.user.meta.documents.verification_session).delete()
             }
-            // Write to verification report document
-            else if(events.identity.verification_report.includes(event.type))
-            {
-                return userRef.collection(collections.user.meta.name).doc(collections.user.meta.documents.verification_report).set(event.data.object);
-            }
+            
             return Promise.resolve()
-        })   
+        })
     }
 
     return null

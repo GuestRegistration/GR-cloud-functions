@@ -4,28 +4,28 @@ const {gql} = require("apollo-server-express");
 const reservation = gql`
     extend type Query {
         getReservations: [Reservation]
-        getUserReservations(id: String): [Reservation]
-        getPropertyReservations(id: String!): [Reservation]
-        getReservation(id: String!) : Reservation
+        getUserReservations(id: ID): [Reservation]
+        getPropertyReservations(id: ID!): [Reservation]
+        getReservation(id: ID!) : Reservation
         getBookingChannels: [BookingChannel]
-        getReservationCheckin (id: String!): ReservationCheckin
+        getReservationCheckin (id: ID!): ReservationCheckin
     }
 
     extend type Mutation {
         # create a new reservation
-        createReservation(property_id: String!, name: String!, booking_channel: String, checkin_date: String!, checkout_date: String!, instruction: String ): Reservation
+        createReservation(property_id: ID!, name: String!, booking_channel: String, checkin_date: String!, checkout_date: String!, instruction: String ): Reservation
         
         # update a reservation
-        updateReservation(id: String!, name: String!, booking_channel: String, checkin_date: String, checkout_date: String, instruction: String): Reservation
+        updateReservation(id: ID!, name: String!, booking_channel: String, checkin_date: String, checkout_date: String, instruction: String): Reservation
    
         #add a new guest to a reservation
-        addReservationGuest(id: String!, name: String!, gender: String!, type: String!): ReservationGuest
+        addReservationGuest(id: ID!, name: String!, gender: String!, type: String!): ReservationGuest
 
         # checkin a reservation
-        checkinReservation(reservation_id: String!, identity_ref: String!): Reservation
+        checkinReservation(reservation_id: ID!, identity_ref: String): Reservation
 
         # approve a checked in reservation
-        approveReservationCheckin(id: String!): Reservation
+        approveReservationCheckin(id: ID!): Reservation
 
     }
 
@@ -76,7 +76,7 @@ const reservation = gql`
         user: User
         reservation: Reservation
         checkin: Checkin
-        identity: UserIdentity
+        # identity: UserIdentity
     }
 
     type ReservationGuest {

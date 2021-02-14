@@ -4,14 +4,15 @@ const user = gql`
 
     extend type Query {
         getUsers: [User!]
-        getUserByID(id: String! ): User
+        getUserByID(id: ID! ): User
         getUserByField(field: String!, value: String! ): [User]
         getUserNotifications: [UserNotification]
         getUserIdentityByRef(ref: String!): UserIdentity
-        getUserIdentityById(user_id: String!, identity_id: String!): UserIdentity
-        getUserIdentities(id: String): [UserIdentity]
-        getUserDevices(id: String): [UserDevice],
-        
+        getUserIdentityById(user_id: ID!, identity_id: String!): UserIdentity
+        getUserIdentities(id: ID): [UserIdentity]
+        getUserDevices(id: ID): [UserDevice]
+        getUserVerificationSession(id: ID): UserVerificationSession
+        getUserVerificationReport(id: ID): VerificationReport
     }
 
     extend type Mutation {
@@ -105,6 +106,7 @@ const user = gql`
         id_verified: Boolean
         address: Address
         full_address: String
+        verification: UserVerification
         reservations: [UserReservation]
         properties: [UserProperty]
     }
@@ -114,8 +116,6 @@ const user = gql`
         last_name: String
     }
     
-   
-
     type UserDevice {
         user_id: String!
         device_id: String
@@ -126,13 +126,8 @@ const user = gql`
     }
 
     type UserVerification {
-        type: String
-        name: String
-        country: String
-        state: String
-        exp_date: String 
-        date_of_birth: String 
-        issue_date: String 
+        document: String
+        selfie: String
     }
 
     type UserIdentity {
@@ -184,6 +179,11 @@ const user = gql`
         identity_id: String
         property_id: String
         reservation_id: String
+    }
+
+    type UserVerificationSession {
+        session: VerificationSession
+        last_report: ID
     }
     `
 ;

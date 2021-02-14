@@ -1,7 +1,7 @@
 const config = require('../../../../../config');
 
 const Stripe = require('stripe');
-const createVerificationSession = async (parent, { user_id }, context) => {
+const createVerificationSession = async (parent, { user_id, return_url, refresh_url }, context) => {
     const stripe = Stripe(config.stripe.test.secretKey, {
         apiVersion: '2020-08-27; identity_beta=v4'
     });
@@ -23,8 +23,8 @@ const createVerificationSession = async (parent, { user_id }, context) => {
         metadata: {
             user_id
         },
-        return_url: 'https://guestregistrationweb.web.app',
-        refresh_url: 'https://guestregistrationweb.web.app', 
+        return_url: return_url ? return_url : 'https://guestregistrationweb.web.app/account',
+        refresh_url: refresh_url ? refresh_url : 'https://guestregistrationweb.web.app/account', 
     });
 
     return verificationSession;

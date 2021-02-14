@@ -26,7 +26,7 @@
             let reservation = await reservationRef.get();
             if(reservation.exists){
                 const checkin = {
-                    identity_ref,
+                    identity_ref: identity_ref || null,
                     name: user.data().name,
                     checkedin_at: helper.nowTimestamp()
                 };

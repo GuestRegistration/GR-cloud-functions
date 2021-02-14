@@ -8,7 +8,7 @@ const userCollections = require('../../User/Enums/collections');
 const propertyCollections = require('../../Property/Enums/collections');
 const collections = require('../Enums/collections');
 const firebaseAdmin = require('../../../../admin');
-const helper = require('../../../../helpers');
+// const helper = require('../../../../helpers');
 
 
 const getReservationCheckin = async (parent, {id}, context) => {
@@ -29,8 +29,10 @@ const getReservationCheckin = async (parent, {id}, context) => {
         const propertyDoc = await propertyRef.get();
 
         if(propertyDoc.exists){
+
             const auth = userAuthenticatedMiddleware(context);
             userAuthorizedMiddleware(context, [propertyDoc.data().user_id]);
+
             const checkinRef = reservationRef.collection(collections.meta.name).doc(collections.meta.documents.checkin);
             const checkinDoc = await checkinRef.get();
 
@@ -50,29 +52,28 @@ const getReservationCheckin = async (parent, {id}, context) => {
                 };
 
                 // get the identity data
-                let identity = null;
-                if(checkin.identity_ref){
-                    const idRef = firestore.doc(checkin.identity_ref);
-                    const snapshot = await idRef.get();
-                    if(snapshot.exists){
-                        identity = {
-                            id: snapshot.ref.id,
-                            ...snapshot.data()
-                        } ;
+                // let identity = null;
+                // if(checkin.identity_ref){
+                //     const idRef = firestore.doc(checkin.identity_ref);
+                //     const snapshot = await idRef.get();
+                //     if(snapshot.exists){
+                //         identity = {
+                //             id: snapshot.ref.id,
+                //             ...snapshot.data()
+                //         };
 
-                        // update the view history
-                        await idRef.collection('access_history').add({
-                            user_id: auth,
-                            client: context.auth.client_token,
-                            accessed_at: helper.nowTimestamp()
-                        });
-                    }
-                }
+                //         // update the view history
+                //         await idRef.collection('access_history').add({
+                //             user_id: auth,
+                //             client: context.auth.client_token,
+                //             accessed_at: helper.nowTimestamp()
+                //         });
+                //     }
+                // }
                 return {
                     user,
                     reservation,
                     checkin,
-                    identity
                 };
             }else{
                 throw new Error("The reservation is not checked in yet");

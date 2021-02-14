@@ -5,6 +5,7 @@ const schema = gql`
     extend type Query {
         # Your queries go here
         validatePhone (phone: String!): PhoneValidation
+        getStripeFile(id: ID!): StripeFile
     }
 
     extend type Mutation {
@@ -45,6 +46,26 @@ const schema = gql`
         phoneNumber: String
         url: String
     }
+
+    type StripeFile {
+        id: ID
+        object: String
+        created: String
+        expires_at: String
+        filename: String
+        links: StripeFileLinks
+        purpose: String
+        size: Int
+        title: String
+        type: String
+        url: String
+        img_src: String
+    }
+        type StripeFileLinks {
+            object: String
+            has_more: Boolean
+            url: String
+        }
 `;
 
 module.exports = schema;

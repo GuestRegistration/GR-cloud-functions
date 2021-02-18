@@ -1,7 +1,7 @@
 const config = require('../../../../../config');
 
 const Stripe = require('stripe');
-const createVerificationSession = async (parent, { user_id, return_url, refresh_url }, context) => {
+const createStripeVerificationSession = async (parent, { user_id, return_url, refresh_url }, context) => {
     const stripe = Stripe(config.stripe.test.secretKey, {
         apiVersion: '2020-08-27; identity_beta=v4'
     });
@@ -30,4 +30,4 @@ const createVerificationSession = async (parent, { user_id, return_url, refresh_
     return verificationSession;
 }
 
-module.exports = createVerificationSession;
+module.exports = createStripeVerificationSession;

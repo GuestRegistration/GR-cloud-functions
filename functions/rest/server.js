@@ -3,7 +3,8 @@
  */
 const express = require('express');
 const cors = require('cors');
-const { stripeWebhook } = require('./controllers');
+const { stripeIdentityWebhook, stripeConnectWebhook } = require('./controllers');
+const config = require('../config');
 
 module.exports = () => {
   const app = express();
@@ -15,7 +16,8 @@ module.exports = () => {
     });
   });
 
-  app.post('/webhook/stripe', stripeWebhook);
+  app.post(config.stripe.webhooks.identity.endpoint, stripeIdentityWebhook);
+  app.post(config.stripe.webhooks.connect.endpoint, stripeConnectWebhook);
 
   return app;
 };

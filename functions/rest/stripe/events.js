@@ -22,5 +22,33 @@ module.exports = {
             'identity.verification_report.updated',
             'identity.verification_report.verified',
         ]
+    },
+    connect: {
+        account: [
+            'account.updated',
+            'account.application.authorized',
+            'account.application.deauthorized',
+            'account.external_account.created',
+            'account.external_account.deleted',
+            'account.external_account.updated',
+
+        ],
+        payment_intent: [
+            'payment_intent.amount_capturable_updated',
+            'payment_intent.canceled',
+            'payment_intent.created',
+            'payment_intent.payment_failed',
+            'payment_intent.processing',
+            'payment_intent.requires_action',
+            'payment_intent.succeeded',
+        ],
+
+        payment_method: [
+            'payment_method.attached',
+            'payment_method.automatically_updated',
+            'payment_method.card_automatically_updated',
+            'payment_method.detached',
+            'payment_method.updated',
+        ]
     }
 }

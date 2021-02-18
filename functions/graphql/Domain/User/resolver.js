@@ -8,8 +8,8 @@ module.exports = {
                 getUserIdentityById: require('./Queries/GetUserIdentityById'),
                 getUserIdentities: require('./Queries/GetUserIdentities'),
                 getUserDevices: require('./Queries/GetUserDevices'),
-                getUserVerificationSession: require('./Queries/GetUserVerificationSession'),
-                getUserVerificationReport: require('./Queries/GetUserVerificationReport')
+                getUserStripeVerificationSession: require('./Queries/GetUserStripeVerificationSession'),
+                getUserStripeVerificationReport: require('./Queries/GetUserStripeVerificationReport')
         },
 
         mutations: {

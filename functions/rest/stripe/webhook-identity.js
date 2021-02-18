@@ -6,7 +6,7 @@ module.exports = async (request, response) => {
     const signature = request.headers['stripe-signature'];
     let event = request.body
     try {
-      event = stripe.webhooks.constructEvent(request.rawBody , signature, config.stripe.test.webhookSecret);
+      event = stripe.webhooks.constructEvent(request.rawBody , signature, config.stripe.webhooks.identity.secret);
     }
     catch (err) {
       console.log('Could not verify signature.', err.message)
@@ -18,7 +18,7 @@ module.exports = async (request, response) => {
     const collections = require('../../enums/collections');
 
     // General logging of events received from Stripe
-    await firestore.collection(collections.system.stripe_events).doc(event.id).set(event);
+    await firestore.collection(collections.system.stripe_identity_events).doc(event.id).set(event);
 
     return response.status(200).json({received: true});
 }

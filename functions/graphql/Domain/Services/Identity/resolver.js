@@ -2,12 +2,12 @@ const resolvers = {
 
         queries: {
                 // Your queries resolvers here
-                getVerificationSession: require('./Queries/GetVerificationSession'),
-                getVerificationReport: require('./Queries/GetVerificationReport'),
+                getStripeVerificationSession: require('./Queries/GetStripeVerificationSession'),
+                getStripeVerificationReport: require('./Queries/GetStripeVerificationReport'),
         },
         mutations: {
                 // Your mutations resolvers here
-                createVerificationSession: require('./Mutations/createVerificationSession'),
+                createStripeVerificationSession: require('./Mutations/createStripeVerificationSession'),
         },
         subscriptions: {
                 // Your subscriptions resolvers here

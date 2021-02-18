@@ -8,6 +8,9 @@ const property = gql`
         getPropertyNotifications(id: String): [PropertyNotification]
         getUserProperties(id: String): [Property]
         getProperty(id: String!) : Property
+        getPropertyPayment(property_id: ID!): PropertyPayment
+        getPropertyCharges(property_id: ID!): [PropertyCharge]
+        getPropertyCharge(property_id: ID!, charge_id: ID!): PropertyCharge
     }
 
     extend type Mutation {
@@ -57,6 +60,18 @@ const property = gql`
 
         # add a new user as a team member
         addNewTeam (id: String!, prospect_id: String, role: String!): PropertyTeam
+        
+        # set property Stripe authorization
+        setPropertyStripeAuthorization (property_id: ID!, grant_type: String!, code: String!): StripeAuthorization
+        
+        # unset property Stripe authorization
+        unsetPropertyStripeAuthorization (property_id: ID!): StripeDeauthorization
+
+        # Create property charge
+        createPropertyCharge (property_id: ID!, title: String!, amount: Int!, description: String!, type: String!): PropertyCharge
+        
+        # update property charge
+        updatePropertyCharge (property_id: ID!, charge_id: ID!, title: String!, amount: Int!, description: String!, type: String!): PropertyCharge
 
     }
 
@@ -112,6 +127,32 @@ const property = gql`
         identity_id: String
         property_id: String
         reservation_id: String
+    }
+
+    type StripeAuthorization {
+        access_token: String
+        scope: String
+        livemode: Boolean
+        token_type: String
+        refresh_token: String
+        stripe_user_id: String
+        stripe_publishable_key: String
+    }
+
+    type StripeDeauthorization {
+        stripe_user_id: String
+    }
+
+    type PropertyPayment {
+        stripe_authorization: StripeAuthorization
+    }
+
+    type PropertyCharge {
+        id: String!
+        title: String
+        amount: Int
+        description: String
+        type: String,
     }
 
 `;

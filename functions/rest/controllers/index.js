@@ -1,3 +1,4 @@
 module.exports = {
-    stripeWebhook: require('../stripe/webhook')
+    stripeIdentityWebhook: require('../stripe/webhook-identity'),
+    stripeConnectWebhook: require('../stripe/webhook-connect')
 }

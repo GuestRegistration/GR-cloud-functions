@@ -5,8 +5,8 @@ const collections =  {
             name: 'user_meta',
             documents: {
                 verification: 'verification',
-                verification_session: 'user_verification_session',
-                verification_report: 'user_verification_report'
+                stripe_verification_session: 'user_stripe_verification_session',
+                stripe_verification_report: 'user_stripe_verification_report'
             }
         },
         subcollections: {
@@ -14,7 +14,7 @@ const collections =  {
             identities: 'identities',
             notifications: 'user_notifications',
             devices: 'user_devices',
-            stripe_events: 'user_stripe_events'
+            stripe_identity_events: 'user_stripe_identity_events'
         },
         trash: 'graphQL_users_trash'
 };

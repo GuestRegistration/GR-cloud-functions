@@ -3,11 +3,13 @@ const collections = {
     meta: {
         name: 'property_meta',
         documents: {
-            rules: 'rules'
+            rules: 'rules',
+            payment: 'payment'
         }
     },
     subcollections: {
         notifications: 'property_notifications',
+        charges: 'property_charges',
     },
     trash: 'graphQL_properties_trash'
 };

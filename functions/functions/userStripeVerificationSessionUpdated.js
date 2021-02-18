@@ -11,7 +11,7 @@ const notification = require('../helpers/notification');
 
 const firestore = admin.firestore();
 
-module.exports = functions.firestore.document(`/${collections.user.main}/{userId}/${collections.user.meta.name}/${collections.user.meta.documents.verification_session}`)
+module.exports = functions.firestore.document(`/${collections.user.main}/{userId}/${collections.user.meta.name}/${collections.user.meta.documents.stripe_verification_session}`)
 .onUpdate((snapshot, context) => {
     const session = snapshot.after.data();
     const userRef = firestore.collection(collections.user.main).doc(context.params.userId);
@@ -59,7 +59,7 @@ module.exports = functions.firestore.document(`/${collections.user.main}/{userId
             })
 
             return userRef.collection(collections.user.meta.name)
-              .doc(collections.user.meta.documents.verification_report)
+              .doc(collections.user.meta.documents.stripe_verification_report)
               .set({
                 ...report,
                 files: firestoreFiles

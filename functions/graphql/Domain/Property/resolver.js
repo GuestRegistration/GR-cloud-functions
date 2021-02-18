@@ -6,6 +6,9 @@ const resolvers = {
                 getPropertyNotifications: require('./Queries/GetPropertyNotifications'),
                 getUserProperties: require('./Queries/GetUserProperties'),
                 getProperty: require('./Queries/GetProperty'),
+                getPropertyPayment: require('./Queries/GetPropertyPayment'),
+                getPropertyCharges: require('./Queries/GetPropertyCharges'),
+                getPropertyCharge: require('./Queries/GetPropertyCharge')
         },
         mutations: {
                 // Your mutations resolvers here
@@ -15,6 +18,10 @@ const resolvers = {
                 updatePropertyRules: require('./Mutations/UpdatePropertyRules'),
                 updatePropertyTerms: require('./Mutations/UpdatePropertyTerms'),
                 addNewTeam: require('./Mutations/AddNewTeam'),
+                setPropertyStripeAuthorization: require('./Mutations/SetPropertyStripeAuthorization'),
+                unsetPropertyStripeAuthorization: require('./Mutations/UnsetPropertyStripeAuthorization'),
+                createPropertyCharge: require('./Mutations/CreatePropertyCharge'),
+                updatePropertyCharge: require('./Mutations/UpdatePropertyCharge'),
         },
         subscriptions: {
                 // Your subscriptions resolvers here

@@ -30,8 +30,8 @@ exports.onReservationUpdated = require('./functions/reservationUpdated');
 // when a reservation document is created
 exports.onReservationDocumentCreated = require('./functions/reservationDocumentCreated');
 
-// when a new stripe event is received
-exports.onStripeEventCreated = require('./functions/stripeEventCreated');
+// when a new stripe identity event is received
+exports.onStripeIdentityEventCreated = require('./functions/stripeIdentityEventCreated');
 
 // when user verification session is updated
-exports.onUserVerificationSessionUpdated = require('./functions/userVerificationSessionUpdated');
+exports.onUserStripeVerificationSessionUpdated = require('./functions/userStripeVerificationSessionUpdated');

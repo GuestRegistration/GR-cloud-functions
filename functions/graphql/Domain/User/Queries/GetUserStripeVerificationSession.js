@@ -1,5 +1,5 @@
 /**
- * Get user verification
+ * Get user stripe verification
  */
 
 const clientAuthorizedMiddleware = require('../../../Middlewares/ClientAuthorized');
@@ -7,7 +7,7 @@ const userAuthenticatedMiddleware = require('../../../Middlewares/UserAuthentica
 const collections = require('../Enums/collections');
 const firebaseAdmin = require('../../../../admin');
 
-const getUserVerificationReport = async (parent, { id }, context) =>  {
+const getUserStripeVerificationSession = async (parent, { id }, context) =>  {
   clientAuthorizedMiddleware(context);
 
   let user_id = id;
@@ -20,13 +20,17 @@ const getUserVerificationReport = async (parent, { id }, context) =>  {
   const firestore = firebaseAdmin.firestore();
 
   const document =  await firestore.collection(collections.main).doc(user_id)
-                    .collection(collections.meta.name).doc(collections.meta.documents.verification_report)
+                    .collection(collections.meta.name).doc(collections.meta.documents.stripe_verification_session)
                     .get();
 
     if(document.exists){
-        return document.data();
+        const session = document.data()
+        return {
+            session,
+            last_report: session.last_verification_report
+        }
     }
     return null;
 };
 
-module.exports = getUserVerificationReport;
+module.exports = getUserStripeVerificationSession;

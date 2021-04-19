@@ -45,6 +45,7 @@ const pushNotification = async ({user_id, token, payload}) => {
                 response += `Notification sent to ${devices[index].token}`;
             }
           });
+          await Promise.all(tokensToRemove)
     }
 
     return response;

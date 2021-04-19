@@ -41,34 +41,72 @@ module.exports = functions.firestore.document(`/${collections.reservation.main}/
 
         // if there is difference in the data and there is user corresponding with the reservation
 
-        if(!_.isEqual(user_copy_before, user_copy_after)){
+        if(!_.isEqual(user_copy_before, user_copy_after) || before.instruction !== after.instruction || before.charges !== after.charges){
+            if(!_.isEqual(user_copy_before, user_copy_after)){
+                promises.push(
+                    firestore.collection(collections.user.main).doc(after.user_id).get()
+                    .then((user_snapshot) => {
+                        if(user_snapshot.exists){
+                            const user = user_snapshot.data();
+                            const reservations = user.reservations.map(reservation => {
+                                if(reservation.id === user_copy_before.id){
+                                    user_copy_after.role = reservation.role || null ;
+                                    return user_copy_after;
+                                }
+                                return reservation;
+                            });
+                            return user_snapshot.ref.update({reservations});
+                        }
+                        return Promise.resolve()
+                    })
+                )
+            }
+
+            // Send notification to guest
             promises.push(
-                firestore.collection(collections.user.main).doc(after.user_id).get()
-                .then((user_snapshot) => {
-                    if(user_snapshot.exists){
-                        const user = user_snapshot.data();
-                        const reservations = user.reservations.map(reservation => {
-                            if(reservation.id === user_copy_before.id){
-                                user_copy_after.role = reservation.role || null ;
-                                return user_copy_after;
-                            }
-                            return reservation;
-                        });
-                        return user_snapshot.ref.update({reservations});
-                    }
-                    return Promise.resolve()
-                })
-            )
+                notification.user(after.user_id, {
+                    text: `Your reservation at ${after.property.name} was updated`,
+                    type: notificationTypes.reservationUpdate,
+                    payload: {
+                        reservation_id: reservationId,
+                        property_id: after.property_id,
+                        }
+                    })
+                )
         }
+
     }
     //if the user id has been filled for the reservation for the first time. i.e at checking in
     else if(!before.user_id  && after.user_id){ 
         user_copy_after.role = 'primary';
+
         promises.push( 
            firestore.collection(collections.user.main).doc(after.user_id).update({
                 reservations: firebase.firestore.FieldValue.arrayUnion(user_copy_after)
             })
         );
+
+        // Notify property of checkin
+
+        promises.push(
+            
+            firestore.collection(collections.user.main).doc(after.user_id).get()
+            .then((user_snapshot) => {
+                if(user_snapshot.exists){
+                    const user = user_snapshot.data();
+                    return notification.property(after.property_id, {
+                        text: `${[user.name.first_name, user.name.last_name]} checked in to ${after.property.name}`,
+                        type: notificationTypes.reservationCheckin,
+                        payload: {
+                            reservation_id: reservationId,
+                            property_id: after.property_id,
+                            }
+                        }); 
+                }
+                return Promise.resolve();
+            })
+        )
+            
     }     
 
     const property_copy_before = helper.sortObject({

@@ -8,6 +8,7 @@ const schema = gql`
 
     extend type Mutation {
         createStripePaymentIntent(stripe_account: String!, amount: Int!, currency: String!, payment_method_types: [String]!, metadata: StripePaymentIntentMetadataInput ): StripePaymentIntent
+        createStripeCharge(stripe_account: String!, source: String!, amount: Int!, currency: String!, description: String, receipt_email: String metadata: StripeChargeMetadataInput ): StripeCharge
     }
 
     # extend type Subscription {
@@ -59,17 +60,32 @@ const schema = gql`
         description: String
         disputed: Boolean
         livemode: Boolean
-        metadata: StripePaymentIntentMetadata
+        metadata: StripeChargeMetadata
         paid: Boolean
         payment_intent: String
         payment_method: String
         receipt_email: String
         receipt_number: String
         receipt_url: String
-        refunded: Boolean,
+        refunded: Boolean
+        status: String
+    }
+
+    type StripeChargeMetadata {
+        user_id: ID
+        reservation_id: ID
+        property_id: ID
+        charge_id: ID
     }
 
     input StripePaymentIntentMetadataInput {
+        user_id: ID
+        reservation_id: ID
+        property_id: ID
+        charge_id: ID
+    }
+
+    input StripeChargeMetadataInput {
         user_id: ID
         reservation_id: ID
         property_id: ID

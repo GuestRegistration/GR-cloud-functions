@@ -60,19 +60,21 @@ module.exports = functions.firestore.document(`/${collections.reservation.main}/
                         return Promise.resolve()
                     })
                 )
+            }else{
+                // Send notification to guest
+                promises.push(
+                    notification.user(after.user_id, {
+                        text: `Your reservation at ${after.property.name} was updated`,
+                        type: notificationTypes.reservationUpdate,
+                        payload: {
+                            reservation_id: reservationId,
+                            property_id: after.property_id,
+                            }
+                        })
+                    )
             }
 
-            // Send notification to guest
-            promises.push(
-                notification.user(after.user_id, {
-                    text: `Your reservation at ${after.property.name} was updated`,
-                    type: notificationTypes.reservationUpdate,
-                    payload: {
-                        reservation_id: reservationId,
-                        property_id: after.property_id,
-                        }
-                    })
-                )
+            
         }
 
     }
@@ -84,29 +86,7 @@ module.exports = functions.firestore.document(`/${collections.reservation.main}/
            firestore.collection(collections.user.main).doc(after.user_id).update({
                 reservations: firebase.firestore.FieldValue.arrayUnion(user_copy_after)
             })
-        );
-
-        // Notify property of checkin
-
-        promises.push(
-            
-            firestore.collection(collections.user.main).doc(after.user_id).get()
-            .then((user_snapshot) => {
-                if(user_snapshot.exists){
-                    const user = user_snapshot.data();
-                    return notification.property(after.property_id, {
-                        text: `${[user.name.first_name, user.name.last_name]} checked in to ${after.property.name}`,
-                        type: notificationTypes.reservationCheckin,
-                        payload: {
-                            reservation_id: reservationId,
-                            property_id: after.property_id,
-                            }
-                        }); 
-                }
-                return Promise.resolve();
-            })
-        )
-            
+        );            
     }     
 
     const property_copy_before = helper.sortObject({

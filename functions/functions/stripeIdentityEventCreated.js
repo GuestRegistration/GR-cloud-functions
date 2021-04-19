@@ -6,9 +6,11 @@ const admin = require('../admin');
 module.exports = functions.firestore.document(`/${collections.system.stripe_identity_events}/{event_id}`)
 .onCreate((snapshot, context) => {
     const event = snapshot.data();
+
+    if(!events.identity.includes(event.type)) return null;
+
     const firestore = admin.firestore();
     const metadata = event.data.object.metadata;
-
     userId =  metadata.user_id;
 
     if(userId){
@@ -24,25 +26,23 @@ module.exports = functions.firestore.document(`/${collections.system.stripe_iden
         })
         .then(() => {
             // Write to verification session document
-            if(events.identity.verification_session.includes(event.type)){
-                const session = event.data.object; 
+           
+            const session = event.data.object; 
 
-                const verificationRef = userRef.collection(collections.user.subcollections.stripe_identity_verifications)
-                                        .doc(session.id);
-                if(event.type !== 'identity.verification_session.canceled'){
-                    return verificationRef.set({
-                        property_id: session.metadata.property_id,
-                        session: session.id,
-                        report: session.last_verification_report,
-                        status: session.status,
-                        url: session.url,
-                        type: session.type,
-                        metadata: metadata
-                    });
-                }
-                return verificationRef.delete()
+            const verificationRef = userRef.collection(collections.user.subcollections.stripe_identity_verifications)
+                                    .doc(session.id);
+            if(event.type !== 'identity.verification_session.canceled'){
+                return verificationRef.set({
+                    property_id: session.metadata.property_id,
+                    session: session.id,
+                    report: session.last_verification_report,
+                    status: session.status,
+                    url: session.url,
+                    type: session.type,
+                    metadata: metadata
+                });
             }
-            return Promise.resolve()
+            return verificationRef.delete()
         })
     }
 

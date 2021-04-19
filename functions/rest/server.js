@@ -3,7 +3,7 @@
  */
 const express = require('express');
 const cors = require('cors');
-const { stripeIdentityWebhook, stripeConnectWebhook, stripePaymentWebhook } = require('./controllers');
+const stripeWebhooks = require('./controllers/stripeWebhooks');
 const config = require('../config');
 
 module.exports = () => {
@@ -16,9 +16,14 @@ module.exports = () => {
     });
   });
 
-  app.post(config.stripe.webhooks.identity.endpoint, stripeIdentityWebhook);
-  app.post(config.stripe.webhooks.connect.endpoint, stripeConnectWebhook);
-  app.post(config.stripe.webhooks.payment.endpoint, stripePaymentWebhook);
+  // Webhoook routes for main account
+  app.post(config.stripe.webhooks.main.identity.endpoint, stripeWebhooks.mainStripeIdentityWebhook);
+  app.post(config.stripe.webhooks.main.payment.endpoint, stripeWebhooks.mainStripePaymentWebhook);
+
+  // Webhook routes for connected account
+  app.post(config.stripe.webhooks.connected.identity.endpoint, stripeWebhooks.connectedStripeIdentityWebhook);
+  app.post(config.stripe.webhooks.connected.connect.endpoint, stripeWebhooks.connectedStripeConnectWebhook);
+  app.post(config.stripe.webhooks.connected.payment.endpoint, stripeWebhooks.connectedStripePaymentWebhook);
 
   return app;
 };

@@ -3,7 +3,8 @@ const resolvers = {
     queries: {
     },
     mutations: {
-        createStripePaymentIntent: require('./Mutations/createStripePaymentIntent')
+        createStripePaymentIntent: require('./Mutations/createStripePaymentIntent'),
+        createStripeCharge: require('./Mutations/createStripeCharge')
     },
     subscriptions: {
             // Your subscriptions resolvers here

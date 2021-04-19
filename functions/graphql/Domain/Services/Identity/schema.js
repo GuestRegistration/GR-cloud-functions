@@ -8,13 +8,17 @@ const schema = gql`
     }
 
     extend type Mutation {
-        createStripeVerificationSession (user_id: ID!, return_url: String, refresh_url: String): StripeVerificationSession
+        createStripeVerificationSession (stripe_account: ID!, metadata: StripeVerificationMetadataInput, return_url: String, refresh_url: String): StripeVerificationSession
     }
 
     # extend type Subscription {
     #     # Your subscription goes here
     # }
 
+    input StripeVerificationMetadataInput {
+        user_id: ID
+        property_id: ID
+    }
     type StripeVerificationDate {
         year: Int
         month: Int
@@ -38,7 +42,8 @@ const schema = gql`
         }
 
     type StripeVerificationMetadata {
-        user_id: ID
+        user_id: ID,
+        property_id: ID,
     }
 
     type StripeVerificationSession {

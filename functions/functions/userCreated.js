@@ -15,19 +15,5 @@ module.exports = functions.firestore.document(`/${collections.main}/{user_id}`)
                 deleted_at: null
             }
         })
-        .then(() => {
-            // initialize the user verification document
-            return snapshot.ref.collection(collections.meta.name)
-                .doc(collections.meta.documents.verification)
-                .set({
-                    user_id: snapshot.ref.id,
-                });
-        })
-        .then(() => {
-            // add an initial payment method document.
-            return snapshot.ref.collection(collections.subcollections.payments)
-            .add({
-                user_id: snapshot.ref.id
-            });
-        });
+
  });

@@ -1,6 +1,6 @@
 node_modules/
-config.js
-admin.js
+config-*.js
+!config-remote.js
 graphql/trash/
 public/htdocs/doc/
-service-account-key.json
+service-account-key-*.json

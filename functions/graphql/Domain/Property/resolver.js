@@ -6,7 +6,7 @@ const resolvers = {
                 getPropertyNotifications: require('./Queries/GetPropertyNotifications'),
                 getUserProperties: require('./Queries/GetUserProperties'),
                 getProperty: require('./Queries/GetProperty'),
-                getPropertyPayment: require('./Queries/GetPropertyPayment'),
+                getPropertyStripeAuthorization: require('./Queries/GetPropertyStripeAuthorization'),
                 getPropertyCharges: require('./Queries/GetPropertyCharges'),
                 getPropertyCharge: require('./Queries/GetPropertyCharge')
         },

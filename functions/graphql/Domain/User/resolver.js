@@ -8,6 +8,7 @@ module.exports = {
                 getUserIdentityById: require('./Queries/GetUserIdentityById'),
                 getUserIdentities: require('./Queries/GetUserIdentities'),
                 getUserDevices: require('./Queries/GetUserDevices'),
+                getUserStripeVerifications: require('./Queries/GetUserStripeVerifications'),
                 getUserStripeVerificationSession: require('./Queries/GetUserStripeVerificationSession'),
                 getUserStripeVerificationReport: require('./Queries/GetUserStripeVerificationReport')
         },

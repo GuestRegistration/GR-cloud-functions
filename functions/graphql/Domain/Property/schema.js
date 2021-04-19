@@ -8,7 +8,7 @@ const property = gql`
         getPropertyNotifications(id: String): [PropertyNotification]
         getUserProperties(id: String): [Property]
         getProperty(id: String!) : Property
-        getPropertyPayment(property_id: ID!): PropertyPayment
+        getPropertyStripeAuthorization(property_id: ID!): StripeAuthorization
         getPropertyCharges(property_id: ID!): [PropertyCharge]
         getPropertyCharge(property_id: ID!, charge_id: ID!): PropertyCharge
     }
@@ -68,10 +68,10 @@ const property = gql`
         unsetPropertyStripeAuthorization (property_id: ID!): StripeDeauthorization
 
         # Create property charge
-        createPropertyCharge (property_id: ID!, title: String!, amount: Int!, description: String!, type: String!): PropertyCharge
+        createPropertyCharge (property_id: ID!, data: propertyChargeInput!): PropertyCharge
         
         # update property charge
-        updatePropertyCharge (property_id: ID!, charge_id: ID!, title: String!, amount: Int!, description: String!, type: String!): PropertyCharge
+        updatePropertyCharge (property_id: ID!, charge_id: ID!, data: propertyChargeInput!): PropertyCharge
 
     }
 
@@ -92,6 +92,7 @@ const property = gql`
         image: String
         terms: String
         rules: String
+        stripe_connected: Boolean
         team: [PropertyTeam]
         reservations: [PropertyReservation]
     }
@@ -152,7 +153,17 @@ const property = gql`
         title: String
         amount: Int
         description: String
-        type: String,
+        type: String
+        enable: Boolean
+    }
+
+    input propertyChargeInput {
+        id: ID
+        title: String!
+        amount: Int!
+        description: String!
+        type: String!
+        enable: Boolean! 
     }
 
 `;

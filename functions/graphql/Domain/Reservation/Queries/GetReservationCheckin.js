@@ -51,29 +51,21 @@ const getReservationCheckin = async (parent, {id}, context) => {
                     ...userDoc.data()
                 };
 
-                // get the identity data
-                // let identity = null;
-                // if(checkin.identity_ref){
-                //     const idRef = firestore.doc(checkin.identity_ref);
-                //     const snapshot = await idRef.get();
-                //     if(snapshot.exists){
-                //         identity = {
-                //             id: snapshot.ref.id,
-                //             ...snapshot.data()
-                //         };
+                // get the verification data
+                const verifications = [];
+                const verificationsQuery = await userRef.collection(userCollections.subcollections.stripe_identity_verifications)
+                .where('property_id', "==", propertyDoc.ref.id).get();
+                if(!verificationsQuery.empty){
+                    verificationsQuery.forEach(vSnapshot => {
+                        verifications.push(vSnapshot.data())
+                    })
+                }
 
-                //         // update the view history
-                //         await idRef.collection('access_history').add({
-                //             user_id: auth,
-                //             client: context.auth.client_token,
-                //             accessed_at: helper.nowTimestamp()
-                //         });
-                //     }
-                // }
                 return {
                     user,
                     reservation,
                     checkin,
+                    verifications
                 };
             }else{
                 throw new Error("The reservation is not checked in yet");

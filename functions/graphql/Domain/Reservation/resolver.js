@@ -8,6 +8,7 @@ const resolvers = {
                 getReservation: require('./Queries/GetReservation'),
                 getBookingChannels: require('./Queries/GetBookingChannels'),
                 getReservationCheckin: require('./Queries/GetReservationCheckin'),
+                getReservationPayments: require('./Queries/GetReservationPayments')
         },
         mutations: {
                 // Your mutations resolvers here

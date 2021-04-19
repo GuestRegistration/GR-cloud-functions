@@ -4,59 +4,65 @@ const admin = require('../admin');
 const helper = require('../helpers');
 const collections = require('../enums/collections');
 
-module.exports = functions.firestore.document(`/${collections.property.main}/{property_id}`)
+module.exports = functions.firestore.document(`/${collections.property.main}/{propertyId}`)
 .onUpdate((snapshot, context) => {
-    let promises = [];
     const before = snapshot.before.data();
     const after = snapshot.after.data();
     const firestore = admin.firestore();
+    const propertyId = context.params.propertyId;
+    const promises = [];
 
     /**
     * Update the property in the users documents
     */
+    const user_copy_before = {
+        address: before.full_address || null,
+        id: propertyId,
+        image: before.image || null,
+        name: before.name
+    } 
 
-    const user_copy_before = helper.sortObject(
+    const user_copy_after = {
+        address: after.full_address  || null,
+        id: propertyId,
+        image: after.image || null,
+        name: after.name
+    }        
+
+    const owner_copy_before = helper.sortObject(
         {
-            address: before.full_address || null,
-            id: before.id,
-            image: before.image || null,
-            name: before.name
+            ...user_copy_before,
+            role: 'owner'
         }
     );
 
-    const user_copy_after = helper.sortObject(
+    const owner_copy_after = helper.sortObject(
         {
-            address: after.full_address  || null,
-            id: after.id,
-            image: before.image || null,
-            name: after.name
-        }        
+            ...user_copy_after,
+            role: 'owner'
+        }
     );
-    
 
-    if(!_.isEqual(user_copy_before, user_copy_after)){
-
-        //find all the users that has this property
-        firestore.collection(`${collections.user.main}`).where('properties', 'array-contains', user_copy_before).get()
-        .then((querySnapshot) => {
-            querySnapshot.forEach(user_snapshot => {
-                let user = user_snapshot.data();
-                let properties = [];
-                //loop through each of the user property to reset the properties with updated data
-                user.properties.forEach(property => {
-                    if(property.id === user_copy_before.id){ 
-                        user_copy_after.role = property.role || null;
-                        properties.push(user_copy_after);
-                    }else{
-                        properties.push(property);
-                    }
+    if(!_.isEqual(owner_copy_before, owner_copy_after)){
+        promises.push(
+            firestore.collection(collections.user.main).where('properties', 'array-contains', owner_copy_before).get()
+            .then((querySnapshot) => {
+                const user_updates = [];
+                
+                querySnapshot.forEach(user_snapshot => {
+                    const user = user_snapshot.data();
+                    const properties = user.properties.map(property => {
+                        if(property.id === owner_copy_before.id){ 
+                            return owner_copy_after;
+                        }
+                        return property;
+                    });
+                    user_updates.push(user_snapshot.ref.update({properties})); 
                 });
-                promises.push(user_snapshot.ref.update({properties})); 
-            });
-        })
-        .catch(e => {
-            console.log(e.message);
-        });
+
+                return Promise.all(user_updates)
+            })
+        )
     }
 
 
@@ -64,38 +70,33 @@ module.exports = functions.firestore.document(`/${collections.property.main}/{pr
 
     const reservation_copy_before = helper.sortObject({
         address: before.full_address  || null,
-        id: before.id,
+        id: propertyId,
         image: before.image || null,
         name: before.name
     });
 
     const reservation_copy_after = helper.sortObject({
-        address: after.full_address  || null,
-        id: after.id,
+        address: after.full_address || null,
+        id: propertyId,
         image: after.image || null,
         name: after.name
     });
 
 
     if(!_.isEqual(reservation_copy_before, reservation_copy_after)){
-
-        //find all the reservations that has this property
-        firestore.collection(`${collections.reservation.main}`).where('property_id', '==', reservation_copy_before.id).get()
-        .then(reservations_snapshot => {
-            reservations_snapshot.forEach(reservation => {
-                promises.push(reservation.ref.update({
-                    property: reservation_copy_after
-                }));
-            });
-        })
-        .catch(e => {
-            console.log(e.message);
-        });
-
-
+        promises.push(
+            firestore.collection(collections.reservation.main).where('property_id', '==', reservation_copy_before.id).get()
+            .then(reservations_snapshot => {
+                const reservation_updates = []
+                reservations_snapshot.forEach(reservation => {
+                    reservation_updates.push(reservation.ref.update({
+                        property: reservation_copy_after
+                    }));
+                });
+                return Promise.all(reservation_updates)
+            })
+        );
     }
-    if(promises.length > 0){
-        return Promise.all(promises);
-    }
-    return null;
+
+    return Promise.all(promises);
 });

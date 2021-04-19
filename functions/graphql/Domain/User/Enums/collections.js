@@ -3,18 +3,15 @@ const collections =  {
         main: 'graphQL_users',
         meta: {
             name: 'user_meta',
-            documents: {
-                verification: 'verification',
-                stripe_verification_session: 'user_stripe_verification_session',
-                stripe_verification_report: 'user_stripe_verification_report'
-            }
+            documents: {}
         },
         subcollections: {
-            payments: 'payments',
-            identities: 'identities',
+            payments: 'user_payments',
             notifications: 'user_notifications',
             devices: 'user_devices',
-            stripe_identity_events: 'user_stripe_identity_events'
+            stripe_identity_events: 'user_stripe_identity_events',
+            stripe_payment_events: 'user_stripe_payment_events',
+            stripe_identity_verifications: 'user_stripe_identity_verifications'
         },
         trash: 'graphQL_users_trash'
 };

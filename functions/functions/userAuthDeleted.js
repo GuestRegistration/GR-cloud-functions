@@ -9,9 +9,8 @@ module.exports = functions.auth.user().onDelete((user) => {
         .then(snapshot => {
             if(snapshot.exists){
                 return firestore.collection(collections.trash).doc(snapshot.ref.id).set(snapshot.data());
-            }else{
-                return Promise.resolve();
             }
+            return Promise.resolve();
         })
         .then(() => docRef.delete());
   });

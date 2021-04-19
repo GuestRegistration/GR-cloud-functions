@@ -8,15 +8,16 @@ const reservation = gql`
         getPropertyReservations(id: ID!): [Reservation]
         getReservation(id: ID!) : Reservation
         getBookingChannels: [BookingChannel]
-        getReservationCheckin (id: ID!): ReservationCheckin
+        getReservationCheckin (id: ID!): ReservationCheckin,
+        getReservationPayments (id: ID!): [StripeCharge]
     }
 
     extend type Mutation {
         # create a new reservation
-        createReservation(property_id: ID!, name: String!, booking_channel: String, checkin_date: String!, checkout_date: String!, instruction: String ): Reservation
+        createReservation(property_id: ID!, name: String!, booking_channel: String, checkin_date: String!, checkout_date: String!, instruction: String, charges: [propertyChargeInput]): Reservation
         
         # update a reservation
-        updateReservation(id: ID!, name: String!, booking_channel: String, checkin_date: String, checkout_date: String, instruction: String): Reservation
+        updateReservation(id: ID!, name: String!, booking_channel: String, checkin_date: String, checkout_date: String, instruction: String, charges: [propertyChargeInput]): Reservation
    
         #add a new guest to a reservation
         addReservationGuest(id: ID!, name: String!, gender: String!, type: String!): ReservationGuest
@@ -36,7 +37,7 @@ const reservation = gql`
     
     type Reservation {
         id: String!
-        user_id: String #id of the user the reservation belongs to
+        user_id: ID #id of the user the reservation belongs to
         name: String!
         email: String
         booking_channel: String
@@ -56,8 +57,10 @@ const reservation = gql`
         approved: Boolean!
         approved_at: String # the timestamp of when the user checked in
 
+        property_id: ID
         property: ReservationProperty
-        guests: [ReservationGuest]
+        guests: [ReservationGuest],
+        charges: [PropertyCharge],
     }
 
     type BookingChannel {
@@ -76,7 +79,7 @@ const reservation = gql`
         user: User
         reservation: Reservation
         checkin: Checkin
-        # identity: UserIdentity
+        verifications: [UserStripeVerification]
     }
 
     type ReservationGuest {

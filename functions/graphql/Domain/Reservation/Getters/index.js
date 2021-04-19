@@ -22,6 +22,7 @@ const reservation = {
     
     instruction: (parent) => parent.instruction,
     checkin_url: (parent) => `${config.app.url}/r/${parent.id}`,
+    property_id: (parent) => parent.property_id,
     property: (parent) => parent.property,
     guests: (parent) => parent.guests,
 };

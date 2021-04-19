@@ -10,7 +10,7 @@ const firebaseAdmin = require('../../../../admin');
 
 const config = require('../../../../config');
 const Stripe = require('stripe');
-const stripe = Stripe(config.stripe.test.secretKey);
+const stripe = Stripe(config.stripe.secretKey);
 
 
  const setPropertyStripeAuthorization = async (parent, {property_id, grant_type, code}, context) => {
@@ -26,9 +26,13 @@ const stripe = Stripe(config.stripe.test.secretKey);
       try {
          const response = await stripe.oauth.token({ grant_type, code });
 
-         await propertyRef.collection(collections.meta.name).doc(collections.meta.documents.payment).set({
-            stripe_authorization: response
+         await propertyRef.collection(collections.meta.name).doc(collections.meta.documents.stripe_authorization).set({
+            ...response
          })
+
+         await propertyRef.update({
+            stripe_connected: true
+         });
    
          return response;
          

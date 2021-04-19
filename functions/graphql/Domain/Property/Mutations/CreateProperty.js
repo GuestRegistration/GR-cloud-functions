@@ -36,7 +36,6 @@ const sub = require('../../../App/Providers/pubsub');
         };
 
         const firestore = firebaseAdmin.firestore();
-        
         // first confirm email
         if(property.email){
             const check_email = await firestore.collection(collections.main).where('email', '==', property.email).get();

@@ -7,7 +7,7 @@ const userAuthenticatedMiddleware = require('../../../Middlewares/UserAuthentica
 const collections = require('../Enums/collections');
 const firebaseAdmin = require('../../../../admin');
 
-const getUserStripeVerificationSession = async (parent, { user_id, property_id }, context) =>  {
+const getUserStripeVerifications = async (parent, { user_id, property_id }, context) =>  {
   clientAuthorizedMiddleware(context);
     
   //if an id was specified, perhaps for admin purpose
@@ -15,21 +15,21 @@ const getUserStripeVerificationSession = async (parent, { user_id, property_id }
       user_id = userAuthenticatedMiddleware(context);
   }
 
+  const verifications = [];
+
   const firestore = firebaseAdmin.firestore();
 
-  const document =  await firestore.collection(collections.main).doc(user_id)
-                    .collection(collections.meta.name).doc(collections.meta.documents.stripe_verification_session)
+  const documents =  await firestore.collection(collections.main).doc(user_id)
+                    .collection(collections.subcollections.stripe_identity_verifications)
+                    .where('property_id', "==", property_id)
                     .get();
 
-    if(document.exists){
-        const session = document.data()
-        return {
-            session,
-            last_report: session.last_verification_report
-        }
+    if(!documents.empty){
+        documents.forEach(snapshot => {
+            verifications.push(snapshot.data())
+        })
     }
-    return null;
-
+    return verifications;
 };
 
-module.exports = getUserStripeVerificationSession;
+module.exports = getUserStripeVerifications;

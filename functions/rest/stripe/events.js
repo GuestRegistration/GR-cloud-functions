@@ -49,6 +49,22 @@ module.exports = {
             'payment_method.card_automatically_updated',
             'payment_method.detached',
             'payment_method.updated',
+        ],
+
+        charge: [
+            'charge.captured',
+            'charge.expired',
+            'charge.failed',
+            'charge.pending',
+            'charge.refunded',
+            'charge.succeeded',
+            'charge.updated',
+            'charge.dispute.closed',
+            'charge.dispute.created',
+            'charge.dispute.funds_reinstated',
+            'charge.dispute.funds_withdrawn',
+            'charge.dispute.updated',
+            'charge.refund.updated'
         ]
     }
 }

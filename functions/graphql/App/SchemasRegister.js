@@ -9,6 +9,7 @@ const schemas = [
     require('../Domain/Property/schema'),
     require('../Domain/Reservation/schema'),
     require('../Domain/Services/Identity/schema'),
+    require('../Domain/Services/Payment/schema'),
     
 ];
 

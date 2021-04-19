@@ -1,6 +1,6 @@
 const config = require('../../config');
 const Stripe = require('stripe');
-const stripe = Stripe(config.stripe.test.secretKey);
+const stripe = Stripe(config.stripe.secretKey);
 
 module.exports = async (request, response) => {
     const signature = request.headers['stripe-signature'];

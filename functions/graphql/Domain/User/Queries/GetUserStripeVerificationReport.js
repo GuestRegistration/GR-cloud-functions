@@ -7,10 +7,9 @@ const userAuthenticatedMiddleware = require('../../../Middlewares/UserAuthentica
 const collections = require('../Enums/collections');
 const firebaseAdmin = require('../../../../admin');
 
-const getUserStripeVerificationReport = async (parent, { id }, context) =>  {
+const getUserStripeVerificationReport = async (parent, { user_id }, context) =>  {
   clientAuthorizedMiddleware(context);
 
-  let user_id = id;
     
   //if an id was specified, perhaps for admin purpose
   if(!user_id){

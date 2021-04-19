@@ -3,8 +3,7 @@ const collections = {
     meta: {
         name: 'property_meta',
         documents: {
-            rules: 'rules',
-            payment: 'payment'
+            stripe_authorization: 'stripe_authorization'
         }
     },
     subcollections: {

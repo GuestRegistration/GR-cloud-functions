@@ -10,49 +10,54 @@ const notification = require('../helpers/notification');
 module.exports = functions.firestore.document(`/${collections.reservation.main}/{reservation_id}`)
 .onCreate((snapshot, context) => {
     const reservation = snapshot.data();
-    
     const firestore = admin.firestore();
 
-    const propertyRef = firestore.collection(`${collections.property.main}`).doc(`${reservation.property_id}`);
-    return propertyRef.get()
-            .then((property_snapshot) => Promise.resolve(property_snapshot.data()))
-            .then((property) => {
-                // update the reservation with the property information
-                if(property){
-                    return Promise.all([
-                        snapshot.ref.update({
+    return firestore.collection(collections.property.main).doc(reservation.property_id).get()
+        .then((property_snapshot) => {
+            const promises = [];
+            if(property_snapshot.exists){
+                const property = property_snapshot.data();
+
+                promises.push(
+                    snapshot.ref.update({
+                        id: snapshot.ref.id,
+                        property: {
+                            id: property.id,
+                            name: property.name,
+                            image: property.image || null,
+                            address: property.full_address,
+                        },
+                        guests: [],
+                        timestamp: {
+                            created_at: helper.nowTimestamp(), 
+                            updated_at: null,
+                            deleted_at: null
+                        }
+                    })
+                );
+
+                promises.push(
+                    property_snapshot.ref.update({
+                        reservations:  firebase.firestore.FieldValue.arrayUnion({
                             id: snapshot.ref.id,
-                            property: {
-                                id: property.id,
-                                name: property.name,
-                                image: property.image || null,
-                                address: property.full_address,
-                            },
-                            guests: [],
-                            timestamp: {
-                                created_at: helper.nowTimestamp(), 
-                                updated_at: null,
-                                deleted_at: null
-                            }
-                         }),
-                         propertyRef.update({
-                             reservations:  firebase.firestore.FieldValue.arrayUnion({
-                                 id: snapshot.ref.id,
-                                 name: reservation.name,
-                                 checkin_date: reservation.checkin_date || null,
-                                 checkout_date: reservation.checkout_date || null,
-                             })
-                         }),
-                         notification.property(reservation.property_id, {
-                            text: `New reservation created for ${reservation.name}`,
-                            type: notificationTypes.reservationCreate,
-                            payload: {
-                                property_id: reservation.property_id,
-                                reservation_id: snapshot.ref.id,
-                            }
+                            name: reservation.name,
+                            checkin_date: reservation.checkin_date || null,
+                            checkout_date: reservation.checkout_date || null,
                         })
-                     ]);
-                }
-                return null;
-            });
+                    })
+                );
+
+                promises.push(
+                    notification.property(reservation.property_id, {
+                        text: `New reservation created for ${reservation.name}`,
+                        type: notificationTypes.reservationCreate,
+                        payload: {
+                            property_id: reservation.property_id,
+                            reservation_id: snapshot.ref.id,
+                        }
+                    })
+                )
+            }
+            return Promise.all(promises);
+        });
 });

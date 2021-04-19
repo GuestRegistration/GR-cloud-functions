@@ -10,7 +10,7 @@ const firebaseAdmin = require('../../../../admin');
 
 const config = require('../../../../config');
 const Stripe = require('stripe');
-const stripe = Stripe(config.stripe.test.secretKey);
+const stripe = Stripe(config.stripe.secretKey);
 
 
  const unetPropertyStripeAuthorization = async (parent, { property_id, stripe_user_id }, context) => {
@@ -23,18 +23,22 @@ const stripe = Stripe(config.stripe.test.secretKey);
    if(property.exists){
       userAuthorizedMiddleware(context, [property.data().user_id]);
 
-      const payment = await firestore.collection(collections.main).doc(property_id).collection(collections.meta.name).doc(collections.meta.documents.payment).get();
-      if(payment.exists && payment.data().stripe_authorization){
+      const stripe_authorization = await firestore.collection(collections.main).doc(property_id).
+                                 collection(collections.meta.name).doc(collections.meta.documents.stripe_authorization).get();
+      if(stripe_authorization.exists){
+         const authorization = stripe_authorization.data();
          try {
             
             const response = await stripe.oauth.deauthorize({
-               client_id: config.stripe.test.clientId,
-               stripe_user_id: payment.data().stripe_authorization.stripe_user_id,
+               client_id: config.stripe.clientId,
+               stripe_user_id: authorization.stripe_user_id,
             })
       
-            await propertyRef.collection(collections.meta.name).doc(collections.meta.documents.payment).set({
-               stripe_authorization: null
-            })
+            await propertyRef.collection(collections.meta.name).doc(collections.meta.documents.stripe_authorization).delete();
+
+            await propertyRef.update({
+               stripe_connected: false
+            });   
       
             return response;
          

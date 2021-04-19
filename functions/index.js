@@ -12,9 +12,6 @@ exports.onUserCreated = require('./functions/userCreated');
 // when a user document is updated
 exports.onUserUpdated = require('./functions/userUpdated');
 
-// when a new ID access history is created
-exports.onUserIDAccessed = require('./functions/userIDAccessed');
-
 // when new property property is created
 exports.onPropertyCreated = require('./functions/propertyCreated');
 
@@ -35,3 +32,6 @@ exports.onStripeIdentityEventCreated = require('./functions/stripeIdentityEventC
 
 // when user verification session is updated
 exports.onUserStripeVerificationSessionUpdated = require('./functions/userStripeVerificationSessionUpdated');
+
+// when there is new stripe payment event
+exports.onStripePaymentEvent = require('./functions/stripePaymentEventCreated');

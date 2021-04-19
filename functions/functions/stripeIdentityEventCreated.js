@@ -7,7 +7,6 @@ module.exports = functions.firestore.document(`/${collections.system.stripe_iden
 .onCreate((snapshot, context) => {
     const event = snapshot.data();
     const firestore = admin.firestore();
-
     const metadata = event.data.object.metadata;
 
     userId =  metadata.user_id;
@@ -20,19 +19,29 @@ module.exports = functions.firestore.document(`/${collections.system.stripe_iden
             if(snapshot.exists){
                 // General logging of event for user
                 return userRef.collection(collections.user.subcollections.stripe_identity_events).doc(event.id).set(event)
-            }else{
-                return Promise.resolve()
             }
+            return Promise.resolve()
         })
         .then(() => {
             // Write to verification session document
             if(events.identity.verification_session.includes(event.type)){
+                const session = event.data.object; 
 
-                return event.type !== 'identity.verification_session.canceled' 
-                    ? userRef.collection(collections.user.meta.name).doc(collections.user.meta.documents.stripe_verification_session).set(event.data.object)
-                    : userRef.collection(collections.user.meta.name).doc(collections.user.meta.documents.stripe_verification_session).delete()
+                const verificationRef = userRef.collection(collections.user.subcollections.stripe_identity_verifications)
+                                        .doc(session.id);
+                if(event.type !== 'identity.verification_session.canceled'){
+                    return verificationRef.set({
+                        property_id: session.metadata.property_id,
+                        session: session.id,
+                        report: session.last_verification_report,
+                        status: session.status,
+                        url: session.url,
+                        type: session.type,
+                        metadata: metadata
+                    });
+                }
+                return verificationRef.delete()
             }
-            
             return Promise.resolve()
         })
     }

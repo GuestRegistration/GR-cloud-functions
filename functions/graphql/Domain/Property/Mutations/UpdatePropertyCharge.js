@@ -9,7 +9,7 @@ const collections = require('../Enums/collections');
 const firebaseAdmin = require('../../../../admin');
 
 
- const createPropertyCharge = async (parent, {property_id, charge_id, title, amount, type, description}, context) => {
+ const createPropertyCharge = async (parent, {property_id, charge_id, data}, context) => {
    clientAuthorizedMiddleware(context);
 
    const firestore = firebaseAdmin.firestore();
@@ -23,9 +23,7 @@ const firebaseAdmin = require('../../../../admin');
      const chargeRef = await propertyRef.collection(collections.subcollections.charges).doc(charge_id);
       if((await chargeRef.get()).exists){
 
-         await chargeRef.update({
-            title, amount, type, description
-         })
+         await chargeRef.update(data)
 
          return {
             id: chargeRef.id,

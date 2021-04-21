@@ -9,7 +9,7 @@ const notifications = {
     reservationUpdate: 'reservation.update',
     reservationCheckin: 'reservation.checkin',
     reservationCheckinApproval: 'reservation.checkin.approval',
-    identityAccess: 'identity.access',
+    idVerificationAccess: 'identity.verification.access',
 };
 
 module.exports = notifications;

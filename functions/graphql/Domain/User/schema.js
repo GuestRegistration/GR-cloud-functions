@@ -12,8 +12,8 @@ const user = gql`
         getUserIdentities(id: ID): [UserIdentity]
         getUserDevices(id: ID): [UserDevice]
         getUserStripeVerifications(user_id: ID, property_id: ID!): [UserStripeVerification]
-        getUserStripeVerificationSession(user_id: ID, property_id: ID!): UserStripeVerificationSession
-        getUserStripeVerificationReport(user_id: ID, property_id: ID!): StripeVerificationReport
+        getUserStripeVerificationSession(user_id: ID, verification_id: ID!): StripeVerificationSession
+        getUserStripeVerificationReport(user_id: ID, verification_id: ID!): StripeVerificationReport
     }
 
     extend type Mutation {
@@ -176,16 +176,11 @@ const user = gql`
     }
 
     type UserNotificationPayload {
-        id: String
-        user_id: String
-        identity_id: String
-        property_id: String
-        reservation_id: String
-    }
-
-    type UserStripeVerificationSession {
-        session: StripeVerificationSession
-        last_report: ID
+        id: ID
+        user_id: ID
+        property_id: ID
+        reservation_id: ID
+        verification_id: ID
     }
 
     type UserStripeVerification {

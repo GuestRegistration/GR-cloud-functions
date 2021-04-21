@@ -46,10 +46,10 @@ const getReservationCheckin = async (parent, {id}, context) => {
                 // get the user data
                 const userRef = firestore.collection(userCollections.main).doc(reservation.user_id);
                 const userDoc = await userRef.get();
-                const user = {
+                const user = userDoc.exists ? {
                     id: userDoc.ref.id,
                     ...userDoc.data()
-                };
+                } : null
 
                 // get the verification data
                 const verifications = [];

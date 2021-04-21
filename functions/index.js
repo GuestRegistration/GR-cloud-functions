@@ -35,3 +35,6 @@ exports.onUserStripeVerificationSessionUpdated = require('./functions/userStripe
 
 // when there is new stripe payment event
 exports.onStripePaymentEvent = require('./functions/stripePaymentEventCreated');
+
+// when there is new user veerification access history
+exports.onVerificationReportAccessed = require('./functions/verificationReportAccessed');

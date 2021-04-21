@@ -6,20 +6,6 @@ const stripe = Stripe(config.stripe.secretKey, {
 });
 
 const getStripeVerificationReport = async (parent, { id }, context) => {
-  
-    // const resource = Stripe.Stripe.StripeResource.extend({
-    //     request: Stripe.Stripe.StripeResource.method({
-    //       method: 'GET',
-    //       path: `/identity/verification_reports/${id}`,
-    //     })
-    //   });
-      
-    //   const verificationReport = await new resource(stripe).request({
-    //     expand: [],
-    //   });
-
-    //   return verificationReport;
-
 
       const resource = Stripe.Stripe.StripeResource.extend({
         request: Stripe.Stripe.StripeResource.method({

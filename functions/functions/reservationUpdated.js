@@ -62,7 +62,7 @@ module.exports = functions.firestore.document(`/${collections.reservation.main}/
                 )
             }
 
-            const notificationMsg = `Your reservation at ${before.property.name} was updated.`; 
+            let notificationMsg = `Your reservation at ${before.property.name} was updated.`; 
             notificationMsg += `${before.property.name !== after.property.name ? ' Property name is now '+after.property.name+'.' : ''}`;
             notificationMsg += `${before.property.address !== after.property.address ? ' Property address is now '+after.property.address+'.' : ''}`;
             notificationMsg += `${before.instruction !== after.instruction ? ' There was a change to the instruction.': ''}`;

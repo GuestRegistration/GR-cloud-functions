@@ -27,7 +27,7 @@ const updateReservation = async (parent, {id, name, booking_channel, checkin_dat
             let updated_reservation = {
                 id, 
                 name, 
-                instruction,
+                instruction: instruction || null,
                 booking_channel: booking_channel || null,
                 charges
             };

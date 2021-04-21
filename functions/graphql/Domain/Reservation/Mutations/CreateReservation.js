@@ -26,7 +26,7 @@ const subscriptions = require('../Enums/subscriptions');
             name, 
             checkin_date, 
             checkout_date,
-            instruction,
+            instruction: instruction || null,
             booking_channel: booking_channel || null , 
             charges
         };

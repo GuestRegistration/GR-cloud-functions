@@ -19,7 +19,7 @@ module.exports = functions.firestore.document(`/${collections.reservation.main}/
         name: before.name,
         property_id: before.property.id,
         property_name: before.property.name,
-        property_image: before.property.image,
+        property_image: before.property.image || null,
         property_address: before.property.address,
         checkin_date: before.checkin_date || null,
         checkout_date: before.checkout_date || null,
@@ -29,7 +29,7 @@ module.exports = functions.firestore.document(`/${collections.reservation.main}/
         name: after.name,
         property_id: after.property.id,
         property_name: after.property.name,
-        property_image: after.property.image,
+        property_image: after.property.image || null,
         property_address: after.property.address,
         checkin_date: after.checkin_date || null,
         checkout_date: after.checkout_date || null,
@@ -41,7 +41,7 @@ module.exports = functions.firestore.document(`/${collections.reservation.main}/
 
         // if there is difference in the data and there is user corresponding with the reservation
 
-        if(!_.isEqual(user_copy_before, user_copy_after) || before.instruction !== after.instruction || before.charges !== after.charges){
+        if(!_.isEqual(user_copy_before, user_copy_after) || before.instruction !== after.instruction || !_.isEqual(before.charges !== after.charges) ){
             if(!_.isEqual(user_copy_before, user_copy_after)){
                 promises.push(
                     firestore.collection(collections.user.main).doc(after.user_id).get()
@@ -60,21 +60,25 @@ module.exports = functions.firestore.document(`/${collections.reservation.main}/
                         return Promise.resolve()
                     })
                 )
-            }else{
-                // Send notification to guest
-                promises.push(
-                    notification.user(after.user_id, {
-                        text: `Your reservation at ${after.property.name} was updated`,
-                        type: notificationTypes.reservationUpdate,
-                        payload: {
-                            reservation_id: reservationId,
-                            property_id: after.property_id,
-                            }
-                        })
-                    )
             }
 
-            
+            const notificationMsg = `Your reservation at ${before.property.name} was updated.`; 
+            notificationMsg += `${before.property.name !== after.property.name ? ' Property name is now '+after.property.name+'.' : ''}`;
+            notificationMsg += `${before.property.address !== after.property.address ? ' Property address is now '+after.property.address+'.' : ''}`;
+            notificationMsg += `${before.instruction !== after.instruction ? ' There was a change to the instruction.': ''}`;
+            notificationMsg += `${!_.isEqual(before.charges, after.charges) ? ' There was a change to your charges.': ''}`;
+
+            // Send notification to guest
+            promises.push(
+                notification.user(before.user_id, {
+                    text: notificationMsg,
+                    type: notificationTypes.reservationUpdate,
+                    payload: {
+                        reservation_id: reservationId,
+                        property_id: after.property_id,
+                        }
+                    })
+                )
         }
 
     }

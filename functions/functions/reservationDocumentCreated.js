@@ -35,7 +35,7 @@ module.exports = functions.firestore.document(`/${collections.reservation.main}/
                             name: reservation.name,
                             property_id: reservation.property.id,
                             property_name: reservation.property.name,
-                            property_image: reservation.property.image,
+                            property_image: reservation.property.image || null,
                             property_address: reservation.property.address,
                             checkin_date: reservation.checkin_date || null,
                             checkout_date: reservation.checkout_date || null,

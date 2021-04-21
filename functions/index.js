@@ -38,3 +38,9 @@ exports.onStripePaymentEvent = require('./functions/stripePaymentEventCreated');
 
 // when there is new user veerification access history
 exports.onVerificationReportAccessed = require('./functions/verificationReportAccessed');
+
+// when there is a new  user notification
+exports.onUserNotificationCreated = require('./functions/userNotificationCreated');
+
+// when there is a new property notification
+exports.onPropertyNotificationCreated = require('./functions/propertyNotificationCreated');

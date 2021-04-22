@@ -17,6 +17,8 @@ const resolvers = {
                 addReservationGuest: require('./Mutations/AddReservationGuest'),
                 checkinReservation: require('./Mutations/CheckinReservation'),
                 approveReservationCheckin: require('./Mutations/ApproveReservationCheckin'),
+                createReservationCharge: require('./Mutations/CreateReservationCharge'),
+                captureReservationCharge: require('./Mutations/CaptureReservationCharge'),
         },
         subscriptions: {
                 // Your subscriptions resolvers here

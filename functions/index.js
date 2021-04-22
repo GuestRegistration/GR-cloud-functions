@@ -44,3 +44,6 @@ exports.onUserNotificationCreated = require('./functions/userNotificationCreated
 
 // when there is a new property notification
 exports.onPropertyNotificationCreated = require('./functions/propertyNotificationCreated');
+
+// when there is a reservation stripe charge is wrtten
+exports.onReservationChargeWrite = require('./functions/reservationChargeWrite');

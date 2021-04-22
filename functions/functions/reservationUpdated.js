@@ -62,11 +62,11 @@ module.exports = functions.firestore.document(`/${collections.reservation.main}/
                 )
             }
 
-            let notificationMsg = `Your reservation at ${before.property.name} was updated.`; 
+            let notificationMsg = `Reservation at ${before.property.name} was updated.`; 
             notificationMsg += `${before.property.name !== after.property.name ? ' Property name is now '+after.property.name+'.' : ''}`;
             notificationMsg += `${before.property.address !== after.property.address ? ' Property address is now '+after.property.address+'.' : ''}`;
-            notificationMsg += `${before.instruction !== after.instruction ? ' There was a change to the instruction.': ''}`;
-            notificationMsg += `${!_.isEqual(before.charges, after.charges) ? ' There was a change to your charges.': ''}`;
+            notificationMsg += `${before.instruction !== after.instruction ? ' There was change to the instruction.': ''}`;
+            notificationMsg += `${!_.isEqual(before.charges, after.charges) ? ' There was change to charges.': ''}`;
 
             // Send notification to guest
             promises.push(
@@ -130,7 +130,7 @@ module.exports = functions.firestore.document(`/${collections.reservation.main}/
     // if just approved
     if(!before.approved_at && after.approved_at){
       promises.push(notification.user(after.user_id, {
-        text: `Your reservation checkin to ${after.property.name} has been approved`,
+        text: `Reservation checkin to ${after.property.name} has been approved`,
         type: notificationTypes.reservationCheckinApproval,
         payload: {
             reservation_id: reservationId,

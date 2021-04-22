@@ -2,10 +2,10 @@ const config = require('../../../../../config');
 const helper = require('../../../../../helpers');
 
 const stripe = require('stripe')(config.stripe.secretKey);
-const createStripeCharge = async (parent, {stripe_account, source, amount, currency, description, receipt_email, metadata }, context) => {
+const createStripeCharge = async (parent, {stripe_account, source, amount, currency, description, receipt_email, metadata, capture }, context) => {
     
   const data = {
-    source, amount, currency, description, metadata
+    source, amount, currency, description, metadata, capture
   }
   if(receipt_email && helper.validateEmail(receipt_email)){
     data.receipt_email = receipt_email
@@ -16,7 +16,6 @@ const createStripeCharge = async (parent, {stripe_account, source, amount, curre
         stripeAccount: stripe_account
       }
     );
-
       return charge;
 }
 

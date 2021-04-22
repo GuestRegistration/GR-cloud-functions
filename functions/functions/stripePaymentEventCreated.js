@@ -30,10 +30,6 @@ module.exports = functions.firestore.document(`/${collections.system.stripe_paym
                 }
                 return Promise.resolve()
             })
-            .then(() => {
-                // Add to user payments
-                return userRef.collection(collections.user.subcollections.payments).doc(charge.id).set(charge)
-            })
     }
 
     const updateReservationPayment = () => {

@@ -10,6 +10,8 @@ const notifications = {
     reservationCheckin: 'reservation.checkin',
     reservationCheckinApproval: 'reservation.checkin.approval',
     idVerificationAccess: 'identity.verification.access',
+    chargeAuthorized: 'charge.authorized',
+    chargeCaptured: 'charge.captured',
 };
 
 module.exports = notifications;

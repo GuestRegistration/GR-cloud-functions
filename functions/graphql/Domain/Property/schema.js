@@ -155,6 +155,7 @@ const property = gql`
         description: String
         type: String
         enable: Boolean
+        optional: Boolean
     }
 
     input propertyChargeInput {
@@ -163,7 +164,8 @@ const property = gql`
         amount: Int!
         description: String!
         type: String!
-        enable: Boolean! 
+        enable: Boolean!
+        optional: Boolean,
     }
 
 `;

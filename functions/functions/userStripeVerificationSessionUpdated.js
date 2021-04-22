@@ -9,7 +9,7 @@ module.exports = functions.firestore.document(`/${collections.user.main}/{userId
     // Send notification to user 
     if(session.status === 'verified' || session.status === 'canceled'){
       return notification.user(context.params.userId, {
-        text: session.status === 'verified' ? `Your identity verification was successful` : `Your identity verification has been canceled`,
+        text: session.status === 'verified' ? `Identity verification was successful` : `Identity verification has been canceled`,
         type: `identity.verification`,
         payload: {
             verification_session_id: session.id,

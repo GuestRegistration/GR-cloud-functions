@@ -18,7 +18,7 @@ module.exports = functions.firestore.document(`/${collections.main}/{userId}/${c
             .then(snapshot => {
                 const accessor = snapshot.data();
                 return notification.user(userId, {
-                    text: `Your Identity verification report was recently viewed by ${accessor.name.first_name} ${accessor.name.last_name}`,
+                    text: `Identity verification report recently viewed by ${accessor.name.first_name} ${accessor.name.last_name}`,
                     type: notificationTypes.idVerificationAccess,
                     payload: {
                         user_id: snapshot.ref.id,

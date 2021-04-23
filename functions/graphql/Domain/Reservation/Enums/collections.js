@@ -7,7 +7,7 @@ const collections = {
         }
     },
     subcollections: {
-       payments: 'reservation_payments'
+       payments: 'reservation_payments',
     },
     trash: 'graphQL_reservations_trash'
 };

@@ -28,10 +28,11 @@ const reservation = gql`
         # approve a checked in reservation
         approveReservationCheckin(id: ID!): Reservation
 
-        createReservationCharge(stripe_account: String!, source: String!, amount: Int!, currency: String!, description: String, receipt_email: String metadata: StripeChargeMetadataInput, capture: Boolean ): StripeCharge
-        captureReservationCharge(stripe_account: String!, charge_id: ID!, amount: Int): StripeCharge
+        createReservationCharge(stripe_account: ID!, source: String!, amount: Int!, currency: String!, description: String, receipt_email: String metadata: StripeChargeMetadataInput, capture: Boolean ): StripeCharge
+        
+        captureReservationCharge(stripe_account: ID!, charge_id: ID!, amount: Int): StripeCharge
 
-
+        refundReservationCharge(stripe_account: ID!, charge_id: ID!, amount: Int, reason: String, customer_note: String): StripeRefund
     }
 
     extend type Subscription {

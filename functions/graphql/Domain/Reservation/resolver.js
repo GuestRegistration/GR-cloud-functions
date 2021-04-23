@@ -19,6 +19,7 @@ const resolvers = {
                 approveReservationCheckin: require('./Mutations/ApproveReservationCheckin'),
                 createReservationCharge: require('./Mutations/CreateReservationCharge'),
                 captureReservationCharge: require('./Mutations/CaptureReservationCharge'),
+                refundReservationCharge: require('./Mutations/RefundReservationCharge')
         },
         subscriptions: {
                 // Your subscriptions resolvers here

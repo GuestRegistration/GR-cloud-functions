@@ -25,7 +25,7 @@ module.exports = functions.firestore.document(`/${collections.reservation.main}/
             // Document update
             if(change.before.exists){
                 const previously = change.before.data();
-                // Charge has been captured
+                // Charge got captured
                 if (!previously.captured && payment.captured && userId) {
                     return notification.user(userId, {
                         text: `${reservation.property.name} has charged you ${payment.currency.toUpperCase()} ${payment.amount_captured/100} from your card authorization`,
@@ -35,7 +35,19 @@ module.exports = functions.firestore.document(`/${collections.reservation.main}/
                             }
                         })
                 }
+
+                // Charge got refunded
+                if (previously.captured && payment.refunded && userId) {
+                    return notification.user(userId, {
+                        text: `${reservation.property.name} has refunded you ${payment.currency.toUpperCase()} ${payment.amount_refunded/100}`,
+                        type: notificationTypes.chargeRefunded,
+                        payload: {
+                            reservation_id: reservationId,
+                            }
+                    })
+                }
             }
+            
             // Document write
             else{
                 if(!payment.captured && userId){

@@ -7,9 +7,10 @@ const schema = gql`
     # }
 
     extend type Mutation {
-        createStripePaymentIntent(stripe_account: String!, amount: Int!, currency: String!, payment_method_types: [String]!, metadata: StripePaymentIntentMetadataInput ): StripePaymentIntent
-        createStripeCharge(stripe_account: String!, source: String!, amount: Int!, currency: String!, description: String, receipt_email: String metadata: StripeChargeMetadataInput, capture: Boolean ): StripeCharge
-        captureStripeCharge(stripe_account: String!, charge_id: ID!, amount: Int): StripeCharge
+        createStripePaymentIntent(stripe_account: ID!, amount: Int!, currency: String!, payment_method_types: [String]!, metadata: StripePaymentIntentMetadataInput ): StripePaymentIntent
+        createStripeCharge(stripe_account: ID!, source: String!, amount: Int!, currency: String!, description: String, receipt_email: String metadata: StripeChargeMetadataInput, capture: Boolean ): StripeCharge
+        captureStripeCharge(stripe_account: ID!, charge_id: ID!, amount: Int): StripeCharge
+        createStripeRefund(stripe_account: ID!, charge_id: ID!, amount: Int, reason: String, customer_note: String): StripeRefund
     }
 
     # extend type Subscription {
@@ -73,11 +74,32 @@ const schema = gql`
         captured: Boolean
     }
 
+    type StripeRefund {
+        id: ID!,
+        object: String,
+        amount: Int,
+        balance_transaction: String,
+        charge: StripeCharge,
+        created: Int,
+        currency: String
+        metadata: StripeRefundMetadata,
+        payment_intent: ID,
+        reason: String,
+        receipt_number: String,
+        source_transfer_reversal: String,
+        status: String,
+        transfer_reversal: String
+    }
+
     type StripeChargeMetadata {
         user_id: ID
         reservation_id: ID
         property_id: ID
         charge_id: ID
+    }
+
+    type StripeRefundMetadata {
+        customer_note: String
     }
 
     input StripePaymentIntentMetadataInput {

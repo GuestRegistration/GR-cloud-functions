@@ -12,6 +12,7 @@ const notifications = {
     idVerificationAccess: 'identity.verification.access',
     chargeAuthorized: 'charge.authorized',
     chargeCaptured: 'charge.captured',
+    chargeRefunded: 'charge.refunded',
 };
 
 module.exports = notifications;

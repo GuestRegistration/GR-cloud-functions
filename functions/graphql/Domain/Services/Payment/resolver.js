@@ -4,7 +4,9 @@ const resolvers = {
     },
     mutations: {
         createStripePaymentIntent: require('./Mutations/createStripePaymentIntent'),
-        createStripeCharge: require('./Mutations/createStripeCharge')
+        createStripeCharge: require('./Mutations/createStripeCharge'),
+        captureStripeCharge: require('./Mutations/captureStripeCharge'),
+        createStripeRefund: require('./Mutations/createStripeRefund')
     },
     subscriptions: {
             // Your subscriptions resolvers here

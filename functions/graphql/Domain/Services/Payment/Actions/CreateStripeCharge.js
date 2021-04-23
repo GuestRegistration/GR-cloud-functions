@@ -2,7 +2,8 @@ const config = require('../../../../../config');
 const helper = require('../../../../../helpers');
 
 const stripe = require('stripe')(config.stripe.secretKey);
-const createStripeCharge = async (parent, {stripe_account, source, amount, currency, description, receipt_email, metadata, capture }, context) => {
+
+const createStripeCharge = async ({stripe_account, source, amount, currency, description, receipt_email, metadata, capture }) => {
     
   const data = {
     source, amount, currency, description, metadata, capture

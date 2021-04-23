@@ -1,8 +1,7 @@
 const config = require('../../../../../config');
-const helper = require('../../../../../helpers');
 
 const stripe = require('stripe')(config.stripe.secretKey);
-const createStripeRefund = async (parent, {stripe_account, charge_id, amount, reason, customer_note }, context) => {
+const createStripeRefund = async ({stripe_account, charge_id, amount, reason, customer_note }) => {
     
   const refund = await stripe.refunds.create( 
       {

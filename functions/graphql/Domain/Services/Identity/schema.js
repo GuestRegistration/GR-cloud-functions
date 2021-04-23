@@ -2,14 +2,14 @@ const { gql } =  require('apollo-server-express');
 
 const schema = gql`
 
-    extend type Query {
-        getStripeVerificationSession (id: ID!): StripeVerificationSession
-        getStripeVerificationReport (id: ID!): StripeVerificationReport
-    }
+    # extend type Query {
+    #     getVerificationSession (id: ID!): StripeVerificationSession
+    #     getVerificationReport (id: ID!): StripeVerificationReport
+    # }
 
-    extend type Mutation {
-        createStripeVerificationSession (stripe_account: ID!, metadata: StripeVerificationMetadataInput, return_url: String, refresh_url: String): StripeVerificationSession
-    }
+    # extend type Mutation {
+    #     createVerificationSession (stripe_account: ID!, metadata: StripeVerificationMetadataInput, return_url: String, refresh_url: String): StripeVerificationSession
+    # }
 
     # extend type Subscription {
     #     # Your subscription goes here

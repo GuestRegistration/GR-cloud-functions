@@ -92,6 +92,12 @@ const user = gql`
             notification_token: String
         ): UserDevice
 
+        createUserStripeVerificationSession (
+            stripe_account: ID!, 
+            metadata: StripeVerificationMetadataInput, 
+            return_url: String, 
+            refresh_url: String
+        ): StripeVerificationSession
 
     }
 

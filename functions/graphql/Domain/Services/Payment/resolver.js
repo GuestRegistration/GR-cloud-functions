@@ -3,10 +3,10 @@ const resolvers = {
     queries: {
     },
     mutations: {
-        createStripePaymentIntent: require('./Mutations/createStripePaymentIntent'),
-        createStripeCharge: require('./Mutations/createStripeCharge'),
-        captureStripeCharge: require('./Mutations/captureStripeCharge'),
-        createStripeRefund: require('./Mutations/createStripeRefund')
+        // createPaymentIntent: require('./Mutations/createPaymentIntent'),
+        // createCharge: require('./Mutations/createCharge'),
+        // captureCharge: require('./Mutations/captureCharge'),
+        // createRefund: require('./Mutations/createRefund')
     },
     subscriptions: {
             // Your subscriptions resolvers here

@@ -23,6 +23,7 @@ module.exports = {
                 createUserIdentity: require('./Mutations/CreateUserIdentity'),
                 deleteUser: require('./Mutations/DeleteUser'),
                 updateUserDevice: require('./Mutations/UpdateUserDevice'),
+                createUserStripeVerificationSession: require('./Mutations/createUserStripeVerificationSession')
         },
 
         subscriptions: {

@@ -5,7 +5,7 @@ const stripe = Stripe(config.stripe.secretKey, {
   apiVersion: '2020-08-27; identity_beta=v4'
 });
 
-const getStripeVerificationSession = async (parent, {id}, context) => {
+const getStripeVerificationSession = async ({id}) => {
     const resource = Stripe.Stripe.StripeResource.extend({
         request: Stripe.Stripe.StripeResource.method({
           method: 'GET',

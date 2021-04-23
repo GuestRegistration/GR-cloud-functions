@@ -6,7 +6,7 @@
  const userAuthenticatedMiddleware = require('../../../Middlewares/UserAuthenticated');
  const collections = require('../Enums/collections');
  const firebaseAdmin = require('../../../../admin');
- const stripeVerificationSession = require('../../Services/Identity/Queries/GetStripeVerificationSession');
+ const stripeVerificationSession = require('../../Services/Identity/Actions/GetStripeVerificationSession');
  
  const getUserStripeVerificationSession = async (parent, { user_id, verification_id }, context) =>  {
    clientAuthorizedMiddleware(context);

@@ -6,12 +6,12 @@ const schema = gql`
     #     # Your queries go here
     # }
 
-    extend type Mutation {
-        createStripePaymentIntent(stripe_account: ID!, amount: Int!, currency: String!, payment_method_types: [String]!, metadata: StripePaymentIntentMetadataInput ): StripePaymentIntent
-        createStripeCharge(stripe_account: ID!, source: String!, amount: Int!, currency: String!, description: String, receipt_email: String metadata: StripeChargeMetadataInput, capture: Boolean ): StripeCharge
-        captureStripeCharge(stripe_account: ID!, charge_id: ID!, amount: Int): StripeCharge
-        createStripeRefund(stripe_account: ID!, charge_id: ID!, amount: Int, reason: String, customer_note: String): StripeRefund
-    }
+    # extend type Mutation {
+    #     createPaymentIntent(stripe_account: ID!, amount: Int!, currency: String!, payment_method_types: [String]!, metadata: StripePaymentIntentMetadataInput ): StripePaymentIntent
+    #     createCharge(stripe_account: ID!, source: String!, amount: Int!, currency: String!, description: String, receipt_email: String metadata: StripeChargeMetadataInput, capture: Boolean ): StripeCharge
+    #     captureCharge(stripe_account: ID!, charge_id: ID!, amount: Int): StripeCharge
+    #     createRefund(stripe_account: ID!, charge_id: ID!, amount: Int, reason: String, customer_note: String): StripeRefund
+    # }
 
     # extend type Subscription {
     #     # Your subscription goes here

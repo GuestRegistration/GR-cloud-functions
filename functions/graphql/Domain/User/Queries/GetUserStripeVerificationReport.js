@@ -6,7 +6,7 @@ const clientAuthorizedMiddleware = require('../../../Middlewares/ClientAuthorize
 const userAuthenticatedMiddleware = require('../../../Middlewares/UserAuthenticated');
 const collections = require('../Enums/collections');
 const firebaseAdmin = require('../../../../admin');
-const stripeVerificationReport = require('../../Services/Identity/Queries/GetStripeVerificationReport');
+const stripeVerificationReport = require('../../Services/Identity/Actions/GetStripeVerificationReport');
 const helpers = require( '../../../../helpers');
 
 const getUserStripeVerificationReport = async (parent, { user_id, verification_id }, context) =>  {
@@ -30,7 +30,7 @@ const getUserStripeVerificationReport = async (parent, { user_id, verification_i
     if(verificationDoc.exists){
         const verification = verificationDoc.data();
         if(verification.report){
-            report = await stripeVerificationReport(parent, {id: verification.report}, context);
+            report = await stripeVerificationReport({id: verification.report});
         }
 
         if(report && user_id !== auth){

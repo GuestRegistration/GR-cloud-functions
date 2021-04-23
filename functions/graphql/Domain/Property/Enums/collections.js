@@ -9,6 +9,7 @@ const collections = {
     subcollections: {
         notifications: 'property_notifications',
         charges: 'property_charges',
+        checkin_instructions: 'property_checkin_instructions'
     },
     trash: 'graphQL_properties_trash'
 };

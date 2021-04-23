@@ -11,6 +11,7 @@ const property = gql`
         getPropertyStripeAuthorization(property_id: ID!): StripeAuthorization
         getPropertyCharges(property_id: ID!): [PropertyCharge]
         getPropertyCharge(property_id: ID!, charge_id: ID!): PropertyCharge
+        getPropertyCheckinInstructionTemplates(property_id: ID!): [CheckinInstructionTemplate]
     }
 
     extend type Mutation {
@@ -72,6 +73,12 @@ const property = gql`
         
         # update property charge
         updatePropertyCharge (property_id: ID!, charge_id: ID!, data: propertyChargeInput!): PropertyCharge
+
+        # Create property checkin instruction template
+        createPropertyCheckinInstructionTemplate (property_id: ID!, title: String, body: String!): CheckinInstructionTemplate
+        
+        # update property checkin instruction template
+        updatePropertyCheckinInstructionTemplate (property_id: ID!, template_id: ID!, title: String, body: String!): CheckinInstructionTemplate
 
     }
 
@@ -158,6 +165,12 @@ const property = gql`
         optional: Boolean
     }
 
+    type CheckinInstructionTemplate {
+        id: ID!
+        title: String
+        body: String
+    }
+
     input propertyChargeInput {
         id: ID
         title: String!
@@ -167,6 +180,7 @@ const property = gql`
         enable: Boolean!
         optional: Boolean,
     }
+
 
 `;
 

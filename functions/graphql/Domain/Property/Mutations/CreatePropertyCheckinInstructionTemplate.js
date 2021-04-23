@@ -1,5 +1,5 @@
 /**
- * Update property charge
+ * Create property checkin instruction template
  */
 
  //  middlewares
@@ -9,7 +9,7 @@ const collections = require('../Enums/collections');
 const firebaseAdmin = require('../../../../admin');
 
 
- const updatePropertyCharge = async (parent, {property_id, charge_id, data}, context) => {
+ const createPropertyCheckinInstructionTemplate = async (parent, {property_id, title, body}, context) => {
    clientAuthorizedMiddleware(context);
 
    const firestore = firebaseAdmin.firestore();
@@ -20,24 +20,21 @@ const firebaseAdmin = require('../../../../admin');
 
       userAuthorizedMiddleware(context, [property.data().user_id]);
 
-     const chargeRef = await propertyRef.collection(collections.subcollections.charges).doc(charge_id);
-      if((await chargeRef.get()).exists){
 
-         await chargeRef.update(data)
+     const template = await propertyRef.collection(collections.subcollections.checkin_instructions).add({
+        title: title || 'No title',
+         body
+      })
 
-         return {
-            id: chargeRef.id,
-            ...(await chargeRef.get()).data()
-         }
-
-      }else{
-         throw new Error("Charge not found");
-      }
-          
+      return {
+         id: template.id,
+         ...(await template.get()).data()
+      } 
+      
    }else{
-      throw new Error("Property not found");
+      throw new Error("Property do not exist");
    }
 };
 
- module.exports = updatePropertyCharge;
+ module.exports = createPropertyCheckinInstructionTemplate;
 

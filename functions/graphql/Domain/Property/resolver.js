@@ -9,7 +9,9 @@ const resolvers = {
                 getPropertyStripeAuthorization: require('./Queries/GetPropertyStripeAuthorization'),
                 getPropertyCharges: require('./Queries/GetPropertyCharges'),
                 getPropertyCharge: require('./Queries/GetPropertyCharge'),
-                getPropertyCheckinInstructionTemplates: require('./Queries/GetPropertyCheckinInstructionTemplates')
+                getPropertyCheckinInstructionTemplates: require('./Queries/GetPropertyCheckinInstructionTemplates'),
+                getPropertyCheckinAgreements: require('./Queries/GetPropertyCheckinAgreements'),
+                getPropertyCheckinQuestions: require('./Queries/GetPropertyCheckinQuestions')
         },
         mutations: {
                 // Your mutations resolvers here
@@ -24,7 +26,10 @@ const resolvers = {
                 createPropertyCharge: require('./Mutations/CreatePropertyCharge'),
                 updatePropertyCharge: require('./Mutations/UpdatePropertyCharge'),
                 createPropertyCheckinInstructionTemplate: require('./Mutations/CreatePropertyCheckinInstructionTemplate'),
-                updatePropertyCheckinInstructionTemplate: require('./Mutations/UpdatePropertyCheckinInstructionTemplate')
+                updatePropertyCheckinInstructionTemplate: require('./Mutations/UpdatePropertyCheckinInstructionTemplate'),
+                updatePropertyCheckinQuestions: require('./Mutations/UpdatePropertyCheckinQuestions'),
+                updatePropertyCheckinAgreements: require('./Mutations/UpdatePropertyCheckinAgreements')
+
         },
         subscriptions: {
                 // Your subscriptions resolvers here

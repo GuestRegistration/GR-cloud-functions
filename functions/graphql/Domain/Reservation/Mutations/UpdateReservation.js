@@ -10,7 +10,7 @@ const firebaseAdmin = require('../../../../admin');
 const sub = require('../../../App/Providers/pubsub');
 const subscriptions = require('../Enums/subscriptions');
 
-const updateReservation = async (parent, {id, name, booking_channel, checkin_date, checkout_date, instruction, charges}, context) => {
+const updateReservation = async (parent, {id, name, checkin_date, checkout_date, instruction, charges, agreements, questions}, context) => {
     clientAuthorizedMiddleware(context);
 
     const firestore = firebaseAdmin.firestore();
@@ -28,8 +28,9 @@ const updateReservation = async (parent, {id, name, booking_channel, checkin_dat
                 id, 
                 name, 
                 instruction: instruction || null,
-                booking_channel: booking_channel || null,
-                charges
+                charges,
+                agreements,
+                questions
             };
 
             if(checkin_date){

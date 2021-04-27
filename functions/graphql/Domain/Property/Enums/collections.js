@@ -3,7 +3,9 @@ const collections = {
     meta: {
         name: 'property_meta',
         documents: {
-            stripe_authorization: 'stripe_authorization'
+            stripe_authorization: 'stripe_authorization',
+            checkin_agreements: 'checkin_agreements',
+            checkin_questions: 'checkin_questions'
         }
     },
     subcollections: {

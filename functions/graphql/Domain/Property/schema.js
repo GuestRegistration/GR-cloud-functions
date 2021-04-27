@@ -12,6 +12,8 @@ const property = gql`
         getPropertyCharges(property_id: ID!): [PropertyCharge]
         getPropertyCharge(property_id: ID!, charge_id: ID!): PropertyCharge
         getPropertyCheckinInstructionTemplates(property_id: ID!): [CheckinInstructionTemplate]
+        getPropertyCheckinAgreements(property_id: ID!): [PropertyCheckinAgreement]
+        getPropertyCheckinQuestions(property_id: ID!): [PropertyCheckinQuestion]
     }
 
     extend type Mutation {
@@ -79,6 +81,12 @@ const property = gql`
         
         # update property checkin instruction template
         updatePropertyCheckinInstructionTemplate (property_id: ID!, template_id: ID!, title: String, body: String!): CheckinInstructionTemplate
+        
+        # update property checkin agreements
+        updatePropertyCheckinAgreements (property_id: ID!, agreements: [PropertyCheckinAgreementInput]): [PropertyCheckinAgreement]
+
+        # update property checkin questions
+        updatePropertyCheckinQuestions (property_id: ID!, questions: [PropertyCheckinQuestionInput]): [PropertyCheckinQuestion]
 
     }
 
@@ -171,6 +179,19 @@ const property = gql`
         body: String
     }
 
+    type PropertyCheckinAgreement {
+        agreement: String!
+        link: String
+    }
+
+    type PropertyCheckinQuestion {
+        question: String!
+        options: String
+        required: Boolean
+    }
+
+
+
     input propertyChargeInput {
         id: ID
         title: String!
@@ -178,9 +199,19 @@ const property = gql`
         description: String!
         type: String!
         enable: Boolean!
-        optional: Boolean,
+        optional: Boolean
     }
 
+    input PropertyCheckinAgreementInput {
+        agreement: String!
+        link: String
+    }
+
+    input PropertyCheckinQuestionInput {
+        question: String!
+        options: String
+        required: Boolean
+    }
 
 `;
 

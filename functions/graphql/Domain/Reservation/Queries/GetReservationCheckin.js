@@ -31,7 +31,7 @@ const getReservationCheckin = async (parent, {id}, context) => {
         if(propertyDoc.exists){
 
             const auth = userAuthenticatedMiddleware(context);
-            userAuthorizedMiddleware(context, [propertyDoc.data().user_id]);
+            userAuthorizedMiddleware(context, [propertyDoc.data().user_id, reservation.user_id]);
 
             const checkinRef = reservationRef.collection(collections.meta.name).doc(collections.meta.documents.checkin);
             const checkinDoc = await checkinRef.get();

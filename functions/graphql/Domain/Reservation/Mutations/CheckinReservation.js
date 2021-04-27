@@ -11,7 +11,7 @@
  const helper = require('../../../../helpers');
 
 
- const checkinReservation = async (parent, {reservation_id, identity_ref}, context) => {
+ const checkinReservation = async (parent, {reservation_id, agreements, questions}, context) => {
      clientAuthorizedMiddleware(context);
      const auth = userAuthenticatedMiddleware(context);
      
@@ -26,8 +26,9 @@
             let reservation = await reservationRef.get();
             if(reservation.exists){
                 const checkin = {
-                    identity_ref: identity_ref || null,
                     name: user.data().name,
+                    agreements: agreements,
+                    questions: questions,
                     checkedin_at: helper.nowTimestamp()
                 };
                 // create the checkin document

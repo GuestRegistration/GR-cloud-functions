@@ -14,16 +14,16 @@ const reservation = gql`
 
     extend type Mutation {
         # create a new reservation
-        createReservation(property_id: ID!, name: String!, booking_channel: String, checkin_date: String!, checkout_date: String!, instruction: String, charges: [propertyChargeInput]): Reservation
+        createReservation(property_id: ID!, name: String!, booking_no: String, checkin_date: String!, checkout_date: String!, instruction: String, charges: [propertyChargeInput], agreements: [PropertyCheckinAgreementInput], questions: [PropertyCheckinQuestionInput] ): Reservation
         
         # update a reservation
-        updateReservation(id: ID!, name: String!, booking_channel: String, checkin_date: String, checkout_date: String, instruction: String, charges: [propertyChargeInput]): Reservation
+        updateReservation(id: ID!, name: String!, checkin_date: String, checkout_date: String, instruction: String, charges: [propertyChargeInput], agreements: [PropertyCheckinAgreementInput], questions: [PropertyCheckinQuestionInput]): Reservation
    
         #add a new guest to a reservation
         addReservationGuest(id: ID!, name: String!, gender: String!, type: String!): ReservationGuest
 
         # checkin a reservation
-        checkinReservation(reservation_id: ID!, identity_ref: String): Reservation
+        checkinReservation(reservation_id: ID!, agreements: [ReservationCheckinAgreementInput], questions: [ReservationCheckinQuestionInput] ): Reservation
 
         # approve a checked in reservation
         approveReservationCheckin(id: ID!): Reservation
@@ -45,7 +45,6 @@ const reservation = gql`
         user_id: ID #id of the user the reservation belongs to
         name: String!
         email: String
-        booking_channel: String
         booking_no: String
         no_of_guest: Int
         valid_payment: Boolean
@@ -66,6 +65,8 @@ const reservation = gql`
         property: ReservationProperty
         guests: [ReservationGuest],
         charges: [PropertyCharge],
+        agreements: [PropertyCheckinAgreement]
+        questions: [PropertyCheckinQuestion]
     }
 
     type BookingChannel {
@@ -95,10 +96,36 @@ const reservation = gql`
     }
     
     type Checkin {
-        checkedin_at: String
         name: UserName
-        identity_ref: String
+        agreements: [ReservationCheckinAgreement],
+        questions: [ReservationCheckinQuestion],
+        checkedin_at: String
     }
+
+    type ReservationCheckinAgreement {
+        agreement: String!
+        link: String
+    }
+
+    type ReservationCheckinQuestion {
+        question: String!
+        options: String
+        required: Boolean
+        response: String
+    }
+
+    input ReservationCheckinAgreementInput {
+        agreement: String!
+        link: String
+    }
+
+    input ReservationCheckinQuestionInput {
+        question: String!
+        options: String
+        required: Boolean
+        response: String
+    }
+
 
 `;
 

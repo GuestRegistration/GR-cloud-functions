@@ -8,7 +8,7 @@ const schema = gql`
 
     # extend type Mutation {
     #     createPaymentIntent(stripe_account: ID!, amount: Int!, currency: String!, payment_method_types: [String]!, metadata: StripePaymentIntentMetadataInput ): StripePaymentIntent
-    #     createCharge(stripe_account: ID!, source: String!, amount: Int!, currency: String!, description: String, receipt_email: String metadata: StripeChargeMetadataInput, capture: Boolean ): StripeCharge
+    #     createCharge(stripe_account: ID!, source: String!, amount: Int!, currency: String!, description: String, receipt_email: String metadata: StripeReservationChargeMetadataInput, capture: Boolean ): StripeCharge
     #     captureCharge(stripe_account: ID!, charge_id: ID!, amount: Int): StripeCharge
     #     createRefund(stripe_account: ID!, charge_id: ID!, amount: Int, reason: String, customer_note: String): StripeRefund
     # }
@@ -163,10 +163,10 @@ const schema = gql`
         charge_id: ID
     }
 
-    input StripeChargeMetadataInput {
-        user_id: ID
-        reservation_id: ID
-        property_id: ID
+    input StripeReservationChargeMetadataInput {
+        user_id: ID!
+        reservation_id: ID!
+        property_id: ID!
         charge_id: ID
     }
 

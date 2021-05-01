@@ -28,7 +28,7 @@ const reservation = gql`
         # approve a checked in reservation
         approveReservationCheckin(id: ID!): Reservation
 
-        createReservationCharge(property_id: ID!, source: String!, customer: ID, amount: Int!, currency: String!, description: String, receipt_email: String metadata: StripeChargeMetadataInput, capture: Boolean ): StripeCharge
+        createReservationCharge(property_id: ID!, source: String!, customer: ID, amount: Int!, currency: String!, description: String, receipt_email: String, metadata: StripeReservationChargeMetadataInput, capture: Boolean ): StripeCharge
         
         captureReservationCharge(property_id: ID!, charge_id: ID!, amount: Int): StripeCharge
 

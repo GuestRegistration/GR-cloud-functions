@@ -10,7 +10,8 @@ module.exports = {
                 getUserDevices: require('./Queries/GetUserDevices'),
                 getUserStripeVerifications: require('./Queries/GetUserStripeVerifications'),
                 getUserStripeVerificationSession: require('./Queries/GetUserStripeVerificationSession'),
-                getUserStripeVerificationReport: require('./Queries/GetUserStripeVerificationReport')
+                getUserStripeVerificationReport: require('./Queries/GetUserStripeVerificationReport'),
+                getUserPropertyCustomer: require('./Queries/GetUserPropertyCustomer')
         },
 
         mutations: {

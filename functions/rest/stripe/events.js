@@ -31,5 +31,15 @@ module.exports = {
         'charge.dispute.funds_withdrawn',
         'charge.dispute.updated',
         'charge.refund.updated'
+    ],
+
+    customer: [
+        'customer.source.updated',
+        'customer.source.expiring',
+        'customer.source.deleted',
+        'customer.source.created',
+        'customer.updated',
+        'customer.deleted',
+        'customer.created',
     ]
 }

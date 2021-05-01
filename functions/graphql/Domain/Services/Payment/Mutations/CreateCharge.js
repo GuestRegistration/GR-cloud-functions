@@ -2,7 +2,7 @@ const createStripeCharge = require('../Actions/CreateStripeCharge');
 
 const createCharge = async (parent, {stripe_account, source, amount, currency, description, receipt_email, metadata, capture }, context) => {
 
-  return await createStripeCharge({stripe_account, source, amount, currency, description, receipt_email, metadata, capture })
+  return await createStripeCharge({ source, amount, currency, description, receipt_email, metadata, capture }, stripe_account)
 
 }
 

@@ -2,7 +2,7 @@ const config = require('../../../../../config');
 
 const Stripe = require('stripe');
 
-const createStripeVerificationSession = async ({stripe_account, metadata, return_url, refresh_url }) => {
+const createStripeVerificationSession = async ({ metadata, return_url, refresh_url }, stripe_account = undefined ) => {
     const stripe = Stripe(config.stripe.secretKey, {
         apiVersion: '2020-08-27; identity_beta=v4',
     });

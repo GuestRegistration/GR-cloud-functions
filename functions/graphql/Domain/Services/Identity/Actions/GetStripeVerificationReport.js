@@ -5,7 +5,7 @@ const stripe = Stripe(config.stripe.secretKey, {
   apiVersion: '2020-08-27; identity_beta=v4'
 });
 
-const getStripeVerificationReport = async ({ id }) => {
+const getStripeVerificationReport = async ({ id }, stripe_account = undefined ) => {
 
       const resource = Stripe.Stripe.StripeResource.extend({
         request: Stripe.Stripe.StripeResource.method({
@@ -16,7 +16,12 @@ const getStripeVerificationReport = async ({ id }) => {
 
       const report = await new resource(stripe).request({
         expand: [],
-      })
+      }
+        // ,
+        // {
+        //     stripeAccount: stripe_account
+        // }
+      )
 
       const files = [{
         name: 'document_front',

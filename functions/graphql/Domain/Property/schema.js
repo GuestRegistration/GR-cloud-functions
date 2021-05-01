@@ -14,6 +14,7 @@ const property = gql`
         getPropertyCheckinInstructionTemplates(property_id: ID!): [CheckinInstructionTemplate]
         getPropertyCheckinAgreements(property_id: ID!): [PropertyCheckinAgreement]
         getPropertyCheckinQuestions(property_id: ID!): [PropertyCheckinQuestion]
+        getPropertyCustomer(property_id: ID!, user_id: ID): PropertyStripeCustomer
     }
 
     extend type Mutation {
@@ -87,6 +88,9 @@ const property = gql`
 
         # update property checkin questions
         updatePropertyCheckinQuestions (property_id: ID!, questions: [PropertyCheckinQuestionInput]): [PropertyCheckinQuestion]
+
+        # create stripe customer for property
+        createPropertyCustomer(property_id: ID!, user_id: ID!, name: String, source: ID!, email: String, phone: String, description: String ): PropertyStripeCustomer
 
     }
 
@@ -190,7 +194,10 @@ const property = gql`
         required: Boolean
     }
 
-
+    type PropertyStripeCustomer {
+        customer: StripeCustomer
+        sources: StripeCustomerSourceList
+    }
 
     input propertyChargeInput {
         id: ID

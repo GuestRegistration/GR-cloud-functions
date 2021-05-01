@@ -66,6 +66,7 @@ const schema = gql`
             has_more: Boolean
             url: String
         }
+
 `;
 
 module.exports = schema;

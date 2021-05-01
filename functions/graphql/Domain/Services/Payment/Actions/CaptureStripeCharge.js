@@ -1,7 +1,7 @@
 const config = require('../../../../../config');
 
 const stripe = require('stripe')(config.stripe.secretKey);
-const captureStripeCharge = async ({stripe_account, charge_id, amount }) => {
+const captureStripeCharge = async ({ charge_id, amount }, stripe_account = undefined ) => {
     
   const charge = await stripe.charges.capture( charge_id,
       {

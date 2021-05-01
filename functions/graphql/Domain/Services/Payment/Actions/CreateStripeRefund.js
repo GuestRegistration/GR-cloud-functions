@@ -1,7 +1,7 @@
 const config = require('../../../../../config');
 
 const stripe = require('stripe')(config.stripe.secretKey);
-const createStripeRefund = async ({stripe_account, charge_id, amount, reason, customer_note }) => {
+const createStripeRefund = async ({ charge_id, amount, reason, customer_note }, stripe_account = undefined) => {
     
   const refund = await stripe.refunds.create( 
       {
@@ -13,10 +13,9 @@ const createStripeRefund = async ({stripe_account, charge_id, amount, reason, cu
         }
       },
       {
-        expand: ['charge'],
         stripeAccount: stripe_account
       }
-    );
+    ); 
       return refund;
 }
 

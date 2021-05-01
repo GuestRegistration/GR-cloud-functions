@@ -28,7 +28,7 @@ const getPropertyReservations = async (parent, {id}, context) =>  {
            });
            return reservations;
        }else{
-           throw new Error('The property doess not exist');
+           throw new Error('The property does not exist');
        }
 };
 

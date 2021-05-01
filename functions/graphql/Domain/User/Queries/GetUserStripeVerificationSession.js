@@ -6,6 +6,8 @@
  const userAuthenticatedMiddleware = require('../../../Middlewares/UserAuthenticated');
  const collections = require('../Enums/collections');
  const firebaseAdmin = require('../../../../admin');
+
+ const stripeAuthorization = require('../../Property/Middlewares/stripeAuthorization');
  const stripeVerificationSession = require('../../Services/Identity/Actions/GetStripeVerificationSession');
  
  const getUserStripeVerificationSession = async (parent, { user_id, verification_id }, context) =>  {
@@ -29,7 +31,9 @@
      if(verificationDoc.exists){
          const verification = document.data();
          if(verification.session){
-             session = await stripeVerificationSession(parent, {id: verification.session}, context);
+
+            const stripe_authorization = await stripeAuthorization(verification.property_id)
+            session = await stripeVerificationSession({id: verification.session}, stripe_authorization.stripe_user_id);
          }
  
      }

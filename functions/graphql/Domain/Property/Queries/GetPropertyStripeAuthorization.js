@@ -1,23 +1,26 @@
 /**
- * Get a property payment
+ * Get a property stripe authorization
  */
 const clientAuthorizedMiddleware = require('../../../Middlewares/ClientAuthorized');
 const userAuthorizedMiddleware = require('../../../Middlewares/UserAuthorized');
+
 const collections = require('../Enums/collections');
 const firebaseAdmin = require('../../../../admin');
+const stripeAuthorization = require('../Middlewares/stripeAuthorization');
 
 const GetPropertyStripeAuthorization = async (parent, {property_id}, context) =>  {
   clientAuthorizedMiddleware(context);
   
   const firestore = firebaseAdmin.firestore();
+  const propertyRef = firestore.collection(collections.main).doc(property_id);
+  const property = await propertyRef.get();
 
-  const document = await firestore.collection(collections.main).doc(property_id).collection(collections.meta.name).doc(collections.meta.documents.stripe_authorization).get();
-    if(document.exists){
-      //userAuthorizedMiddleware(context, [document.data().user_id]);
-
-      return document.data();
-    }
-    return null;
+  if(property.exists){
+    userAuthorizedMiddleware(context, [property.data().user_id]);
+    return await stripeAuthorization(property_id)
+  }else{
+    throw new Error('The property does not exist');
+  }
 };
 
 module.exports = GetPropertyStripeAuthorization;

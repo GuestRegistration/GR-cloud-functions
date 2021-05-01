@@ -23,16 +23,16 @@ const reservation = gql`
         addReservationGuest(id: ID!, name: String!, gender: String!, type: String!): ReservationGuest
 
         # checkin a reservation
-        checkinReservation(reservation_id: ID!, agreements: [ReservationCheckinAgreementInput], questions: [ReservationCheckinQuestionInput] ): Reservation
+        checkinReservation(reservation_id: ID!, agreements: [ReservationCheckinAgreementInput], questions: [ReservationCheckinQuestionInput], credit_card: ReservationCreditCardInput ): Reservation
 
         # approve a checked in reservation
         approveReservationCheckin(id: ID!): Reservation
 
-        createReservationCharge(stripe_account: ID!, source: String!, amount: Int!, currency: String!, description: String, receipt_email: String metadata: StripeChargeMetadataInput, capture: Boolean ): StripeCharge
+        createReservationCharge(property_id: ID!, source: String!, customer: ID, amount: Int!, currency: String!, description: String, receipt_email: String metadata: StripeChargeMetadataInput, capture: Boolean ): StripeCharge
         
-        captureReservationCharge(stripe_account: ID!, charge_id: ID!, amount: Int): StripeCharge
+        captureReservationCharge(property_id: ID!, charge_id: ID!, amount: Int): StripeCharge
 
-        refundReservationCharge(stripe_account: ID!, charge_id: ID!, amount: Int, reason: String, customer_note: String): StripeRefund
+        refundReservationCharge(property_id: ID!, charge_id: ID!, amount: Int, reason: String, customer_note: String): StripeRefund
     }
 
     extend type Subscription {
@@ -99,6 +99,7 @@ const reservation = gql`
         name: UserName
         agreements: [ReservationCheckinAgreement],
         questions: [ReservationCheckinQuestion],
+        credit_card: ReservationCreditCard
         checkedin_at: String
     }
 
@@ -114,6 +115,16 @@ const reservation = gql`
         response: String
     }
 
+    type ReservationCreditCard {
+        id: ID,
+        brand: String
+        customer: ID
+        exp_month: Int,
+        exp_year: Int,
+        last4: String,
+        name: String,
+    }
+
     input ReservationCheckinAgreementInput {
         agreement: String!
         link: String
@@ -126,6 +137,15 @@ const reservation = gql`
         response: String
     }
 
+    input ReservationCreditCardInput {
+        id: ID,
+        brand: String
+        customer: ID
+        exp_month: Int,
+        exp_year: Int,
+        last4: String,
+        name: String,
+    }
 
 `;
 

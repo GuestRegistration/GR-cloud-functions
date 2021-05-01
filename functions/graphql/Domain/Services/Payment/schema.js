@@ -72,6 +72,7 @@ const schema = gql`
         refunded: Boolean
         status: String
         captured: Boolean
+        net_captured: Int
     }
 
     type StripeRefund {
@@ -102,6 +103,59 @@ const schema = gql`
         customer_note: String
     }
 
+    
+    type StripeCustomer {
+        id: ID!
+        object: String
+        address: StripeAddress
+        balance: Int
+        created: String
+        currency: String
+        description: String
+        email: String
+        livemode: Boolean
+        metadata: StripeCustomerMetadata
+        name: String
+        phone: String
+    }
+
+    type StripeCustomerMetadata {
+        property_id: ID
+        user_id: ID
+    }
+
+    type StripeCustomerSourceList {
+        object: String
+        url: String
+        has_more: Boolean
+        data: [StripeCustomerSource]
+    }
+
+    type StripeCustomerSource {
+        id: ID,
+        object: String
+        address_city: String
+        address_country: String
+        address_line1: String
+        address_line1_check: String
+        address_line2: String
+        address_state: String
+        address_zip: String
+        address_zip_check: String
+        brand: String
+        country: String
+        customer: ID
+        cvc_check: String
+        dynamic_last4: String
+        exp_month: Int,
+        exp_year: Int,
+        fingerprint: String,
+        funding: String,
+        last4: String,
+        name: String,
+        tokenization_method: String
+    }
+
     input StripePaymentIntentMetadataInput {
         user_id: ID
         reservation_id: ID
@@ -115,6 +169,7 @@ const schema = gql`
         property_id: ID
         charge_id: ID
     }
+
    `
 ;
 

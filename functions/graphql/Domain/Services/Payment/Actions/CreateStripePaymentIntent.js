@@ -1,7 +1,7 @@
 const config = require('../../../../../config');
 
 const stripe = require('stripe')(config.stripe.secretKey);
-const createStripePaymentIntent = async ({stripe_account, amount, currency, payment_method_types, metadata }) => {
+const createStripePaymentIntent = async ({ amount, currency, payment_method_types, metadata }, stripe_account = undefined) => {
     const paymentIntent = await stripe.paymentIntents.create({
         amount,
         currency,

@@ -14,6 +14,7 @@ const resolvers = {
 
     types: {
             // Your custom type definition resolvers here
+            StripeCharge: require('./Getters/charge')
     }
 };
 

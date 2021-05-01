@@ -14,6 +14,7 @@ const user = gql`
         getUserStripeVerifications(user_id: ID, property_id: ID!): [UserStripeVerification]
         getUserStripeVerificationSession(user_id: ID, verification_id: ID!): StripeVerificationSession
         getUserStripeVerificationReport(user_id: ID, verification_id: ID!): StripeVerificationReport
+        getUserPropertyCustomer(user_id: ID!, property_id: ID!): PropertyStripeCustomer
     }
 
     extend type Mutation {
@@ -93,7 +94,7 @@ const user = gql`
         ): UserDevice
 
         createUserStripeVerificationSession (
-            stripe_account: ID!, 
+            property_id: ID!, 
             metadata: StripeVerificationMetadataInput, 
             return_url: String, 
             refresh_url: String
@@ -198,6 +199,7 @@ const user = gql`
         type: String
         metadata: StripeVerificationMetadata
     }
-    `
+
+`
 ;
 module.exports = user;

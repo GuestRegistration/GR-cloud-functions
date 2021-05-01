@@ -3,10 +3,10 @@ const helper = require('../../../../../helpers');
 
 const stripe = require('stripe')(config.stripe.secretKey);
 
-const createStripeCharge = async ({stripe_account, source, amount, currency, description, receipt_email, metadata, capture }) => {
+const createStripeCharge = async ({ source, customer, amount, currency, description, receipt_email, metadata, capture }, stripe_account = undefined) => {
     
   const data = {
-    source, amount, currency, description, metadata, capture
+    source, customer, amount, currency, description, metadata, capture
   }
   if(receipt_email && helper.validateEmail(receipt_email)){
     data.receipt_email = receipt_email

@@ -11,7 +11,8 @@ const collections = {
     subcollections: {
         notifications: 'property_notifications',
         charges: 'property_charges',
-        checkin_instructions: 'property_checkin_instructions'
+        checkin_instructions: 'property_checkin_instructions',
+        stripe_customers: 'property_stripe_customers'
     },
     trash: 'graphQL_properties_trash'
 };

@@ -13,6 +13,7 @@ const notifications = {
     chargeAuthorized: 'charge.authorized',
     chargeCaptured: 'charge.captured',
     chargeRefunded: 'charge.refunded',
+    cardCharged: 'card.charged'
 };
 
 module.exports = notifications;

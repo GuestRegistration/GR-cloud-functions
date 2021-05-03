@@ -30,7 +30,9 @@ const resolvers = {
                 updatePropertyCheckinInstructionTemplate: require('./Mutations/UpdatePropertyCheckinInstructionTemplate'),
                 updatePropertyCheckinQuestions: require('./Mutations/UpdatePropertyCheckinQuestions'),
                 updatePropertyCheckinAgreements: require('./Mutations/UpdatePropertyCheckinAgreements'),
-                createPropertyCustomer: require('./Mutations/CreatePropertyCustomer')
+                createPropertyCustomer: require('./Mutations/CreatePropertyCustomer'),
+                updatePropertyCustomer: require('./Mutations/UpdatePropertyCustomer'),
+                addPropertyCustomerCreditCard: require('./Mutations/AddPropertyCustomerCreditCard'),
 
         },
         subscriptions: {

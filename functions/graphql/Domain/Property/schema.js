@@ -91,6 +91,12 @@ const property = gql`
 
         # create stripe customer for property
         createPropertyCustomer(property_id: ID!, user_id: ID!, name: String, source: ID!, email: String, phone: String, description: String ): PropertyStripeCustomer
+        
+        # update stripe customer for property
+        updatePropertyCustomer(property_id: ID!, customer_id: ID!, user_id: ID!, name: String, source: ID!, email: String, phone: String, description: String ): PropertyStripeCustomer
+
+        # add new credit card for property stripe customer
+        addPropertyCustomerCreditCard(property_id: ID!, customer_id: ID! source: ID!): StripeCustomerSource
 
     }
 

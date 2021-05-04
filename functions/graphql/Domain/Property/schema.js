@@ -98,6 +98,9 @@ const property = gql`
         # add new credit card for property stripe customer
         addPropertyCustomerCreditCard(property_id: ID!, customer_id: ID! source: ID!): StripeCustomerSource
 
+        # remove credit card from property stripe customer
+        removePropertyCustomerCreditCard(property_id: ID!, customer_id: ID! card_id: ID!): Boolean
+
     }
 
     extend type Subscription {

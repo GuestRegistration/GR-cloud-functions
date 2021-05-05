@@ -83,7 +83,7 @@ const graphQLServer = () => {
                         /**
                          * verify the user idToken
                          */
-                        const decodedToken = await firebaseAdmin.auth().verifyIdToken(auth.user_token, true);
+                        const decodedToken = await firebaseAdmin.auth().verifyIdToken(auth.user_token);
                         
                         if(decodedToken.uid){
                             auth.user_token_valid  = true;

@@ -4,6 +4,8 @@ const collections = {
         name: 'property_meta',
         documents: {
             stripe_authorization: 'stripe_authorization',
+            stripe_customer: 'stripe_customer',
+            stripe_subscription: 'stripe_subscription',
             checkin_agreements: 'checkin_agreements',
             checkin_questions: 'checkin_questions'
         }

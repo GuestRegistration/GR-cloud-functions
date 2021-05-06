@@ -7,10 +7,10 @@ const schema = gql`
     # }
 
     # extend type Mutation {
-    #     createPaymentIntent(stripe_account: ID!, amount: Int!, currency: String!, payment_method_types: [String]!, metadata: StripePaymentIntentMetadataInput ): StripePaymentIntent
-    #     createCharge(stripe_account: ID!, source: String!, amount: Int!, currency: String!, description: String, receipt_email: String metadata: StripeReservationChargeMetadataInput, capture: Boolean ): StripeCharge
-    #     captureCharge(stripe_account: ID!, charge_id: ID!, amount: Int): StripeCharge
-    #     createRefund(stripe_account: ID!, charge_id: ID!, amount: Int, reason: String, customer_note: String): StripeRefund
+    #     createPaymentIntent(stripe_account: ID! amount: Int! currency: String! payment_method_types: [String]! metadata: StripePaymentIntentMetadataInput ): StripePaymentIntent
+    #     createCharge(stripe_account: ID! source: String! amount: Int! currency: String! description: String receipt_email: String metadata: StripeReservationChargeMetadataInput capture: Boolean ): StripeCharge
+    #     captureCharge(stripe_account: ID! charge_id: ID! amount: Int): StripeCharge
+    #     createRefund(stripe_account: ID! charge_id: ID! amount: Int reason: String customer_note: String): StripeRefund
     # }
 
     # extend type Subscription {
@@ -76,19 +76,19 @@ const schema = gql`
     }
 
     type StripeRefund {
-        id: ID!,
-        object: String,
-        amount: Int,
-        balance_transaction: String,
-        charge: StripeCharge,
-        created: Int,
+        id: ID!
+        object: String
+        amount: Int
+        balance_transaction: String
+        charge: StripeCharge
+        created: Int
         currency: String
-        metadata: StripeRefundMetadata,
-        payment_intent: ID,
-        reason: String,
-        receipt_number: String,
-        source_transfer_reversal: String,
-        status: String,
+        metadata: StripeRefundMetadata
+        payment_intent: ID
+        reason: String
+        receipt_number: String
+        source_transfer_reversal: String
+        status: String
         transfer_reversal: String
     }
 
@@ -117,6 +117,7 @@ const schema = gql`
         metadata: StripeCustomerMetadata
         name: String
         phone: String
+        default_source: String
     }
 
     type StripeCustomerMetadata {
@@ -132,7 +133,7 @@ const schema = gql`
     }
 
     type StripeCustomerSource {
-        id: ID,
+        id: ID
         object: String
         address_city: String
         address_country: String
@@ -147,13 +148,88 @@ const schema = gql`
         customer: ID
         cvc_check: String
         dynamic_last4: String
-        exp_month: Int,
-        exp_year: Int,
-        fingerprint: String,
-        funding: String,
-        last4: String,
-        name: String,
+        exp_month: Int
+        exp_year: Int
+        fingerprint: String
+        funding: String
+        last4: String
+        name: String
         tokenization_method: String
+    }
+
+    type StripeSubscription {
+        id: ID!
+        object: String
+        cancel_at: Int
+        cancel_at_period_end: Boolean
+        canceled_at: Int
+        collection_method: String
+        created: Int
+        current_period_end: Int
+        current_period_start: Int
+        customer: ID!
+        days_until_due: Int
+        default_payment_method: ID
+        default_source: ID
+        ended_at: Int
+        items: StripeSubscriptionItems
+        livemode: Boolean
+        metadata: StripePropertySubscriptionMetadata
+        start_date: Int
+        status: String
+        trial_end: Int
+        trial_start: Int
+    }
+    
+    type StripeSubscriptionItems {
+        object: String
+        data: [StripeSubscriptionItemData]
+        has_more: Boolean
+        url: String
+    }
+
+    type StripeSubscriptionItemData {
+        id: ID
+        object: String
+        created: Int
+        price: StripePrice
+        quantity: Int
+        subscription: ID
+    }
+
+    type StripePropertySubscriptionMetadata {
+        property_id: ID
+    }
+
+    type StripePrice {
+        id: ID
+        object: String
+        amount: Int
+        active: Boolean
+        billing_scheme: String
+        created: Int
+        currency: String
+        livemode: Boolean
+        nickname: String
+        product: StripeProduct
+        type: String
+        unit_amount: Int
+        unit_amount_decimal: Int
+        trial_period_days: Int
+        interval: String
+        interval_count: Int
+    }
+
+    type StripeProduct {
+        id: ID!
+        object: String
+        active: Boolean
+        created: Int
+        description: String
+        images: [String]
+        livemode: Boolean
+        name: String
+        url: String
     }
 
     input StripePaymentIntentMetadataInput {

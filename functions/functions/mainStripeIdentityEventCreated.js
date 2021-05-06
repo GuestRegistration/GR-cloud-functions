@@ -3,7 +3,7 @@ const collections = require('../enums/collections');
 const events = require('../rest/stripe/events');
 const admin = require('../admin');
 
-module.exports = functions.firestore.document(`/${collections.system.stripe_identity_events}/{event_id}`)
+module.exports = functions.firestore.document(`/${collections.system.main_stripe_identity_events}/{event_id}`)
 .onCreate((snapshot, context) => {
     const event = snapshot.data();
 

@@ -28,13 +28,16 @@ exports.onReservationUpdated = require('./functions/reservationUpdated');
 exports.onReservationDocumentCreated = require('./functions/reservationDocumentCreated');
 
 // when a new stripe identity event is received
-exports.onStripeIdentityEventCreated = require('./functions/stripeIdentityEventCreated');
+exports.onMainStripeIdentityEventCreated = require('./functions/mainStripeIdentityEventCreated');
 
 // when user verification session is updated
 exports.onUserStripeVerificationSessionUpdated = require('./functions/userStripeVerificationSessionUpdated');
 
-// when there is new stripe payment event
-exports.onStripePaymentEvent = require('./functions/stripePaymentEventCreated');
+// when there is new stripe payment event for connected account
+exports.onConnectedStripePaymentEvent = require('./functions/connectedStripePaymentEventCreated');
+
+// when there is new stripe payment event for main account
+exports.onMainStripePaymentEvent = require('./functions/mainStripePaymentEventCreated');
 
 // when there is new user veerification access history
 exports.onVerificationReportAccessed = require('./functions/verificationReportAccessed');

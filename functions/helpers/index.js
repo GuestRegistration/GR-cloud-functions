@@ -7,7 +7,10 @@ const helpers = {
   /**
    * get the current timestamp
    */
-  nowTimestamp: () => new Date().getTime(),
+  nowTimestamp: () => {
+    let now = new Date();
+    return Math.floor(now.getTime()/1000);
+  },
 
   /**convert timestamp to human readable */
   resolveTimestamp: (timestamp) => {

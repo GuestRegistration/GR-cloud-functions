@@ -170,6 +170,8 @@ const user = gql`
         address: String
         role: String
         image: String
+        subscription_status: String
+        active: Boolean
     }
 
     type UserNotification {

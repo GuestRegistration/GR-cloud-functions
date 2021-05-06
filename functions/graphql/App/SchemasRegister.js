@@ -10,6 +10,7 @@ const schemas = [
     require('../Domain/Reservation/schema'),
     require('../Domain/Services/Identity/schema'),
     require('../Domain/Services/Payment/schema'),
+    require('../Domain/Subscription/schema'),
     
 ];
 

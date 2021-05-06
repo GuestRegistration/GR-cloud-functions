@@ -33,7 +33,7 @@ const resolvers = {
                 createPropertyCustomer: require('./Mutations/CreatePropertyCustomer'),
                 updatePropertyCustomer: require('./Mutations/UpdatePropertyCustomer'),
                 addPropertyCustomerCreditCard: require('./Mutations/AddPropertyCustomerCreditCard'),
-                removePropertyCustomerCreditCard: require('./Mutations/RemovePropertyCustomerCreditCard')
+                removePropertyCustomerCreditCard: require('./Mutations/RemovePropertyCustomerCreditCard'),
 
         },
         subscriptions: {

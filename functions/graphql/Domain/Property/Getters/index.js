@@ -11,7 +11,8 @@ const property = {
     terms: (parent) => parent.terms,
     rules: (parent) => parent.rules,
     team: (parent) => parent.team,
-    reservations: (parent) => parent.reservations
+    reservations: (parent) => parent.reservations,
+    active: (parent) => parent.subscription && (parent.subscription.status === 'active' || parent.subscription.status === 'trialing')
 };
 
 module.exports = property;

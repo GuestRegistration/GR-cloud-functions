@@ -19,14 +19,16 @@ module.exports = functions.firestore.document(`/${collections.property.main}/{pr
         address: before.full_address || null,
         id: propertyId,
         image: before.image || null,
-        name: before.name
+        name: before.name,
+        subsription_status: before.subscription && before.subscription.status ? before.subscription.status : null 
     } 
 
     const user_copy_after = {
         address: after.full_address  || null,
         id: propertyId,
         image: after.image || null,
-        name: after.name
+        name: after.name,
+        subsription_status: after.subscription && after.subscription.status ? after.subscription.status : null 
     }        
 
     const owner_copy_before = helper.sortObject(

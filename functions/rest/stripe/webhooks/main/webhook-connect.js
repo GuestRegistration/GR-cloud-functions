@@ -13,10 +13,12 @@ module.exports = async (request, response) => {
       return response.status(400).json({received: false});
     }
 
-    /**
-     * We deal with connect from the main Stripe account here. For now, nothing to do
-     */
+    const firebaseAdmin = require('../../../../admin');
+    const firestore = firebaseAdmin.firestore();
+    const collections = require('../../../../enums/collections');
 
+    // General logging of events received from Stripe
+    await firestore.collection(collections.system.main_stripe_connect_events).doc(event.id).set(event);
 
     return response.status(200).json({received: true});
 }

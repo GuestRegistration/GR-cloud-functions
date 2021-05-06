@@ -61,7 +61,10 @@ const sub = require('../../../App/Providers/pubsub');
         // publish the new property to it subscriptions
         sub.publish(subscriptions.create, {PropertyCreated:property});
 
-        return property;
+        return {
+            id: result.id,
+            ...(await result.get()).data()
+        };
     }
     return null;
    

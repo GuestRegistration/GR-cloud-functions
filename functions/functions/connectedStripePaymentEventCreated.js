@@ -5,7 +5,7 @@ const admin = require('../admin');
 const notification = require('../helpers/notification');
 const notificationTypes = require('../enums/notifications');
 
-module.exports = functions.firestore.document(`/${collections.system.stripe_payment_events}/{event_id}`)
+module.exports = functions.firestore.document(`/${collections.system.connected_stripe_payment_events}/{event_id}`)
 .onCreate((snapshot, context) => {
     const event = snapshot.data();
 
@@ -114,7 +114,7 @@ module.exports = functions.firestore.document(`/${collections.system.stripe_paym
 
         if(event.type === 'charge.succeeded' && !chargeId) promises.push(extraChargeNotification())
 
-        if(event.type === 'charge.refunded' && !chargeId) promises.push(refundNotification())
+        if(event.type === 'charge.refunded') promises.push(refundNotification())
 
     
         return Promise.all(promises)

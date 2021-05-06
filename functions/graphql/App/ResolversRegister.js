@@ -9,7 +9,8 @@ const resolvers = [
     require('../Domain/Property/resolver'),
     require('../Domain/Reservation/resolver'),
     require('../Domain/Services/Identity/resolver'),
-    require('../Domain/Services/Payment/resolver')
+    require('../Domain/Services/Payment/resolver'),
+    require('../Domain/Subscription/resolver'),
 ];
 
 module.exports = resolvers;

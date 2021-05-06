@@ -100,7 +100,6 @@ const property = gql`
 
         # remove credit card from property stripe customer
         removePropertyCustomerCreditCard(property_id: ID!, customer_id: ID! card_id: ID!): Boolean
-
     }
 
     extend type Subscription {
@@ -123,6 +122,8 @@ const property = gql`
         stripe_connected: Boolean
         team: [PropertyTeam]
         reservations: [PropertyReservation]
+        subscription: PropertySubscription
+        active: Boolean
     }
 
     type PropertyTeam {
@@ -206,6 +207,14 @@ const property = gql`
     type PropertyStripeCustomer {
         customer: StripeCustomer
         sources: StripeCustomerSourceList
+    }
+
+    type PropertySubscription {
+        status: String
+        trial_start: Int
+        trial_end: Int
+        current_period_start: Int
+        current_period_end: Int
     }
 
     input propertyChargeInput {

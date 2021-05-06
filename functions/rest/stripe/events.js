@@ -34,12 +34,25 @@ module.exports = {
     ],
 
     customer: [
+        'customer.updated',
+        'customer.deleted',
+        'customer.created',
+    ],
+
+    customer_source: [
         'customer.source.updated',
         'customer.source.expiring',
         'customer.source.deleted',
         'customer.source.created',
-        'customer.updated',
-        'customer.deleted',
-        'customer.created',
+    ],
+
+    customer_subscription: [
+        'customer.subscription.created',
+        'customer.subscription.deleted',
+        'customer.subscription.pending_update_applied',
+        'customer.subscription.pending_update_expired',
+        'customer.subscription.trial_will_end',
+        'customer.subscription.updated'
     ]
+
 }

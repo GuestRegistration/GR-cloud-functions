@@ -22,6 +22,9 @@ const sendToUser = async (user_id, payload) => {
 };
 
 const sendToDevice = (devices , payload) => {
+    
+    if(!devices.length) return Promise.resolve();
+
     return admin.messaging().sendToDevice(devices.map(device => device.token), payload)
     .then(notification => {
         const tokenCleanup = [];

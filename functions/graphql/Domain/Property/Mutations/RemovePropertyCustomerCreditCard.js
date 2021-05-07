@@ -4,8 +4,9 @@
 
  //  middlewares
  const clientAuthorizedMiddleware = require('../../../Middlewares/ClientAuthorized');
+ const propertySubscriptionMiddleware = require('../Middlewares/propertySubscription')
+
  const collections = require('../Enums/collections');
- const reservationCollections = require('../../Reservation/Enums/collections');
  const firebaseAdmin = require('../../../../admin');
  
  const deleteStripeCustomerCard = require('../../Services/Payment/Actions/DeleteStripeCustomerCard');
@@ -20,6 +21,8 @@
     const property = await propertyRef.get();
  
     if(property.exists){
+
+      await propertySubscriptionMiddleware(property_id)
 
       const query = await firestore.collectionGroup('checkin').where("credit_card.id", "==", card_id).get()
       if(!query.empty){

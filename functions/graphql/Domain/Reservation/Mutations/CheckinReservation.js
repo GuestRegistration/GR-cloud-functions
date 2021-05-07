@@ -5,6 +5,8 @@
  //  middlewares
  const clientAuthorizedMiddleware = require('../../../Middlewares/ClientAuthorized');
  const userAuthenticatedMiddleware = require('../../../Middlewares/UserAuthenticated');
+ const propertySubscriptionMiddleware = require('../../Property/Middlewares/propertySubscription')
+
  const collections = require('../Enums/collections');
  const userCollections = require('../../User/Enums/collections');
  const firebaseAdmin = require('../../../../admin');
@@ -25,6 +27,9 @@
         if(user.exists){
             let reservation = await reservationRef.get();
             if(reservation.exists){
+
+                await propertySubscriptionMiddleware(reservation.data().property_id);
+
                 const checkin = {
                     name: user.data().name,
                     agreements: agreements,
@@ -32,6 +37,7 @@
                     credit_card: credit_card,
                     checkedin_at: helper.nowTimestamp()
                 };
+
                 // create the checkin document
                 await firestore.collection(collections.main)
                         .doc(reservation_id)

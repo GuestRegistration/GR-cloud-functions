@@ -5,6 +5,7 @@
 
 const clientAuthorizedMiddleware = require('../../../Middlewares/ClientAuthorized');
 const userAuthorizedMiddleware = require('../../../Middlewares/UserAuthorized');
+const propertySubscriptionMiddleware = require('../../Property/Middlewares/propertySubscription')
 const propertyCollections = require('../../Property/Enums/collections');
 const collections = require('../Enums/collections');
 const firebaseAdmin = require('../../../../admin');
@@ -25,6 +26,8 @@ const approveReservation = async (parent, {id}, context) => {
         const property = await firestore.collection(propertyCollections.main).doc(property_id).get();
         if(property.exists){
             userAuthorizedMiddleware(context, [property.data().user_id]);
+
+            await propertySubscriptionMiddleware(property_id);
             
             const checkinDocRef = reservationRef.collection(collections.meta.name)
                                     .doc(collections.meta.documents.checkin);

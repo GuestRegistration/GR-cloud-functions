@@ -5,6 +5,7 @@
  //  middlewares
 const clientAuthorizedMiddleware = require('../../../Middlewares/ClientAuthorized');
 const userAuthorizedMiddleware = require('../../../Middlewares/UserAuthorized');
+const propertySubscriptionMiddleware = require('../Middlewares/propertySubscription')
 const collections = require('../Enums/collections');
 const firebaseAdmin = require('../../../../admin');
 
@@ -22,6 +23,7 @@ const stripe = Stripe(config.stripe.secretKey);
 
    if(property.exists){
       userAuthorizedMiddleware(context, [property.data().user_id]);
+      await propertySubscriptionMiddleware(property_id);
 
       try {
          const response = await stripe.oauth.token({ grant_type, code });

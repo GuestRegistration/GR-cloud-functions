@@ -5,6 +5,8 @@
 //  middlewares
 const clientAuthorizedMiddleware = require('../../../Middlewares/ClientAuthorized');
 const userAuthorizedMiddleware = require('../../../Middlewares/UserAuthorized');
+const propertySubscriptionMiddleware = require('../../Property/Middlewares/propertySubscription')
+
 const propertyCollections = require('../../Property/Enums/collections');
 const collections = require('../Enums/collections');
 const firebaseAdmin = require('../../../../admin');
@@ -20,7 +22,8 @@ const subscriptions = require('../Enums/subscriptions');
 
     if(property.exists){
         userAuthorizedMiddleware(context, [property.data().user_id]);
-        
+        await propertySubscriptionMiddleware(property_id);
+
         let reservation = {
             property_id,
             name, 

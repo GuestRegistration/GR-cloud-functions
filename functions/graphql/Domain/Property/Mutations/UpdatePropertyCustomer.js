@@ -26,7 +26,7 @@ const stripeAuthorization = require('../Middlewares/stripeAuthorization');
       const metadata = {
          property_id, user_id
       }
-      const customer = await updateStripeCustomer({ customer_id, name, source, email, phone, description, metadata }, authorization.stripe_user_id)
+      const customer = await updateStripeCustomer(customer_id, { name, source, email, phone, description, metadata }, authorization.stripe_user_id)
 
       return {
          customer,

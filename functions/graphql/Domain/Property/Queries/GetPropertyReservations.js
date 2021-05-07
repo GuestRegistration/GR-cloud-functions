@@ -4,6 +4,7 @@
 
 const clientAuthorizedMiddleware = require('../../../Middlewares/ClientAuthorized');
 const userAuthorizedMiddleware = require('../../../Middlewares/UserAuthorized');
+const propertySubscriptionMiddleware = require('../Middlewares/propertySubscription')
 const collections = require('../Enums/collections');
 const firebaseAdmin = require('../../../../admin');
 
@@ -19,6 +20,7 @@ const getPropertyReservations = async (parent, {id}, context) =>  {
             const reservations = [];
 
             userAuthorizedMiddleware(context, [property.data().user_id]);
+            await propertySubscriptionMiddleware(id);
 
            const QuerySnapshots = await firestore.collection(collections.main).where('property.id', '==', id).get();
            QuerySnapshots.forEach((snapshot) => {

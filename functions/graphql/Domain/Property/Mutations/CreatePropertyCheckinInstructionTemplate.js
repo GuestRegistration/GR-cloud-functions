@@ -5,6 +5,7 @@
  //  middlewares
 const clientAuthorizedMiddleware = require('../../../Middlewares/ClientAuthorized');
 const userAuthorizedMiddleware = require('../../../Middlewares/UserAuthorized');
+const propertySubscriptionMiddleware = require('../Middlewares/propertySubscription')
 const collections = require('../Enums/collections');
 const firebaseAdmin = require('../../../../admin');
 
@@ -19,7 +20,7 @@ const firebaseAdmin = require('../../../../admin');
    if(property.exists){
 
       userAuthorizedMiddleware(context, [property.data().user_id]);
-
+      await propertySubscriptionMiddleware(property_id);
 
      const template = await propertyRef.collection(collections.subcollections.checkin_instructions).add({
         title: title || 'No title',

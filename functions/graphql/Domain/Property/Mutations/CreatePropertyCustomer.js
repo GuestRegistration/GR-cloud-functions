@@ -4,6 +4,8 @@
 
  //  middlewares
 const clientAuthorizedMiddleware = require('../../../Middlewares/ClientAuthorized');
+const propertySubscriptionMiddleware = require('../Middlewares/propertySubscription')
+
 const collections = require('../Enums/collections');
 const firebaseAdmin = require('../../../../admin');
 
@@ -20,7 +22,7 @@ const stripeAuthorization = require('../Middlewares/stripeAuthorization');
    const property = await propertyRef.get();
 
    if(property.exists){
-
+      await propertySubscriptionMiddleware(property_id);
       const authorization = await stripeAuthorization(property_id);
 
       const metadata = {

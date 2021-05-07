@@ -4,6 +4,8 @@
 //  middlewares
 const clientAuthorizedMiddleware = require('../../../Middlewares/ClientAuthorized');
 const userAuthorizedMiddleware = require('../../../Middlewares/UserAuthorized');
+const propertySubscriptionMiddleware = require('../../Property/Middlewares/propertySubscription')
+
 const propertyCollections = require('../../Property/Enums/collections');
 const collections = require('../Enums/collections');
 const firebaseAdmin = require('../../../../admin');
@@ -23,6 +25,7 @@ const updateReservation = async (parent, {id, name, checkin_date, checkout_date,
         const property = await firestore.collection(propertyCollections.main).doc(reservation.property.id).get();
         if(property.exists){
             userAuthorizedMiddleware(context, [property.data().user_id]);
+            await propertySubscriptionMiddleware(reservation.property_id);
 
             let updated_reservation = {
                 id, 

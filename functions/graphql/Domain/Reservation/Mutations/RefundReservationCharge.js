@@ -6,6 +6,7 @@
 const clientAuthorizedMiddleware = require('../../../Middlewares/ClientAuthorized');
 const userAuthenticatedMiddleware = require('../../../Middlewares/UserAuthenticated');
 const userAuthorizedMiddleware = require('../../../Middlewares/UserAuthorized');
+const propertySubscriptionMiddleware = require('../../Property/Middlewares/propertySubscription')
 
 const propertyCollections = require('../../Property/Enums/collections');
 const firebaseAdmin = require('../../../../admin');
@@ -30,6 +31,7 @@ const getStripeCharge = require('../../Services/Payment/Actions/GetStripeCharge'
     const property = await propertyRef.get();
    
     if(property.exists){
+      await propertySubscriptionMiddleware(property_id);
 
       userAuthorizedMiddleware(context, [property.data().user_id]);
 

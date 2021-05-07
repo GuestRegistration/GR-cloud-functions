@@ -4,6 +4,8 @@
 const clientAuthorizedMiddleware = require('../../../Middlewares/ClientAuthorized');
 const userAuthorizedMiddleware = require('../../../Middlewares/UserAuthorized');
 const userAuthenticatedMiddleware = require('../../../Middlewares/UserAuthenticated');
+const propertySubscriptionMiddleware = require('../../Property/Middlewares/propertySubscription')
+
 const userCollections = require('../../User/Enums/collections');
 const propertyCollections = require('../../Property/Enums/collections');
 const collections = require('../Enums/collections');
@@ -32,7 +34,8 @@ const getReservationCheckin = async (parent, {id}, context) => {
 
             const auth = userAuthenticatedMiddleware(context);
             userAuthorizedMiddleware(context, [propertyDoc.data().user_id, reservation.user_id]);
-
+            await propertySubscriptionMiddleware(propertyDoc.ref.id);
+            
             const checkinRef = reservationRef.collection(collections.meta.name).doc(collections.meta.documents.checkin);
             const checkinDoc = await checkinRef.get();
 

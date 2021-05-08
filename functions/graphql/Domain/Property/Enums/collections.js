@@ -1,5 +1,5 @@
 const collections = {
-    main: 'graphQL_properties',
+    main: 'properties',
     meta: {
         name: 'property_meta',
         documents: {
@@ -16,7 +16,7 @@ const collections = {
         checkin_instructions: 'property_checkin_instructions',
         stripe_customers: 'property_stripe_customers'
     },
-    trash: 'graphQL_properties_trash'
+    trash: 'properties_trash'
 };
 
 module.exports = collections;

@@ -1,6 +1,6 @@
 
 const collections =  {
-        main: 'graphQL_users',
+        main: 'users',
         meta: {
             name: 'user_meta',
             documents: {}
@@ -14,7 +14,7 @@ const collections =  {
             stripe_identity_verifications: 'user_stripe_identity_verifications',
             stripe_property_customers: 'user_stripe_property_customers'
         },
-        trash: 'graphQL_users_trash'
+        trash: 'users_trash'
 };
 
 module.exports = collections;

@@ -79,6 +79,7 @@ module.exports = functions.firestore.document(`/${collections.system.main_stripe
             }) 
            
         }
+        
         return upadatePropertySubscription();
     }
 

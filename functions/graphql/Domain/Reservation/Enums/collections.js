@@ -1,5 +1,5 @@
 const collections = {
-    main: 'graphQL_reservations',
+    main: 'reservations',
     meta: {
         name: 'reservation_documents',
         documents: {
@@ -9,7 +9,7 @@ const collections = {
     subcollections: {
        payments: 'reservation_payments',
     },
-    trash: 'graphQL_reservations_trash'
+    trash: 'reservations_trash'
 };
 
 module.exports = collections;

@@ -22,12 +22,8 @@ const updateUser = async (parent, {id, email, phone, phone_country_code, phone_n
 
     const userRef = firestore.collection(collections.main).doc(id);
 
-        if(email){
-            await emailUpdate({ id, email });
-        }
-        if(phone){
-            await phoneUpdate({ id, phone, phone_country_code, phone_number });
-        }
+        await emailUpdate({ id, email });
+        await phoneUpdate({ id, phone, phone_country_code, phone_number });
         
         try {        
             await userRef.update({

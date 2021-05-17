@@ -40,7 +40,8 @@ module.exports = functions.firestore.document(`/${collections.property.main}/{pr
                     name: property.name,
                     address: property.full_address,
                     image: property.image || null,
-                    role: 'owner' //set the creator as owner by default
+                    role: 'owner', //set the creator as owner by default
+                    subscription_status: null,
                 })
             }));
         }

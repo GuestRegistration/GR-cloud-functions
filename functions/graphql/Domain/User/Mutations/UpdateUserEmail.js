@@ -7,7 +7,7 @@ const updateUserEmail = async (parent, {id, email}, context) => {
     clientMiddleware(context);
     userMiddleware(context, [id]);
 
-    return await emailUpdate({id, email});
+    return await emailUpdate({id, email, pending: true});
 };
 
 module.exports = updateUserEmail;

@@ -64,8 +64,9 @@ const user = gql`
         ): Boolean
 
         updateUserEmail(
-            id: String!, 
-            email: String
+            id: ID!, 
+            email: String!
+            pending: Boolean
         ): Boolean
 
         # update user profile image
@@ -106,6 +107,7 @@ const user = gql`
         id: String!
         name: UserName
         email: String
+        email_confirmation: String
         phone: String
         phone_meta: Phone
         phone_verified: Boolean

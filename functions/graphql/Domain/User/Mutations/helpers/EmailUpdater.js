@@ -8,7 +8,7 @@ const collections = require('../../Enums/collections');
 const admin = require('../../../../../admin');
 const helper = require('../../../../../helpers');
 
-const emailUpdater = async ({id, email}) => {
+const emailUpdater = async ({id, email, pending}) => {
     
     let update = {
         email: email || null
@@ -31,13 +31,24 @@ const emailUpdater = async ({id, email}) => {
 
        
     try {
+
+        if(pending){
+            await userRef.update({
+                email_confirmation: update.email
+            });
+
+            return true;
+        }
+        
+        update['email_confirmation'] = null;
         update['timestamp.updated_at'] = helper.nowTimestamp();
 
         await userRef.update(update);
 
         await admin.auth().updateUser(id, { email: update.email });
-
+        
         return true;
+
     } catch (error) {
         throw new Error('Something went wrong '+error.message);
     }

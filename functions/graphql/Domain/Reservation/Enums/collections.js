@@ -3,7 +3,8 @@ const collections = {
     meta: {
         name: 'reservation_documents',
         documents: {
-            checkin: 'checkin'
+            checkin: 'checkin',
+            id_verification: 'id_verification'
         }
     },
     subcollections: {

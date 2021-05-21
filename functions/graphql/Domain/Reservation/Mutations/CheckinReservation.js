@@ -13,7 +13,7 @@
  const helper = require('../../../../helpers');
 
 
- const checkinReservation = async (parent, {reservation_id, agreements, questions, credit_card}, context) => {
+ const checkinReservation = async (parent, {reservation_id, agreements, questions, verification, credit_card, signature}, context) => {
      clientAuthorizedMiddleware(context);
      const auth = userAuthenticatedMiddleware(context);
      
@@ -32,10 +32,11 @@
 
                 const checkin = {
                     name: user.data().name,
-                    agreements: agreements,
-                    questions: questions,
+                    agreements: agreements || [],
+                    questions: questions|| [],
                     credit_card: credit_card,
-                    checkedin_at: helper.nowTimestamp()
+                    checkedin_at: helper.nowTimestamp(),
+                    signature: signature
                 };
 
                 // create the checkin document
@@ -44,6 +45,15 @@
                         .collection(collections.meta.name)
                         .doc(collections.meta.documents.checkin)
                         .set(checkin);
+
+                // If an existing ID was used
+                if(verification){
+                    await firestore.collection(collections.main)
+                    .doc(reservation_id)
+                    .collection(collections.meta.name)
+                    .doc(collections.meta.documents.id_verification)
+                    .set(verification)
+                }
 
                 // update the reservation document
                 await reservationRef.update({

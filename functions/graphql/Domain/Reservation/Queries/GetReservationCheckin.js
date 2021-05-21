@@ -39,6 +39,10 @@ const getReservationCheckin = async (parent, {id}, context) => {
             const checkinRef = reservationRef.collection(collections.meta.name).doc(collections.meta.documents.checkin);
             const checkinDoc = await checkinRef.get();
 
+            const verificationRef = reservationRef.collection(collections.meta.name).doc(collections.meta.documents.id_verification);
+            const verificationDoc = await verificationRef.get();
+
+
             // check if the reservation is already checked in
             if(reservation.checkedin_at && checkinDoc.exists){
                 const checkin = {
@@ -55,20 +59,13 @@ const getReservationCheckin = async (parent, {id}, context) => {
                 } : null
 
                 // get the verification data
-                const verifications = [];
-                const verificationsQuery = await userRef.collection(userCollections.subcollections.stripe_identity_verifications)
-                .where('property_id', "==", propertyDoc.ref.id).get();
-                if(!verificationsQuery.empty){
-                    verificationsQuery.forEach(vSnapshot => {
-                        verifications.push(vSnapshot.data())
-                    })
-                }
-
+                const verification = verificationDoc.exists ? verificationDoc.data() : null
+                
                 return {
                     user,
                     reservation,
                     checkin,
-                    verifications
+                    verification
                 };
             }else{
                 throw new Error("The reservation is not checked in yet");

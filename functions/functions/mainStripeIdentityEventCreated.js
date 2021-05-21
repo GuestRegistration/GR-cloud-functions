@@ -11,7 +11,18 @@ module.exports = functions.firestore.document(`/${collections.system.main_stripe
 
     const firestore = admin.firestore();
     const metadata = event.data.object.metadata;
-    userId =  metadata.user_id;
+    const userId =  metadata.user_id;
+    const session = event.data.object; 
+
+    const data = {
+        property_id: session.metadata.property_id,
+        session: session.id,
+        report: session.last_verification_report,
+        status: session.status,
+        url: session.url,
+        type: session.type,
+        metadata: metadata
+    };
 
     if(userId){
         const userRef = firestore.collection(collections.user.main).doc(userId);
@@ -25,22 +36,10 @@ module.exports = functions.firestore.document(`/${collections.system.main_stripe
             return Promise.resolve()
         })
         .then(() => {
-            // Write to verification session document
-           
-            const session = event.data.object; 
-
             const verificationRef = userRef.collection(collections.user.subcollections.stripe_identity_verifications)
                                     .doc(session.id);
             if(event.type !== 'identity.verification_session.canceled'){
-                return verificationRef.set({
-                    property_id: session.metadata.property_id,
-                    session: session.id,
-                    report: session.last_verification_report,
-                    status: session.status,
-                    url: session.url,
-                    type: session.type,
-                    metadata: metadata
-                });
+                return verificationRef.set(data);
             }
             return verificationRef.delete()
         })

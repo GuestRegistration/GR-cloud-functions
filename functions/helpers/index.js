@@ -14,7 +14,7 @@ const helpers = {
 
   /**convert timestamp to human readable */
   resolveTimestamp: (timestamp) => {
-     timestamp = parseInt(timestamp);
+     timestamp = parseInt(timestamp) * 1000;
 
      let date = new Date((timestamp));
      let now = new Date();

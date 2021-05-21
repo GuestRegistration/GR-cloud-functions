@@ -23,7 +23,7 @@ const reservation = gql`
         addReservationGuest(id: ID!, name: String!, gender: String!, type: String!): ReservationGuest
 
         # checkin a reservation
-        checkinReservation(reservation_id: ID!, agreements: [ReservationCheckinAgreementInput], questions: [ReservationCheckinQuestionInput], credit_card: ReservationCreditCardInput ): Reservation
+        checkinReservation(reservation_id: ID!, agreements: [ReservationCheckinAgreementInput], questions: [ReservationCheckinQuestionInput], verification: ReservationIdVerificationInput, credit_card: ReservationCreditCardInput, signature: String! ): Reservation
 
         # approve a checked in reservation
         approveReservationCheckin(id: ID!): Reservation
@@ -85,7 +85,7 @@ const reservation = gql`
         user: User
         reservation: Reservation
         checkin: Checkin
-        verifications: [UserStripeVerification]
+        verification: UserStripeVerification
     }
 
     type ReservationGuest {
@@ -97,10 +97,11 @@ const reservation = gql`
     
     type Checkin {
         name: UserName
-        agreements: [ReservationCheckinAgreement],
-        questions: [ReservationCheckinQuestion],
+        agreements: [ReservationCheckinAgreement]
+        questions: [ReservationCheckinQuestion]
         credit_card: ReservationCreditCard
         checkedin_at: String
+        signature: String
     }
 
     type ReservationCheckinAgreement {
@@ -135,6 +136,22 @@ const reservation = gql`
         options: String
         required: Boolean
         response: String
+    }
+
+    input ReservationIdVerificationInput {
+        property_id: ID
+        session: ID
+        report: ID
+        status: String
+        url: String
+        type: String
+        metadata: ReservationIdVerificationMetaDataInput
+    }
+
+    input ReservationIdVerificationMetaDataInput {
+        user_id: ID
+        property_id: ID
+        reservation_id: ID
     }
 
     input ReservationCreditCardInput {

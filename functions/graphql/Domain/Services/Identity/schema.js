@@ -18,6 +18,7 @@ const schema = gql`
     input StripeVerificationMetadataInput {
         user_id: ID
         property_id: ID
+        reservation_id: ID
     }
     type StripeVerificationDate {
         year: Int
@@ -42,8 +43,9 @@ const schema = gql`
         }
 
     type StripeVerificationMetadata {
-        user_id: ID,
-        property_id: ID,
+        user_id: ID
+        property_id: ID
+        reservation_id: ID
     }
 
     type StripeVerificationSession {

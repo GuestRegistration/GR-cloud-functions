@@ -3,7 +3,11 @@
  */
 const remote = require('./config-remote');
 
+const configGenral = require('./config-general');
 const env = remote.app && remote.app.env ? remote.app.env : 'local';
-const config = require(`./config-${env}`)
+const configEnv = require(`./config-${env}`);
 
-module.exports = config;
+module.exports = {
+    ...configGenral,
+    ...configEnv
+};

@@ -12,7 +12,8 @@ const resolvers = {
                 getPropertyCheckinInstructionTemplates: require('./Queries/GetPropertyCheckinInstructionTemplates'),
                 getPropertyCheckinAgreements: require('./Queries/GetPropertyCheckinAgreements'),
                 getPropertyCheckinQuestions: require('./Queries/GetPropertyCheckinQuestions'),
-                getPropertyCustomer: require('./Queries/GetPropertyCustomer')
+                getPropertyCustomer: require('./Queries/GetPropertyCustomer'),
+                getPropertyIntegrations: require('./Queries/GetPropertyIntegrations'),
         },
         mutations: {
                 // Your mutations resolvers here
@@ -34,7 +35,10 @@ const resolvers = {
                 updatePropertyCustomer: require('./Mutations/UpdatePropertyCustomer'),
                 addPropertyCustomerCreditCard: require('./Mutations/AddPropertyCustomerCreditCard'),
                 removePropertyCustomerCreditCard: require('./Mutations/RemovePropertyCustomerCreditCard'),
-
+                generatePropertyApiKey: require('./Mutations/Auth/GeneratePropertyApiKey'),
+                generateZapierOauthCode: require('./Mutations/Auth/GenerateZapierOauthCode'),
+                addPropertyCreditCard: require('./Mutations/AddPropertyCreditCard'),
+                removePropertyCreditCard: require('./Mutations/RemovePropertyCreditCard'),
         },
         subscriptions: {
                 // Your subscriptions resolvers here
@@ -49,6 +53,8 @@ const resolvers = {
                 PropertyReservation: require('./Getters/Reservation'),
                 PropertyNotification: require('./Getters/Notification'),
                 PropertyNotificationPayload: require('./Getters/NotificationPayload'),
+                PropertyIntegrations: require('./Getters/integrations'),
+                StripeAuthorization: require('./Getters/stripeAuthorization'),
         }
 };
 

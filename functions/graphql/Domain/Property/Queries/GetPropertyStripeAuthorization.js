@@ -20,7 +20,8 @@ const GetPropertyStripeAuthorization = async (parent, {property_id}, context) =>
     userAuthorizedMiddleware(context, [property.data().user_id]);
     await propertySubscriptionMiddleware(property_id);
 
-    return await stripeAuthorization(property_id)
+    return await stripeAuthorization(property_id);
+    
   }else{
     throw new Error('The property does not exist');
   }

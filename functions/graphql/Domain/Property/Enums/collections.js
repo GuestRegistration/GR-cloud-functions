@@ -7,7 +7,8 @@ const collections = {
             stripe_customer: 'stripe_customer',
             stripe_subscription: 'stripe_subscription',
             checkin_agreements: 'checkin_agreements',
-            checkin_questions: 'checkin_questions'
+            checkin_questions: 'checkin_questions',
+            integrations: 'property_integrations'
         }
     },
     subcollections: {

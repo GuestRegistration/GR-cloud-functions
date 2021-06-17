@@ -11,7 +11,7 @@ const firebaseAdmin = require('../../../../admin');
 const helper = require('../../../../helpers');
 const sub = require('../../../App/Providers/pubsub');
 
-const updateProperty = async (parent, {id, name, email, phone, phone_country_code, phone_number, full_address, street, city, state, country, postal_code, rules, terms}, context) => {
+const updateProperty = async (parent, {id, data }, context) => {
     clientAuthorizedMiddleware(context);
 
     const firestore = firebaseAdmin.firestore();
@@ -21,7 +21,8 @@ const updateProperty = async (parent, {id, name, email, phone, phone_country_cod
 
     if(property.exists){
         userAuthenticatedMiddleware(context, [property.data().user_id]);
-        const propertyData = property.data();
+
+        const { name, email, phone, phone_country_code, phone_number, full_address, street, city, state, country, postal_code, rules, terms } = data;
 
         const updated_property = {
             name, 
@@ -47,28 +48,28 @@ const updateProperty = async (parent, {id, name, email, phone, phone_country_cod
             };
         }
 
-        // first confirm email
-        if(updated_property.email){
-            const check_email = await firestore.collection(collections.main).where('email', '==', updated_property.email).get();
-            if(check_email.size > 0){
-                check_email.forEach(property => {
-                    if(property.ref.id !== id){
-                        throw new Error('The email already being used by another property');
-                    }
-                });
-            }
-        }
+        // confirm email is not used by another property
+        // if(updated_property.email){
+        //     const check_email = await firestore.collection(collections.main).where('email', '==', updated_property.email).get();
+        //     if(check_email.size > 0){
+        //         check_email.forEach(property => {
+        //             if(property.ref.id !== id){
+        //                 throw new Error('The email already being used by another property');
+        //             }
+        //         });
+        //     }
+        // }
 
         // then check the phone
         if(updated_property.phone){
-            const check_phone = await firestore.collection(collections.main).where('phone', '==', updated_property.phone).get();
-            if(check_phone.size > 0){
-                check_phone.forEach(property => {
-                    if(property.ref.id !== id){
-                        throw new Error('The phone number already being used by another property');
-                    }
-                });
-            }
+            // const check_phone = await firestore.collection(collections.main).where('phone', '==', updated_property.phone).get();
+            // if(check_phone.size > 0){
+            //     check_phone.forEach(property => {
+            //         if(property.ref.id !== id){
+            //             throw new Error('The phone number already being used by another property');
+            //         }
+            //     });
+            // }
     
             // check if the phone number is valid
             if(!(await helper.validatePhoneNumber(updated_property.phone)).valid){
@@ -77,7 +78,7 @@ const updateProperty = async (parent, {id, name, email, phone, phone_country_cod
         }
         
         try {
-            const result = await propertyRef.update(updated_property);
+            await propertyRef.update(updated_property);
             //publish the new reservation to it subscriptions
             sub.publish(subscriptions.update, {PropertyUpdated: property});
             

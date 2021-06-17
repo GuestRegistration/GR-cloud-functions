@@ -10,8 +10,8 @@ const schemas = [
     require('../Domain/Reservation/schema'),
     require('../Domain/Services/Identity/schema'),
     require('../Domain/Services/Payment/schema'),
+    require('../Domain/Services/Account/schema'),
     require('../Domain/Subscription/schema'),
-    
 ];
 
 module.exports = schemas;

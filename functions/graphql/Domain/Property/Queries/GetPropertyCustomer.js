@@ -26,7 +26,7 @@
    let customer = null;
    let sources = null;
 
-   if(property.exists){
+    if(property.exists){
         const customerDocument = await propertyRef.collection(collections.subcollections.stripe_customers).doc(user_id).get();
         if(customerDocument.exists){
             customer = customerDocument.data();
@@ -34,12 +34,15 @@
             const authorization = await stripeAuthorization(property_id);
 
             if(authorization.stripe_user_id){
-              sources = await getStripeCustomerSources({ customer_id: customer.id }, authorization.stripe_user_id);
+              try {
+                sources = await getStripeCustomerSources({ customer_id: customer.id }, authorization.stripe_user_id);
+              } catch (error) {
+                sources = null
+              }
             }
         }
     }
-
-   return {customer, sources};
+    return {customer, sources};
  };
 
  

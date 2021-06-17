@@ -19,7 +19,7 @@ const getPropertyCheckinInstructionTemplates = async (parent, { property_id }, c
       ...snapshot.data()
     })
   });  
-    return templates;
+  return templates;
 };
 
 module.exports = getPropertyCheckinInstructionTemplates;

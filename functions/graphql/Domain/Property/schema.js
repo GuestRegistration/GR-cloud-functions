@@ -15,43 +15,15 @@ const property = gql`
         getPropertyCheckinAgreements(property_id: ID!): [PropertyCheckinAgreement]
         getPropertyCheckinQuestions(property_id: ID!): [PropertyCheckinQuestion]
         getPropertyCustomer(property_id: ID!, user_id: ID): PropertyStripeCustomer
+        getPropertyIntegrations(property_id: ID!): PropertyIntegrations
     }
 
     extend type Mutation {
         # create a new property
-        createProperty(
-            name: String!, 
-            email: String!, 
-            phone: String!,
-            phone_country_code: String, 
-            phone_number: String, 
-            full_address: String! 
-            street: String, 
-            city: String, 
-            state: String, 
-            country: String, 
-            postal_code: String,
-            rules: String,
-            terms: String
-            ): Property
+        createProperty(data: PropertyInput!): Property
 
         # update property
-        updateProperty(
-            id: String!,
-            name: String!, 
-            email: String,
-            phone: String!,
-            phone_country_code: String, 
-            phone_number: String, 
-            full_address: String! 
-            street: String, 
-            city: String, 
-            state: String, 
-            country: String, 
-            postal_code: String,
-            rules: String,
-            terms: String
-        ): Property
+        updateProperty(id: ID!, data: PropertyInput!): Property
     
         # update property display image
         updatePropertyImage(id: String!, image: String): String
@@ -100,6 +72,19 @@ const property = gql`
 
         # remove credit card from property stripe customer
         removePropertyCustomerCreditCard(property_id: ID!, customer_id: ID! card_id: ID!): Boolean
+
+        # generate property API key
+        generatePropertyApiKey(property_id: ID!): ID
+
+        # generate Zapier Oauth code
+        generateZapierOauthCode(property_id: ID, client_id: ID!, redirect_uri: String, response_type: String!, state: String!): String
+
+        # add property credit card
+        addPropertyCreditCard(property_id: ID!, customer_id: ID! source: ID!): StripeCustomerSource
+
+        # remove property credit card
+        removePropertyCreditCard(property_id: ID!, customer_id: ID! card_id: ID!): Boolean
+
     }
 
     extend type Subscription {
@@ -167,6 +152,7 @@ const property = gql`
         refresh_token: String
         stripe_user_id: String
         stripe_publishable_key: String
+        account: StripeAccount
     }
 
     type StripeDeauthorization {
@@ -215,6 +201,28 @@ const property = gql`
         trial_end: Int
         current_period_start: Int
         current_period_end: Int
+    }
+
+    type PropertyIntegrations {
+        api_key: String
+        zapier_authorized: Boolean
+        zapier_last_poll: Int
+    }
+
+    input PropertyInput {
+        name: String!, 
+        email: String,
+        phone: String!,
+        phone_country_code: String, 
+        phone_number: String, 
+        full_address: String! 
+        street: String, 
+        city: String, 
+        state: String, 
+        country: String, 
+        postal_code: String,
+        rules: String,
+        terms: String
     }
 
     input propertyChargeInput {

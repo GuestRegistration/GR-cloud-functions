@@ -12,11 +12,13 @@ const helper = require('../../../../helpers');
 const sub = require('../../../App/Providers/pubsub');
 
 
- const createProperty = async (parent, {name, email, phone, phone_country_code, phone_number, full_address, street, city, state, country, postal_code, rules, terms}, context) => {
+ const createProperty = async (parent, { data }, context) => {
     clientAuthorizedMiddleware(context);
     const auth = userAuthenticatedMiddleware(context);
 
     if(auth){
+        const { name, email, phone, phone_country_code, phone_number, full_address, street, city, state, country, postal_code, rules, terms } = data;
+        
         const property = {
             user_id: auth, 
             name, email, phone, full_address,
@@ -37,18 +39,18 @@ const sub = require('../../../App/Providers/pubsub');
 
         const firestore = firebaseAdmin.firestore();
         // first confirm email
-        if(property.email){
-            const check_email = await firestore.collection(collections.main).where('email', '==', property.email).get();
-            if(check_email.size > 0){
-                throw new Error('The email already being used by another property');
-            }
-        }
+        // if(property.email){
+        //     const check_email = await firestore.collection(collections.main).where('email', '==', property.email).get();
+        //     if(check_email.size > 0){
+        //         throw new Error('The email already being used by another property');
+        //     }
+        // }
         // then check the phone
         if(property.phone){
-            const check_phone = await firestore.collection(collections.main).where('phone', '==', property.phone).get();
-            if(check_phone.size > 0){
-                throw new Error('The phone number already being used by another property');
-            }
+            // const check_phone = await firestore.collection(collections.main).where('phone', '==', property.phone).get();
+            // if(check_phone.size > 0){
+            //     throw new Error('The phone number already being used by another property');
+            // }
             // check if the phone number is valid
             if(!(await helper.validatePhoneNumber(property.phone)).valid){
                 throw new Error('Invalid phone number ');

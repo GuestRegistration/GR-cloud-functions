@@ -12,7 +12,7 @@ const firebaseAdmin = require('../../../../admin');
 const sub = require('../../../App/Providers/pubsub');
 const subscriptions = require('../Enums/subscriptions');
 
-const updateReservation = async (parent, {id, name, checkin_date, checkout_date, instruction, charges, agreements, questions}, context) => {
+const updateReservation = async (parent, {id, data}, context) => {
     clientAuthorizedMiddleware(context);
 
     const firestore = firebaseAdmin.firestore();
@@ -21,41 +21,22 @@ const updateReservation = async (parent, {id, name, checkin_date, checkout_date,
     const reservation = (await reservationRef.get()).data();
    
     // Get the property and use the middleware to check if the authenticated has permission
-    if(reservation.property.id){
-        const property = await firestore.collection(propertyCollections.main).doc(reservation.property.id).get();
-        if(property.exists){
-            userAuthorizedMiddleware(context, [property.data().user_id]);
-            await propertySubscriptionMiddleware(reservation.property_id);
+    const property = await firestore.collection(propertyCollections.main).doc(reservation.property_id).get();
+    if(property.exists){
+        userAuthorizedMiddleware(context, [property.data().user_id]);
+        await propertySubscriptionMiddleware(reservation.property_id);
 
-            let updated_reservation = {
-                id, 
-                name, 
-                instruction: instruction || null,
-                charges,
-                agreements,
-                questions
-            };
+        await reservationRef.update(data);
 
-            if(checkin_date){
-                updated_reservation.checkin_date = checkin_date;
-            }
-            if(checkout_date){
-                updated_reservation.checkout_date = checkout_date;
-            }
-            const result = await reservationRef.update(updated_reservation);
-
-            updated_reservation = (await reservationRef.get()).data();
-            
-            //publish the new reservation to it subscriptions
-            sub.publish(subscriptions.update, {ReservationUpdated: updated_reservation});
-            return updated_reservation;
-        }else{
-            throw new Error('Property does not exist');
-        }
+        const updated_reservation = (await reservationRef.get()).data();
+        
+        //publish the new reservation to it subscriptions
+        sub.publish(subscriptions.update, {ReservationUpdated: updated_reservation});
+        return updated_reservation;
     }else{
-        throw new Error('No valid property associated');
+        throw new Error('Property does not exist');
     }
-    
+   
 };
 
 module.exports = updateReservation;

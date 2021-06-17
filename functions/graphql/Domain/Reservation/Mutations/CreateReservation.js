@@ -13,7 +13,7 @@ const firebaseAdmin = require('../../../../admin');
 const sub = require('../../../App/Providers/pubsub');
 const subscriptions = require('../Enums/subscriptions');
 
- const createReservation = async (parent, {property_id, name, booking_no, checkin_date, checkout_date, instruction, charges, agreements, questions}, context) => {
+ const createReservation = async (parent, {property_id, data}, context) => {
     clientAuthorizedMiddleware(context);
 
     const firestore = firebaseAdmin.firestore();
@@ -24,18 +24,10 @@ const subscriptions = require('../Enums/subscriptions');
         userAuthorizedMiddleware(context, [property.data().user_id]);
         await propertySubscriptionMiddleware(property_id);
 
-        let reservation = {
+        const result = await firestore.collection(collections.main).add({
             property_id,
-            name, 
-            checkin_date, 
-            checkout_date,
-            instruction: instruction || null,
-            booking_no: booking_no || null , 
-            charges,
-            agreements,
-            questions
-        };
-        const result = await firestore.collection(collections.main).add(reservation);
+            ...data
+        });
         
         reservation = {
             id: result.id,

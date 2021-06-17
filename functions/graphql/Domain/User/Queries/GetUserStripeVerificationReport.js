@@ -33,9 +33,12 @@ const getUserStripeVerificationReport = async (parent, { user_id, verification_i
     if(verificationDoc.exists){
         const verification = verificationDoc.data();
         if(verification.report){
-
-            const stripe_authorization = await stripeAuthorization(verification.property_id)
-            report = await stripeVerificationReport({ id: verification.report }, stripe_authorization.stripe_user_id);
+            try {
+                const stripe_authorization = await stripeAuthorization(verification.property_id)
+                report = await stripeVerificationReport({ id: verification.report }, stripe_authorization.stripe_user_id);
+            } catch (error) {
+                report = null;
+            }
         }
 
         if(report && user_id !== auth){

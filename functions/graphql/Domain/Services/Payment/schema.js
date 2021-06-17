@@ -34,14 +34,6 @@ const schema = gql`
         charge_id: ID
     }
 
-    type StripeAddress {
-        city: String
-        country: String
-        line1: String
-        line2: String
-        postal_code: String
-        state: String
-    }
 
     type StripeBilling {
         address: StripeAddress

@@ -12,7 +12,7 @@ const property = {
     rules: (parent) => parent.rules,
     team: (parent) => parent.team,
     reservations: (parent) => parent.reservations,
-    active: (parent) => parent.subscription && (parent.subscription.status === 'active' || parent.subscription.status === 'trialing')
+    active: (parent) => parent.subscription && ['active', 'trialing', 'free'].includes(parent.subscription.status),
 };
 
 module.exports = property;

@@ -15,6 +15,7 @@ module.exports = functions.firestore.document(`/${collections.reservation.main}/
     const firestore = admin.firestore();
     const reservationId = context.params.reservationId;
     const userId = payment.metadata.user_id;
+    const creditCard = payment.payment_method_details && payment.payment_method_details.card ? `ending with ${payment.payment_method_details.card.last4}` : null
 
     return firestore.collection(collections.reservation.main).doc(reservationId).get()
         .then(reservationSnapshot => {
@@ -28,7 +29,7 @@ module.exports = functions.firestore.document(`/${collections.reservation.main}/
                 // Charge got captured
                 if (!previously.captured && payment.captured && userId) {
                     return notification.user(userId, {
-                        text: `${reservation.property.name} has charged you ${payment.currency.toUpperCase()} ${payment.amount_captured/100} from your card authorization`,
+                        text: `${reservation.property.name} charged you ${payment.currency.toUpperCase()} ${payment.amount_captured/100} from your card ${creditCard ? `(${creditCard})` : ''} authorization. {Desc: }`,
                         type: notificationTypes.chargeAuthorized,
                         payload: {
                             reservation_id: reservationId,
@@ -37,27 +38,43 @@ module.exports = functions.firestore.document(`/${collections.reservation.main}/
                 }
 
                 // Charge got refunded
-                if (previously.captured && payment.refunded && userId) {
-                    return notification.user(userId, {
-                        text: `${reservation.property.name} refunded you ${payment.currency.toUpperCase()} ${payment.amount_refunded/100}`,
-                        type: notificationTypes.chargeRefunded,
-                        payload: {
-                            reservation_id: reservationId,
-                            }
-                    })
+
+                if (previously.captured && payment.amount_refunded > 0 && userId) {
+                    const currentRefund = payment.amount_refunded - previously.amount_refunded;
+                    if(currentRefund > 0) {
+                        return notification.user(userId, {
+                            text: `${reservation.property.name} refunded you ${payment.currency.toUpperCase()} ${currentRefund/100} to your card ${creditCard ? `(${creditCard})` : ''}`,
+                            type: notificationTypes.chargeRefunded,
+                            payload: {
+                                reservation_id: reservationId,
+                                }
+                        })
+                    }
                 }
             }
             
             // Document write
             else{
-                if(!payment.captured && userId){
-                    return notification.user(userId, {
-                        text: `You have authorized the charge of ${payment.currency.toUpperCase()} ${payment.amount/100} for your reservation at ${reservation.property.name}`,
-                        type: notificationTypes.chargeAuthorized,
-                        payload: {
-                            reservation_id: reservationId,
-                            }
-                        })
+                if(userId) {
+                    if(!payment.captured){
+                        return notification.user(userId, {
+                            text: `You have authorized the charge of ${payment.currency.toUpperCase()} ${payment.amount/100} on your card ${creditCard ? `(${creditCard})` : ''} for your reservation at ${reservation.property.name}`,
+                            type: notificationTypes.chargeAuthorized,
+                            payload: {
+                                reservation_id: reservationId,
+                                }
+                            })
+                    }
+
+                    if(!payment.metadata.charge_id) {  // No charge ID, must be an extra charge
+                        return notification.user(userId, {
+                            text: `${reservation.property.name} charged your card ${creditCard ? `(${creditCard})` : ''} ${payment.currency.toUpperCase()} ${payment.amount_captured/100} for your reservation. ${payment.desription ? `Reason: ${payment.description}` : ''}`,
+                            type: notificationTypes.cardCharged,
+                            payload: {
+                                reservation_id: reservationId,
+                                }
+                            })
+                    }
                 }
             }
             return Promise.resolve();

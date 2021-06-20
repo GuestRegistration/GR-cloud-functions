@@ -17,32 +17,55 @@ module.exports = functions.firestore.document(`/${collections.reservation.main}/
     const user_copy_before = helper.sortObject({
         id: reservationId,
         name: before.name,
-        property_id: before.property.id,
-        property_name: before.property.name,
-        property_image: before.property.image || null,
-        property_address: before.property.address,
+        property_id: before.property ? before.property.id : null,
+        property_name: before.property ? before.property.name : null,
+        property_image: before.property ? before.property.image || null : null,
+        property_address: before.property ? before.property.address : null,
         checkin_date: before.checkin_date || null,
         checkout_date: before.checkout_date || null,
     });
     const user_copy_after = helper.sortObject({
         id: reservationId,
         name: after.name,
-        property_id: after.property.id,
-        property_name: after.property.name,
-        property_image: after.property.image || null,
-        property_address: after.property.address,
+        property_id: after.property ? after.property.id : null,
+        property_name: after.property ? after.property.name : null,
+        property_image: after.property ? after.property.image || null : null,
+        property_address: after.property ? after.property.address : null,
         checkin_date: after.checkin_date || null,
         checkout_date: after.checkout_date || null,
     });
     
     const firestore = admin.firestore();
 
-    if(after.user_id){
+    //if the user id has been filled for the reservation for the first time. i.e at checking in
+    if(!before.user_id  && after.user_id){ 
+        user_copy_after.role = 'primary';
+
+        promises.push( 
+           firestore.collection(collections.user.main).doc(after.user_id).update({
+                reservations: firebase.firestore.FieldValue.arrayUnion(user_copy_after)
+            })
+        );   
+        
+        // notify property about checkin 
+        promises.push(
+            notification.property(after.property_id, {
+                text: `Reservation ${after.booking_reference} with booking name ${after.name} has been checked in.`,
+                type: notificationTypes.reservationCheckin,
+                payload: {
+                    reservation_id: reservationId,
+                    property_id: after.property_id,
+                }
+            })
+        );
+    }   
+    else if(after.user_id){
 
         // if there is difference in the data and there is user corresponding with the reservation
 
         if(!_.isEqual(user_copy_before, user_copy_after) || before.instruction !== after.instruction || !_.isEqual(before.charges !== after.charges) ){
             if(!_.isEqual(user_copy_before, user_copy_after)){
+                    // update user copy
                 promises.push(
                     firestore.collection(collections.user.main).doc(after.user_id).get()
                     .then((user_snapshot) => {
@@ -70,7 +93,7 @@ module.exports = functions.firestore.document(`/${collections.reservation.main}/
 
             // Send notification to guest
             promises.push(
-                notification.user(before.user_id, {
+                notification.user(after.user_id, {
                     text: notificationMsg,
                     type: notificationTypes.reservationUpdate,
                     payload: {
@@ -82,16 +105,7 @@ module.exports = functions.firestore.document(`/${collections.reservation.main}/
         }
 
     }
-    //if the user id has been filled for the reservation for the first time. i.e at checking in
-    else if(!before.user_id  && after.user_id){ 
-        user_copy_after.role = 'primary';
-
-        promises.push( 
-           firestore.collection(collections.user.main).doc(after.user_id).update({
-                reservations: firebase.firestore.FieldValue.arrayUnion(user_copy_after)
-            })
-        );            
-    }     
+       
 
     const property_copy_before = helper.sortObject({
         id: reservationId,
@@ -106,7 +120,7 @@ module.exports = functions.firestore.document(`/${collections.reservation.main}/
         checkout_date: after.checkout_date || null,
     });
 
-    // if there is difference in the data
+    // if there is difference in the property copy
     if(!_.isEqual(property_copy_before, property_copy_after)){
         promises.push(
             firestore.collection(collections.property.main).doc(before.property_id).get()

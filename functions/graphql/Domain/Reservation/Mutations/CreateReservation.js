@@ -12,6 +12,7 @@ const collections = require('../Enums/collections');
 const firebaseAdmin = require('../../../../admin');
 const sub = require('../../../App/Providers/pubsub');
 const subscriptions = require('../Enums/subscriptions');
+const { generateNanoID } = require('../../../../helpers/database');
 
  const createReservation = async (parent, {property_id, data}, context) => {
     clientAuthorizedMiddleware(context);
@@ -24,14 +25,17 @@ const subscriptions = require('../Enums/subscriptions');
         userAuthorizedMiddleware(context, [property.data().user_id]);
         await propertySubscriptionMiddleware(property_id);
 
-        const result = await firestore.collection(collections.main).add({
+        const uniqueId = await generateNanoID(collections.main, 8);
+        const reference = firestore.collection(collections.main).doc(uniqueId);
+
+        await reference.set({
             property_id,
             ...data
         });
-        
-        reservation = {
-            id: result.id,
-            ...(await result.get()).data()
+
+        const reservation = {
+            id: uniqueId,
+            ...(await reference.get()).data()
         }
         //publish the new reservation to it subscriptions
         sub.publish(subscriptions.create, {ReservationCreated: reservation});

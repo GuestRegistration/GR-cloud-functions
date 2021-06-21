@@ -1,6 +1,7 @@
 const firebaseAdmin = require('../../../admin');
 const collections = require('../../../enums/collections');
 const { app } = require('../../../config');
+const { generateNanoID } = require('../../../helpers/database');
 
 firebaseAdmin.firestore().settings({
     ignoreUndefinedProperties: true
@@ -44,11 +45,15 @@ const createReservation = async (req, res) => {
             questions, 
             instructions,
         };
+
+        const uniqueId = await generateNanoID(collections.reservation.main, 8);
+        const reference = firestore.collection(collections.reservation.main).doc(uniqueId);
+
+        await reference.set(reservation);
         
-        // const create = await firestore.collection(collections.reservation.main).add(reservation);
-        // res.status(200).send({
-        //     checkin_url: `${app.url}/r/${create.id}`
-        // });
+        res.status(200).send({
+            checkin_url: `${app.url}/r/${uniqueId}`
+        });
 
         res.status(200).send({
             ...reservation,

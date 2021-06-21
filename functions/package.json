@@ -19,6 +19,7 @@
     "firebase-functions": "^3.13.2",
     "graphql": "^15.5.0",
     "jsonwebtoken": "^8.5.1",
+    "nanoid": "^3.1.23",
     "stripe": "^8.142.0",
     "twilio": "^3.60.0",
     "uuid": "^8.3.2",

@@ -33,7 +33,7 @@ const getStripeCharge = require('../../Services/Payment/Actions/GetStripeCharge'
     if(property.exists){
       await propertySubscriptionMiddleware(property_id);
 
-      userAuthorizedMiddleware(context, [property.data().user_id]);
+      // userAuthorizedMiddleware(context, [property.data().user_id]);
 
       const stripe_authorization = await stripeAuthorization(property_id)
       

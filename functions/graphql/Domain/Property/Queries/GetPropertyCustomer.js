@@ -29,26 +29,27 @@
     if(property.exists){
         const customerDocument = await propertyRef.collection(collections.subcollections.stripe_customers).doc(user_id).get();
         if(customerDocument.exists){
-            customer = customerDocument.data();
-
+            const customerDoc = customerDocument.data();
             const authorization = await stripeAuthorization(property_id);
+
 
             if(authorization.stripe_user_id){
               try {
-                sources = await getStripeCustomerSources({ customer_id: customer.id }, authorization.stripe_user_id);
+                customer = await getCustomerFromStripe(customerDoc.id, authorization.stripe_user_id);
+                sources = await getStripeCustomerSources({ customer_id: customerDoc.id }, authorization.stripe_user_id);
               } catch (error) {
                 sources = null
               }
             }
         }
     }
-    return {customer, sources};
+    return { customer, sources };
  };
 
  
 
  const getCustomerFromStripe = async (customer_id, stripe_account) => {
-      return await getStripeCustomer(customer_id, stripe_account)
+    return await getStripeCustomer(customer_id, stripe_account)
  }
  
  module.exports = getPropertyCustomer;

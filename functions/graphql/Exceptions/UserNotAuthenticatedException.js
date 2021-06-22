@@ -1,8 +1,7 @@
+const { ApolloError } = require('apollo-server-errors');
 
-module.exports = class UserNotAuthenticatedException extends Error {
+module.exports = class UserNotAuthenticatedException extends ApolloError  {
     constructor(message = "Not authenticated"){
-        super();
-        this.code = 421;
-        this.message = message;
+        super(message, 421);
     }
   };

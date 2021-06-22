@@ -9,9 +9,9 @@ const helpers = {
    * @returns 
    */
    generateNanoID: async (collection, size = 8) => {
-    // const id = nanoid(size);
-    // const firestore = firebaseAdmin.firestore();
-    // if((await firestore.collection(collection).doc(id).get()).exists) return helpers.generateNanoID();
+    const id = nanoid(size);
+    const firestore = firebaseAdmin.firestore();
+    if((await firestore.collection(collection).doc(id).get()).exists) return helpers.generateNanoID();
     
     return id;
   }

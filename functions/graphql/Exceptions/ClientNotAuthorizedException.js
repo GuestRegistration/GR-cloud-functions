@@ -1,8 +1,8 @@
 
-module.exports = class ClientNotAuthorized extends Error {
+const { ApolloError } = require('apollo-server-errors');
+
+module.exports = class ClientNotAuthorized extends ApolloError {
     constructor(message = 'Client Not authorized'){
-        super();
-        this.code = 411;
-        this.message = message;
+        super(message, 411);
     }
   };

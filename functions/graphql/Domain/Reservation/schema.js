@@ -45,6 +45,7 @@ const reservation = gql`
         user_id: ID #id of the user the reservation belongs to
         name: String!
         booking_reference: ID
+        booking_channel: String
         room: ID
         balance: Int
         checkin_date: String
@@ -129,8 +130,9 @@ const reservation = gql`
     input ReservationInput {
         name: String!
         booking_reference: ID
+        booking_channel: String
         room: ID
-        balance: String
+        balance: Int
         checkin_date: String!
         checkout_date: String!
         instruction: String
